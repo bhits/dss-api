@@ -1,0 +1,5 @@
+server:
+  context-path: /dss
+  port: 8087
+logging:
+  file: C:/java/MHC_LOGS/dss/dss.log
