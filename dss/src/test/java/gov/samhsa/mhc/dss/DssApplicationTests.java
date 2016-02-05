@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.dss.service;
+package gov.samhsa.mhc.dss;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
