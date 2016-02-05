@@ -55,6 +55,12 @@
             <artifactId>marshaller</artifactId>
             <version>${mhc.common-libraries.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>common-unit</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
         <!--TODO-->
         <!-- BRMS dependencies -->
         <dependency>
