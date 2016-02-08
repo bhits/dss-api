@@ -31,6 +31,7 @@ import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.param.Params;
 import gov.samhsa.mhc.common.param.ParamsBuilder;
 import gov.samhsa.mhc.common.util.StringURIResolver;
+import gov.samhsa.mhc.dss.service.exception.MetadataGeneratorException;
 
 import javax.xml.transform.URIResolver;
 import java.util.Optional;
@@ -89,7 +90,7 @@ public class MetadataGeneratorImpl implements MetadataGenerator {
     /*
      * (non-Javadoc)
      *
-     * @see gov.samhsa.acs.documentsegmentation.util
+     * @see gov.samhsa.mhc.dss.service.metadata
      * .MetadataGenerator#generateMetadataXml(java.lang.String,
      * java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
@@ -97,25 +98,28 @@ public class MetadataGeneratorImpl implements MetadataGenerator {
     public String generateMetadataXml(String document,
                                       String executionResponseContainer, String homeCommunityId,
                                       String senderEmailAddress, String recipientEmailAddress) {
-
-        final Params params = ParamsBuilder
-                .withParam(PARAM_NAME_HOME_COMMUNITY_ID, homeCommunityId)
-                .and(PARAM_NAME_AUTHOR_TELECOMMUNICATION, senderEmailAddress)
-                .and(PARAM_NAME_INTENDED_RECIPIENT, recipientEmailAddress);
-        final String xslUrl = Thread.currentThread().getContextClassLoader()
-                .getResource(METADATA_XSL).toString();
-        // add namespace execution response container for transformation
-        executionResponseContainer = executionResponseContainer.replace(
-                "<ruleExecutionContainer>",
-                "<ruleExecutionContainer xmlns=\"urn:hl7-org:v3\">");
-        final Optional<URIResolver> uriResolver = Optional
-                .of(new StringURIResolver().put(
-                        URI_RESOLVER_HREF_RULE_EXECUTION_RESPONSE_CONTAINER,
-                        executionResponseContainer));
-        final String metadataXml = xmlTransformer.transform(document, xslUrl,
-                Optional.of(params), uriResolver);
-        logger.debug("Metadata:");
-        logger.debug(metadataXml);
-        return metadataXml;
+        try {
+            final Params params = ParamsBuilder
+                    .withParam(PARAM_NAME_HOME_COMMUNITY_ID, homeCommunityId)
+                    .and(PARAM_NAME_AUTHOR_TELECOMMUNICATION, senderEmailAddress)
+                    .and(PARAM_NAME_INTENDED_RECIPIENT, recipientEmailAddress);
+            final String xslUrl = Thread.currentThread().getContextClassLoader()
+                    .getResource(METADATA_XSL).toString();
+            // add namespace execution response container for transformation
+            executionResponseContainer = executionResponseContainer.replace(
+                    "<ruleExecutionContainer>",
+                    "<ruleExecutionContainer xmlns=\"urn:hl7-org:v3\">");
+            final Optional<URIResolver> uriResolver = Optional
+                    .of(new StringURIResolver().put(
+                            URI_RESOLVER_HREF_RULE_EXECUTION_RESPONSE_CONTAINER,
+                            executionResponseContainer));
+            final String metadataXml = xmlTransformer.transform(document, xslUrl,
+                    Optional.of(params), uriResolver);
+            logger.debug("Metadata:");
+            logger.debug(metadataXml);
+            return metadataXml;
+        } catch (final Exception e) {
+            throw new MetadataGeneratorException(e.getMessage(), e);
+        }
     }
 }
