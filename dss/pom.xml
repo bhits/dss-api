@@ -67,6 +67,12 @@
             <artifactId>file-reader</artifactId>
             <version>${mhc.common-libraries.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>xml-validation</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
         <!--TODO-->
         <!-- BRMS dependencies -->
         <dependency>
