@@ -25,6 +25,8 @@
         <mhc.common-libraries.version>1.0.0</mhc.common-libraries.version>
         <!-- BRMS Libraries' version -->
         <drools.version>5.4.0.Final</drools.version>
+        <!-- Third-party library versions -->
+        <saxon.version>9.7.0-2</saxon.version>
     </properties>
 
     <dependencies>
@@ -73,6 +75,24 @@
             <artifactId>xml-validation</artifactId>
             <version>${mhc.common-libraries.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>param</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>common-util</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>document-transformer</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
         <!--TODO-->
         <!-- BRMS dependencies -->
         <dependency>
@@ -91,6 +111,12 @@
             <groupId>org.drools</groupId>
             <artifactId>drools-compiler</artifactId>
             <version>${drools.version}</version>
+        </dependency>
+        <!-- Third-party dependencies -->
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>${saxon.version}</version>
         </dependency>
     </dependencies>
 
