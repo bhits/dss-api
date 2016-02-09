@@ -25,14 +25,14 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
+import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.util.StringURIResolver;
-
-import java.util.Optional;
+import gov.samhsa.mhc.dss.service.exception.DocumentException;
 
 import javax.xml.transform.URIResolver;
+import java.util.Optional;
 
 /**
  * The Class DocumentFactModelExtractorImpl.
@@ -81,22 +81,26 @@ public class DocumentFactModelExtractorImpl implements
     @Override
     public String extractFactModel(String document, String enforcementPolicies) {
 
-        final String xslUrl = Thread.currentThread().getContextClassLoader()
-                .getResource(EXTRACT_CLINICAL_FACTS_XSL).toString();
-        final String xacmlResult = enforcementPolicies.replace("<xacmlReslt>",
-                "<xacmlReslt xmlns:\"urn:hl7-org:v3\">");
-        final Optional<URIResolver> uriResolver = Optional
-                .of(new StringURIResolver()
-                        .put(PARAM_XACML_RESULT, xacmlResult));
-        String factModel = xmlTransformer.transform(document, xslUrl,
-                Optional.empty(), uriResolver);
+        try {
+            final String xslUrl = Thread.currentThread().getContextClassLoader()
+                    .getResource(EXTRACT_CLINICAL_FACTS_XSL).toString();
+            final String xacmlResult = enforcementPolicies.replace("<xacmlReslt>",
+                    "<xacmlReslt xmlns:\"urn:hl7-org:v3\">");
+            final Optional<URIResolver> uriResolver = Optional
+                    .of(new StringURIResolver()
+                            .put(PARAM_XACML_RESULT, xacmlResult));
+            String factModel = xmlTransformer.transform(document, xslUrl,
+                    Optional.empty(), uriResolver);
 
-        factModel = factModel
-                .replace(
-                        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>",
-                        "");
-        logger.debug("FactModel:");
-        logger.debug(factModel);
-        return factModel;
+            factModel = factModel
+                    .replace(
+                            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>",
+                            "");
+            logger.debug("FactModel:");
+            logger.debug(factModel);
+            return factModel;
+        } catch (final Exception e) {
+            throw new DocumentException(e.getMessage(), e);
+        }
     }
 }

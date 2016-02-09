@@ -34,6 +34,7 @@ import java.util.Optional;
 
 import javax.xml.transform.URIResolver;
 
+import gov.samhsa.mhc.dss.service.exception.DocumentException;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -97,22 +98,26 @@ public class DocumentTaggerImpl implements DocumentTagger {
     @Override
     public String tagDocument(String document, String executionResponseContainer) {
 
-        executionResponseContainer = executionResponseContainer.replace(
-                "<ruleExecutionContainer>",
-                "<ruleExecutionContainer xmlns=\"urn:hl7-org:v3\">");
-        final String xslUrl = Thread.currentThread().getContextClassLoader()
-                .getResource(TAG_XSL).toString();
-        final StringURIResolver stringURIResolver = new StringURIResolver();
-        stringURIResolver.put(
-                URI_RESOLVER_HREF_RULE_EXECUTION_RESPONSE_CONTAINER,
-                executionResponseContainer);
-        stringURIResolver.put(URI_RESOLVER_HREF_DISCLAMER, disclaimerText);
-        final Optional<URIResolver> uriResolver = Optional
-                .of(stringURIResolver);
-        final String taggedDocument = xmlTransformer.transform(document,
-                xslUrl, Optional.empty(), uriResolver);
-        logger.debug("Tagged Document:");
-        logger.debug(taggedDocument);
-        return taggedDocument;
+        try {
+            executionResponseContainer = executionResponseContainer.replace(
+                    "<ruleExecutionContainer>",
+                    "<ruleExecutionContainer xmlns=\"urn:hl7-org:v3\">");
+            final String xslUrl = Thread.currentThread().getContextClassLoader()
+                    .getResource(TAG_XSL).toString();
+            final StringURIResolver stringURIResolver = new StringURIResolver();
+            stringURIResolver.put(
+                    URI_RESOLVER_HREF_RULE_EXECUTION_RESPONSE_CONTAINER,
+                    executionResponseContainer);
+            stringURIResolver.put(URI_RESOLVER_HREF_DISCLAMER, disclaimerText);
+            final Optional<URIResolver> uriResolver = Optional
+                    .of(stringURIResolver);
+            final String taggedDocument = xmlTransformer.transform(document,
+                    xslUrl, Optional.empty(), uriResolver);
+            logger.debug("Tagged Document:");
+            logger.debug(taggedDocument);
+            return taggedDocument;
+        } catch (final Exception e) {
+            throw new DocumentException(e.getMessage(), e);
+        }
     }
 }

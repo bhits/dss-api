@@ -114,6 +114,12 @@
             <artifactId>xdm</artifactId>
             <version>${mhc.common-libraries.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>namespace</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
         <!--TODO-->
         <!-- BRMS dependencies -->
         <dependency>
