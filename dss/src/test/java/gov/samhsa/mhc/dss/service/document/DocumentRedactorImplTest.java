@@ -62,7 +62,6 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.io.FileUtils;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,8 +71,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-// TODO: 2/9/2016
-@Ignore
 public class DocumentRedactorImplTest {
     private static final String PROBLEMS = "@Problems";
 
