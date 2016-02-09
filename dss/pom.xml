@@ -22,11 +22,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <!-- MHC Common Libraries' version -->
-        <mhc.common-libraries.version>1.0.0</mhc.common-libraries.version>
+        <!--TODO-->
+        <mhc.common-libraries.version>1.0.1-SNAPSHOT</mhc.common-libraries.version>
+        <!-- Third-party library versions -->
+        <saxon-HE.version>9.7.0-2</saxon-HE.version>
+        <axiom-api.version>1.2.17</axiom-api.version>
+        <xmlsec.version>1.3.0</xmlsec.version>
         <!-- BRMS Libraries' version -->
         <drools.version>5.4.0.Final</drools.version>
-        <!-- Third-party library versions -->
-        <saxon.version>9.7.0-2</saxon.version>
     </properties>
 
     <dependencies>
@@ -93,6 +96,24 @@
             <artifactId>document-transformer</artifactId>
             <version>${mhc.common-libraries.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>document-accessor</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>document-converter</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>xdm</artifactId>
+            <version>${mhc.common-libraries.version}</version>
+        </dependency>
         <!--TODO-->
         <!-- BRMS dependencies -->
         <dependency>
@@ -116,7 +137,19 @@
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>Saxon-HE</artifactId>
-            <version>${saxon.version}</version>
+            <version>${saxon-HE.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-api</artifactId>
+            <version>${axiom-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xml-security</groupId>
+            <artifactId>xmlsec</artifactId>
+            <version>${xmlsec.version}</version>
         </dependency>
     </dependencies>
 
