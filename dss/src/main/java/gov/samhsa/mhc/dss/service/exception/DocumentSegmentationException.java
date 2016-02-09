@@ -1,46 +1,42 @@
 package gov.samhsa.mhc.dss.service.exception;
 
-/**
- * Created by jiahao.li on 2/8/2016.
- */
-public class DocumentException extends RuntimeException {
-
+public class DocumentSegmentationException extends RuntimeException {
 
     /**
-     * Instantiates a new d s4 p exception.
+     * Instantiates a new DocumentSegmentation exception.
      */
-    public DocumentException() {
+    public DocumentSegmentationException() {
         super();
         // TODO Auto-generated constructor stub
     }
 
     /**
-     * Instantiates a new d s4 p exception.
+     * Instantiates a new DocumentSegmentation exception.
      *
      * @param arg0 the arg0
      * @param arg1 the arg1
      */
-    public DocumentException(String arg0, Throwable arg1) {
+    public DocumentSegmentationException(String arg0, Throwable arg1) {
         super(arg0, arg1);
         // TODO Auto-generated constructor stub
     }
 
     /**
-     * Instantiates a new d s4 p exception.
+     * Instantiates a new DocumentSegmentation exception.
      *
      * @param arg0 the arg0
      */
-    public DocumentException(String arg0) {
+    public DocumentSegmentationException(String arg0) {
         super(arg0);
         // TODO Auto-generated constructor stub
     }
 
     /**
-     * Instantiates a new d s4 p exception.
+     * Instantiates a new DocumentSegmentation exception.
      *
      * @param arg0 the arg0
      */
-    public DocumentException(Throwable arg0) {
+    public DocumentSegmentationException(Throwable arg0) {
         super(arg0);
         // TODO Auto-generated constructor stub
     }

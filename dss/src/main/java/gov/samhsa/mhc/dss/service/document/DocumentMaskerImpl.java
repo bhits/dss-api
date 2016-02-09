@@ -27,7 +27,7 @@ package gov.samhsa.mhc.dss.service.document;
 
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
@@ -142,7 +142,7 @@ public class DocumentMaskerImpl implements DocumentMasker {
 
         } catch (final Exception e) {
             logger.error(e.getMessage(), e);
-            throw new DocumentException(e.toString(), e);
+            throw new DocumentSegmentationException(e.toString(), e);
         }
         return xmlString;
     }

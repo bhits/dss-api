@@ -3,7 +3,7 @@ package gov.samhsa.mhc.dss.service.document;
 import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
 import static org.junit.Assert.assertTrue;
 
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.common.filereader.FileReaderImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
@@ -256,8 +256,8 @@ public class DocumentFactModelExtractorImplTest {
         testFactModelExtraction(c32FileName, ignoreList);
     }
 
-    @Test(expected = DocumentException.class)
-    public void testExtractFactModel_Throws_DocumentException() {
+    @Test(expected = DocumentSegmentationException.class)
+    public void testExtractFactModel_Throws_DocumentSegmentationException() {
         // Empty xml file
         @SuppressWarnings("unused")
         final String factModel = documentFactModelExtractor.extractFactModel(

@@ -12,7 +12,7 @@ import gov.samhsa.mhc.brms.domain.RuleExecutionResponse;
 import gov.samhsa.mhc.brms.domain.Sensitivity;
 import gov.samhsa.mhc.brms.domain.UsPrivacyLaw;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.mhc.common.filereader.FileReaderImpl;
 import gov.samhsa.mhc.common.util.EncryptTool;
@@ -68,8 +68,8 @@ public class DocumentMaskerImplTest {
         // activated (disabling redact-only comments)
     }
 
-    @Test(expected = DocumentException.class)
-    public void testMaskElement_Throws_DocumentException() throws Exception {
+    @Test(expected = DocumentSegmentationException.class)
+    public void testMaskElement_Throws_DocumentSegmentationException() throws Exception {
         // Empty xml file
         @SuppressWarnings("unused")
         String s = documentMasker.maskDocument("",

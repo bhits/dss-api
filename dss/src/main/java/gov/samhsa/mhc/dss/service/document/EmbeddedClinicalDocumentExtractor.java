@@ -25,7 +25,7 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 
 /**
  * The Interface EmbeddedClinicalDocumentExtractor.
@@ -37,9 +37,9 @@ public interface EmbeddedClinicalDocumentExtractor {
      *
      * @param factModel the fact model
      * @return the string
-     * @throws DocumentException the document segmentation exception
+     * @throws DocumentSegmentationException the document segmentation exception
      */
     public abstract String extractClinicalDocumentFromFactModel(String factModel)
-            throws DocumentException;
+            throws DocumentSegmentationException;
 
 }

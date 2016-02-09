@@ -12,7 +12,7 @@ import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.RuleExecutionResponse;
 import gov.samhsa.mhc.brms.domain.Sensitivity;
 import gov.samhsa.mhc.brms.domain.UsPrivacyLaw;
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.mhc.common.filereader.FileReaderImpl;
 import gov.samhsa.mhc.common.util.EncryptTool;
@@ -167,8 +167,8 @@ public class DocumentEncrypterImplTest {
         assertNull(encrypted);
     }
 
-    @Test(expected = DocumentException.class)
-    public void testEncryptDocument_Throws_DS4PException()
+    @Test(expected = DocumentSegmentationException.class)
+    public void testEncryptDocument_Throws_DocumentSegmentationException()
             throws XMLEncryptionException, Exception {
         // Empty xml file
         documentEncrypter.encryptDocument(

@@ -29,7 +29,7 @@ import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.util.StringURIResolver;
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 
 import javax.xml.transform.URIResolver;
 import java.util.Optional;
@@ -100,7 +100,7 @@ public class DocumentFactModelExtractorImpl implements
             logger.debug(factModel);
             return factModel;
         } catch (final Exception e) {
-            throw new DocumentException(e.getMessage(), e);
+            throw new DocumentSegmentationException(e.getMessage(), e);
         }
     }
 }

@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import gov.samhsa.mhc.brms.service.RuleExecutionServiceImpl;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.service.guvnor.GuvnorServiceImpl;
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.common.namespace.DefaultNamespaceContext;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
@@ -1000,8 +1000,8 @@ public class DocumentTaggerImplTest {
                 Arrays.asList(new String[]{"ENCRYPT", "NORDSCLCD", "R"}));
     }
 
-    @Test(expected = DocumentException.class)
-    public void testTagDocument_Throws_DocumentException() {
+    @Test(expected = DocumentSegmentationException.class)
+    public void testTagDocument_Throws_DocumentSegmentationException() {
         // Empty xml file
         @SuppressWarnings("unused")
         final String taggedDocument = documentTagger.tagDocument("",

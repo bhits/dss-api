@@ -34,7 +34,7 @@ import java.util.Optional;
 
 import javax.xml.transform.URIResolver;
 
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -117,7 +117,7 @@ public class DocumentTaggerImpl implements DocumentTagger {
             logger.debug(taggedDocument);
             return taggedDocument;
         } catch (final Exception e) {
-            throw new DocumentException(e.getMessage(), e);
+            throw new DocumentSegmentationException(e.getMessage(), e);
         }
     }
 }

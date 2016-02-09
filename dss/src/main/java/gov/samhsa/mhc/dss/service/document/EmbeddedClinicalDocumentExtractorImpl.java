@@ -28,7 +28,7 @@ package gov.samhsa.mhc.dss.service.document;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterException;
-import gov.samhsa.mhc.dss.service.exception.DocumentException;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -81,7 +81,7 @@ public class EmbeddedClinicalDocumentExtractorImpl implements
      */
     @Override
     public String extractClinicalDocumentFromFactModel(String factModel)
-            throws DocumentException {
+            throws DocumentSegmentationException {
         Document newXmlDocument;
         try {
             final Document factModelDocument = documentXmlConverter
@@ -99,7 +99,7 @@ public class EmbeddedClinicalDocumentExtractorImpl implements
             newXmlDocument.appendChild(copyNode);
         } catch (XPathExpressionException | ParserConfigurationException
                 | DocumentXmlConverterException e) {
-            throw new DocumentException(e);
+            throw new DocumentSegmentationException(e);
         }
         return documentXmlConverter.convertXmlDocToString(newXmlDocument);
     }
