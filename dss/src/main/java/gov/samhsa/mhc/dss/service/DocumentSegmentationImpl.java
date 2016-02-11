@@ -25,59 +25,52 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service;
 
-import static gov.samhsa.mhc.dss.service.audit.DssAuditVerb.SEGMENT_DOCUMENT;
-import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.CATEGORY_OBLIGATIONS_APPLIED;
-import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.ORIGINAL_DOCUMENT;
-import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.ORIGINAL_DOCUMENT_VALID;
-import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.RULES_FIRED;
-import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.SECTION_OBLIGATIONS_APPLIED;
-import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.SEGMENTED_DOCUMENT;
-import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.SEGMENTED_DOCUMENT_VALID;
-import gov.samhsa.mhc.common.audit.AuditService;
-import gov.samhsa.mhc.common.audit.PredicateKey;
-import gov.samhsa.mhc.brms.service.RuleExecutionService;
+import ch.qos.logback.audit.AuditException;
 import gov.samhsa.mhc.brms.domain.ClinicalFact;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
-import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.mhc.brms.service.RuleExecutionService;
+import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
+import gov.samhsa.mhc.common.audit.AuditService;
+import gov.samhsa.mhc.common.audit.PredicateKey;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
+import gov.samhsa.mhc.common.marshaller.SimpleMarshallerException;
 import gov.samhsa.mhc.common.validation.XmlValidation;
 import gov.samhsa.mhc.common.validation.XmlValidationResult;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
-import gov.samhsa.mhc.dss.service.dto.SegmentDocumentResponse;
-import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentException;
-import gov.samhsa.mhc.dss.service.metadata.AdditionalMetadataGeneratorForSegmentedClinicalDocument;
-import gov.samhsa.mhc.dss.service.document.DocumentEditor;
-import gov.samhsa.mhc.dss.service.document.DocumentFactModelExtractor;
-import gov.samhsa.mhc.dss.service.document.DocumentRedactor;
-import gov.samhsa.mhc.dss.service.document.DocumentTagger;
-import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractor;
-import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetService;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.CodeAndCodeSystemSetDto;
-import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import javax.activation.DataHandler;
-import javax.xml.bind.JAXBException;
-
+import gov.samhsa.mhc.dss.service.document.*;
+import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
+import gov.samhsa.mhc.dss.service.dto.DSSRequest;
+import gov.samhsa.mhc.dss.service.dto.DSSResponse;
+import gov.samhsa.mhc.dss.service.dto.SegmentDocumentResponse;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentException;
+import gov.samhsa.mhc.dss.service.metadata.AdditionalMetadataGeneratorForSegmentedClinicalDocument;
 import org.apache.axiom.attachments.ByteArrayDataSource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.xml.sax.SAXParseException;
 
-import ch.qos.logback.audit.AuditException;
+import javax.activation.DataHandler;
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+import static gov.samhsa.mhc.dss.service.audit.DssAuditVerb.SEGMENT_DOCUMENT;
+import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.*;
 
 /**
  * The Class DocumentSegmentationImpl.
  */
+@Service
 public class DocumentSegmentationImpl implements DocumentSegmentation {
 
     /**
@@ -89,6 +82,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      * The Constant C32_CDA_XSD_NAME.
      */
     public static final String C32_CDA_XSD_NAME = "C32_CDA.xsd";
+    public static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
 
     /**
      * The logger.
@@ -151,6 +145,12 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      */
     private final XmlValidation xmlValidator;
 
+    @Value("${mhc.dss.defaultIsAudited}")
+    private boolean defaultIsAudited;
+
+    @Value("${mhc.dss.defaultIsAuditFailureByPass}")
+    private boolean defaultIsAuditFailureByPass;
+
     /**
      * Instantiates a new document processor impl.
      *
@@ -166,6 +166,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      * @param additionalMetadataGeneratorForSegmentedClinicalDocument the additional metadata generator for segmented clinical
      *                                                                document
      */
+    // TODO: 2/11/2016  
     public DocumentSegmentationImpl(
             RuleExecutionService ruleExecutionService,
             AuditService auditService,
@@ -236,12 +237,11 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public SegmentDocumentResponse segmentDocument(String document,
-                                                   String enforcementPolicies, boolean isAudited,
-                                                   boolean isAuditFailureByPass, boolean enableTryPolicyResponse)
+    // TODO: 2/11/2016 string to byte 
+    public DSSResponse segmentDocument(DSSRequest dssRequest)
             throws XmlDocumentReadFailureException,
             InvalidSegmentedClinicalDocumentException, AuditException {
-
+        String document = new String(dssRequest.getDocument(), getCharset(dssRequest.getDocumentEncoding()));
         Assert.notNull(document);
         final String originalDocument = document;
         XmlValidationResult originalClinicalDocumentValidationResult = null;
@@ -263,6 +263,8 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             }
         }
 
+        Assert.notNull(dssRequest.getXacmlResult());
+        final String enforcementPolicies = marshal(dssRequest.getXacmlResult());
         Assert.notNull(enforcementPolicies);
 
         RuleExecutionContainer ruleExecutionContainer = null;
@@ -345,7 +347,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             document = redactedDocument.getRedactedDocument();
 
             // set tryPolicyDocument in the response
-            if (enableTryPolicyResponse) {
+            if (dssRequest.getEnableTryPolicyResponse().orElse(Boolean.FALSE)) {
                 segmentDocumentResponse
                         .setTryPolicyDocumentXml(redactedDocument
                                 .getTryPolicyDocument());
@@ -387,12 +389,12 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             segmentedClinicalDocumentValidationResult = xmlValidator
                     .validateWithAllErrors(document);
             Assert.notNull(segmentedClinicalDocumentValidationResult);
-            if (isAudited) {
+            if (dssRequest.getAudited().orElse(defaultIsAudited)) {
                 auditSegmentation(originalDocument, document,
                         factModel.getXacmlResult(), redactedDocument,
                         rulesFired, originalClinicalDocumentValidationResult,
                         segmentedClinicalDocumentValidationResult,
-                        isAuditFailureByPass);
+                        dssRequest.getAuditFailureByPass().orElse(defaultIsAuditFailureByPass));
             }
         } catch (final XmlDocumentReadFailureException e) {
             logger.error(e.getMessage(), e);
@@ -409,8 +411,13 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             }
             throw new InvalidSegmentedClinicalDocumentException(segmentationErr);
         }
-
-        return segmentDocumentResponse;
+        DSSResponse dssResponse = new DSSResponse();
+        dssResponse.setSegmentedDocument(segmentDocumentResponse.getSegmentedDocumentXml().getBytes(DEFAULT_ENCODING));
+        dssResponse.setEncoding(DEFAULT_ENCODING.toString());
+        if(dssRequest.getEnableTryPolicyResponse().orElse(Boolean.FALSE)){
+            dssResponse.setTryPolicyDocument(segmentDocumentResponse.getTryPolicyDocumentXml().getBytes(DEFAULT_ENCODING));
+        }
+        return dssResponse;
     }
 
     /*
@@ -465,6 +472,10 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
                                 .getExecutionResponseContainerXml(), null, null);
         segmentDocumentResponse.setDocumentPayloadRawData(new DataHandler(
                 rawData));
+    }
+
+    private Charset getCharset(Optional<String> documentEncoding) {
+        return documentEncoding.map(Charset::forName).orElse(DEFAULT_ENCODING);
     }
 
     /**
@@ -534,5 +545,13 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         return new XmlValidation(this.getClass().getClassLoader()
                 .getResourceAsStream(C32_CDA_XSD_PATH + C32_CDA_XSD_NAME),
                 C32_CDA_XSD_PATH);
+    }
+
+    private String marshal(Object o) {
+        try {
+            return marshaller.marshal(o);
+        } catch (SimpleMarshallerException e) {
+            throw new DocumentSegmentationException(e);
+        }
     }
 }

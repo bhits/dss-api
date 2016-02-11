@@ -28,10 +28,13 @@ package gov.samhsa.mhc.dss.service;
 import ch.qos.logback.audit.AuditException;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
+import gov.samhsa.mhc.dss.service.dto.DSSRequest;
+import gov.samhsa.mhc.dss.service.dto.DSSResponse;
 import gov.samhsa.mhc.dss.service.dto.SegmentDocumentResponse;
 import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * The Interface DocumentSegmentation.
@@ -41,19 +44,13 @@ public interface DocumentSegmentation {
     /**
      * Segment document.
      *
-     * @param document                the document
-     * @param enforcementPolicies     the enforcement policies
-     * @param isAudited               the is audited
-     * @param isAuditFailureByPass    the is audit failure by pass
-     * @param enableTryPolicyResponse the enable try policy response
+     * @param dssRequest                the document
      * @return the segment document response
      * @throws XmlDocumentReadFailureException           the xml document read failure exception
      * @throws InvalidSegmentedClinicalDocumentException the invalid segmented clinical document exception
      * @throws AuditException                            the audit exception
      */
-    public SegmentDocumentResponse segmentDocument(String document,
-                                                   String enforcementPolicies, boolean isAudited,
-                                                   boolean isAuditFailureByPass, boolean enableTryPolicyResponse)
+    public DSSResponse segmentDocument(DSSRequest dssRequest)
             throws XmlDocumentReadFailureException,
             InvalidSegmentedClinicalDocumentException, AuditException;
 
