@@ -27,6 +27,8 @@ package gov.samhsa.mhc.brms.service.guvnor;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +41,7 @@ import java.util.Base64;
 /**
  * The Class GuvnorServiceImpl.
  */
+@Service
 public class GuvnorServiceImpl implements GuvnorService {
 
     /** The logger. */

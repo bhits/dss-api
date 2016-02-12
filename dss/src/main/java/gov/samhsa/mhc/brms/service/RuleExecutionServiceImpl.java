@@ -30,22 +30,19 @@ import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
 import gov.samhsa.mhc.brms.service.guvnor.GuvnorService;
-
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
-import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderError;
-import org.drools.builder.KnowledgeBuilderErrors;
-import org.drools.builder.KnowledgeBuilderFactory;
-import org.drools.builder.ResourceType;
+import org.drools.builder.*;
 import org.drools.definition.rule.Rule;
 import org.drools.event.rule.AfterActivationFiredEvent;
 import org.drools.event.rule.DefaultAgendaEventListener;
 import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBException;
 import java.util.HashSet;
@@ -54,6 +51,7 @@ import java.util.Set;
 /**
  * The Class RuleExecutionServiceImpl.
  */
+@Service
 public class RuleExecutionServiceImpl implements RuleExecutionService {
 
     /**
@@ -65,25 +63,14 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     /**
      * The guvnor service.
      */
-    private final GuvnorService guvnorService;
+    @Autowired
+    private GuvnorService guvnorService;
 
     /**
      * The marshaller.
      */
-    private final SimpleMarshaller marshaller;
-
-    /**
-     * Instantiates a new rule execution service impl.
-     *
-     * @param guvnorService the guvnor service
-     * @param marshaller    the marshaller
-     */
-    public RuleExecutionServiceImpl(GuvnorService guvnorService,
-                                    SimpleMarshaller marshaller) {
-        super();
-        this.guvnorService = guvnorService;
-        this.marshaller = marshaller;
-    }
+    @Autowired
+    private SimpleMarshaller marshaller;
 
     /*
      * (non-Javadoc)

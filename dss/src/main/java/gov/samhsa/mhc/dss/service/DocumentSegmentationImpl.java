@@ -52,6 +52,7 @@ import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 import gov.samhsa.mhc.dss.service.metadata.AdditionalMetadataGeneratorForSegmentedClinicalDocument;
 import org.apache.axiom.attachments.ByteArrayDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -93,7 +94,8 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     /**
      * The rule execution web service client.
      */
-    private final RuleExecutionService ruleExecutionService;
+    @Autowired
+    private RuleExecutionService ruleExecutionService;
 
     /**
      * The audit service.
@@ -154,7 +156,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     /**
      * Instantiates a new document processor impl.
      *
-     * @param ruleExecutionService                                    the rule execution service
      * @param auditService                                            the audit service
      * @param documentEditor                                          the document editor
      * @param marshaller                                              the marshaller
@@ -166,9 +167,8 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      * @param additionalMetadataGeneratorForSegmentedClinicalDocument the additional metadata generator for segmented clinical
      *                                                                document
      */
-    // TODO: 2/11/2016  
+    // TODO: 2/11/2016
     public DocumentSegmentationImpl(
-            RuleExecutionService ruleExecutionService,
             AuditService auditService,
             DocumentEditor documentEditor,
             SimpleMarshaller marshaller,
@@ -178,7 +178,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             EmbeddedClinicalDocumentExtractor embeddedClinicalDocumentExtractor,
             ValueSetService valueSetService,
             AdditionalMetadataGeneratorForSegmentedClinicalDocument additionalMetadataGeneratorForSegmentedClinicalDocument) {
-        this.ruleExecutionService = ruleExecutionService;
         this.auditService = auditService;
         this.documentEditor = documentEditor;
         this.marshaller = marshaller;
@@ -194,7 +193,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     /**
      * Instantiates a new document segmentation impl.
      *
-     * @param ruleExecutionService                                    the rule execution service
      * @param documentEditor                                          the document editor
      * @param marshaller                                              the marshaller
      * @param documentRedactor                                        the document redactor
@@ -206,7 +204,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      *                                                                document
      */
     public DocumentSegmentationImpl(
-            RuleExecutionService ruleExecutionService,
             DocumentEditor documentEditor,
             SimpleMarshaller marshaller,
             DocumentRedactor documentRedactor,
@@ -215,7 +212,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             EmbeddedClinicalDocumentExtractor embeddedClinicalDocumentExtractor,
             ValueSetService valueSetService,
             AdditionalMetadataGeneratorForSegmentedClinicalDocument additionalMetadataGeneratorForSegmentedClinicalDocument) {
-        this.ruleExecutionService = ruleExecutionService;
         this.auditService = null;
         this.documentEditor = documentEditor;
         this.marshaller = marshaller;
