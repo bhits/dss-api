@@ -28,18 +28,12 @@ package gov.samhsa.mhc.dss.infrastructure.valueset;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.CodeAndCodeSystemSetDto;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryDto;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryListDto;
-
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The Class ValueSetServiceImpl.
@@ -67,11 +61,6 @@ public class ValueSetServiceImpl implements ValueSetService {
     private String multipleCodeRestUrl;
 
     /**
-     * The self signed ssl helper.
-     */
-    private SelfSignedSSLHelper selfSignedSSLHelper;
-
-    /**
      * Instantiates a new value set service impl.
      */
     public ValueSetServiceImpl() {
@@ -88,25 +77,6 @@ public class ValueSetServiceImpl implements ValueSetService {
         this.endpointAddress = endpointAddress;
         this.singleCodeRestUrl = null;
         this.multipleCodeRestUrl = null;
-        this.selfSignedSSLHelper = null;
-    }
-
-    /**
-     * Instantiates a new value set service impl.
-     *
-     * @param endpointAddress     the endpoint address
-     * @param selfSignedSSLHelper the self signed ssl helper
-     */
-    public ValueSetServiceImpl(String endpointAddress,
-                               SelfSignedSSLHelper selfSignedSSLHelper) {
-        super();
-        this.endpointAddress = endpointAddress;
-        this.singleCodeRestUrl = null;
-        this.selfSignedSSLHelper = selfSignedSSLHelper;
-
-        if (selfSignedSSLHelper != null) {
-            selfSignedSSLHelper.trustSelfSignedSSL();
-        }
     }
 
     /*
@@ -124,10 +94,6 @@ public class ValueSetServiceImpl implements ValueSetService {
         Map<String, String> parameterMap = createParameterMap(code, codeSystem);
 
         RestTemplate restTemplate = configureRestTemplate();
-/*
-        if (selfSignedSSLHelper != null) {
-			selfSignedSSLHelper.trustSelfSignedSSL();
-		}*/
 
         ValueSetQueryDto resp = restTemplate.getForObject(singleCodeRestUrl,
                 ValueSetQueryDto.class, parameterMap);
@@ -172,10 +138,6 @@ public class ValueSetServiceImpl implements ValueSetService {
 
         RestTemplate restTemplate = configureRestTemplate();
 
-        if (selfSignedSSLHelper != null) {
-            selfSignedSSLHelper.trustSelfSignedSSL();
-        }
-
         ValueSetQueryListDto resp = null;
         try {
             resp = restTemplate.postForObject(endpointAddress + "/rest/", valueSetQueryListDtos,
@@ -184,7 +146,6 @@ public class ValueSetServiceImpl implements ValueSetService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         return resp;
     }
 
