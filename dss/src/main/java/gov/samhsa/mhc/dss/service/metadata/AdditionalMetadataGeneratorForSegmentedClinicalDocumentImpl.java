@@ -32,6 +32,8 @@ import gov.samhsa.mhc.common.param.Params;
 import gov.samhsa.mhc.common.param.ParamsBuilder;
 import gov.samhsa.mhc.common.util.StringURIResolver;
 import gov.samhsa.mhc.dss.service.exception.AdditionalMetadataGeneratorException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.xml.transform.URIResolver;
@@ -40,6 +42,7 @@ import java.util.Optional;
 /**
  * The Class AdditionalMetadataGeneratorForSegmentedClinicalDocumentImpl.
  */
+@Service
 public class AdditionalMetadataGeneratorForSegmentedClinicalDocumentImpl
         implements AdditionalMetadataGeneratorForSegmentedClinicalDocument {
 
@@ -87,19 +90,8 @@ public class AdditionalMetadataGeneratorForSegmentedClinicalDocumentImpl
     /**
      * The xml trasformer.
      */
-    private final XmlTransformer xmlTrasformer;
-
-    /**
-     * Instantiates a new additional metadata generator for segmented clinical
-     * document impl.
-     *
-     * @param xmlTrasformer the xml trasformer
-     */
-    public AdditionalMetadataGeneratorForSegmentedClinicalDocumentImpl(
-            XmlTransformer xmlTrasformer) {
-        super();
-        this.xmlTrasformer = xmlTrasformer;
-    }
+    @Autowired
+    private XmlTransformer xmlTrasformer;
 
     /*
      * (non-Javadoc)

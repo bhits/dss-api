@@ -20,6 +20,11 @@ public class DocumentSegmentationRestController {
     @Autowired
     private DocumentSegmentation documentSegmentation;
 
+    @RequestMapping("/")
+    public String index() {
+        return "Greetings from DSS API !";
+    }
+
     @RequestMapping(value = "/segmentedDocument", method = RequestMethod.POST)
     public DSSResponse segment(@Valid @RequestBody DSSRequest request) throws InvalidSegmentedClinicalDocumentException, AuditException, XmlDocumentReadFailureException {
         return documentSegmentation.segmentDocument(request);

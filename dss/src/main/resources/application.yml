@@ -12,7 +12,10 @@ mhc:
   dss:
     documentTagger:
       disclaimerText: disclaimerText
-    UnsupportedHeaderElementHandler:
-      headersWhiteList: headersWhiteList
-    UnsupportedSectionHandler:
-      sectionWhiteList: sectionWhiteList
+    unsupportedHeaderElementHandler:
+      headersWhiteList: "headersWhiteList"
+    unsupportedSectionHandler:
+      sectionWhiteList: "sectionWhiteList"
+    documentSegmentationImpl:
+      defaultIsAudited: true
+      defaultIsAuditFailureByPass: true

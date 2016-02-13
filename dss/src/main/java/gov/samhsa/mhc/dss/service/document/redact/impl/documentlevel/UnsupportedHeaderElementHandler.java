@@ -18,8 +18,10 @@ public class UnsupportedHeaderElementHandler extends
 
     private static final String XPATH_HEADERS_PREFIX = "/hl7:ClinicalDocument/hl7:%1";
     private static final String XPATH_ALL_HEARDERS = "//hl7:ClinicalDocument/child::hl7:*";
+
     // TODO: value
-    @Value("${mhc.dss.UnsupportedHeaderElementHandler.headersWhiteList}")
+
+//    @Value("${mhc.dss.unsupportedHeaderElementHandler.headersWhiteList}")
     private Set<String> headersWhiteList;
 
     @Override
