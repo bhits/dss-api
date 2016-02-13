@@ -30,6 +30,7 @@ import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryDto;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryListDto;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,6 +39,7 @@ import java.util.*;
 /**
  * The Class ValueSetServiceImpl.
  */
+@Service
 public class ValueSetServiceImpl implements ValueSetService {
 
     /**
@@ -54,6 +56,7 @@ public class ValueSetServiceImpl implements ValueSetService {
     /**
      * The endpoint address.
      */
+    // TODO: 2/12/2016 value
     private String endpointAddress;
 
     private String singleCodeRestUrl;
