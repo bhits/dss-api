@@ -29,17 +29,19 @@ import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterException;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
 /**
  * The Class EmbeddedClinicalDocumentExtractorImpl.
  */
+@Service
 public class EmbeddedClinicalDocumentExtractorImpl implements
         EmbeddedClinicalDocumentExtractor {
 
@@ -51,26 +53,14 @@ public class EmbeddedClinicalDocumentExtractorImpl implements
     /**
      * The document xml converter.
      */
-    private final DocumentXmlConverter documentXmlConverter;
+    @Autowired
+    private DocumentXmlConverter documentXmlConverter;
 
     /**
      * The document accessor.
      */
-    private final DocumentAccessor documentAccessor;
-
-    /**
-     * Instantiates a new embedded clinical document extractor impl.
-     *
-     * @param documentXmlConverter the document xml converter
-     * @param documentAccessor     the document accessor
-     */
-    public EmbeddedClinicalDocumentExtractorImpl(
-            DocumentXmlConverter documentXmlConverter,
-            DocumentAccessor documentAccessor) {
-        super();
-        this.documentXmlConverter = documentXmlConverter;
-        this.documentAccessor = documentAccessor;
-    }
+    @Autowired
+    private DocumentAccessor documentAccessor;
 
     /*
      * (non-Javadoc)
