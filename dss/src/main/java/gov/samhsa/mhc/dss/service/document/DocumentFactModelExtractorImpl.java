@@ -30,6 +30,8 @@ import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.util.StringURIResolver;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.xml.transform.URIResolver;
 import java.util.Optional;
@@ -37,6 +39,7 @@ import java.util.Optional;
 /**
  * The Class DocumentFactModelExtractorImpl.
  */
+@Service
 public class DocumentFactModelExtractorImpl implements
         DocumentFactModelExtractor {
 
@@ -59,17 +62,8 @@ public class DocumentFactModelExtractorImpl implements
     /**
      * The xml transformer.
      */
-    private final XmlTransformer xmlTransformer;
-
-    /**
-     * Instantiates a new document fact model extractor impl.
-     *
-     * @param xmlTransformer the xml transformer
-     */
-    public DocumentFactModelExtractorImpl(XmlTransformer xmlTransformer) {
-        super();
-        this.xmlTransformer = xmlTransformer;
-    }
+    @Autowired
+    private XmlTransformer xmlTransformer;
 
     /*
      * (non-Javadoc)
