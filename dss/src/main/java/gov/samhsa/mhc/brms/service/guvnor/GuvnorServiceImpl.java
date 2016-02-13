@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Open Behavioral Health Information Technology Architecture (OBHITA.org)
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  * * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  * * Neither the name of the <organization> nor the
  * names of its contributors may be used to endorse or promote products
  * derived from this software without specific prior written permission.
- *
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,8 +24,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 package gov.samhsa.mhc.brms.service.guvnor;
+
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
@@ -44,35 +46,29 @@ import java.util.Base64;
 @Service
 public class GuvnorServiceImpl implements GuvnorService {
 
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
-    /** The endpoint address. */
-    private final String endpointAddress;
-
-    /** The guvnor service username. */
-    private final String guvnorServiceUsername;
-
-    /** The guvnor service password. */
-    private final String guvnorServicePassword;
+    /**
+     * The endpoint address.
+     */
+    @Value("${mhc.brms.guvnor.endpointAddress}")
+    private String endpointAddress;
 
     /**
-     * Instantiates a new clinically adaptive rules implementation.
-     *
-     * @param endpointAddress
-     *            the endpoint address
-     * @param guvnorServiceUsername
-     *            the guvnor service username
-     * @param guvnorServicePassword
-     *            the guvnor service password
+     * The guvnor service username.
      */
-    public GuvnorServiceImpl(String endpointAddress,
-                             String guvnorServiceUsername, String guvnorServicePassword) {
-        this.endpointAddress = endpointAddress;
-        this.guvnorServiceUsername = guvnorServiceUsername;
-        this.guvnorServicePassword = guvnorServicePassword;
-    }
+    @Value("${mhc.brms.guvnor.serviceUsername}")
+    private String guvnorServiceUsername;
+
+    /**
+     * The guvnor service password.
+     */
+    @Value("${mhc.brms.guvnor.servicePassword}")
+    private String guvnorServicePassword;
 
     /*
      * (non-Javadoc)
@@ -108,11 +104,9 @@ public class GuvnorServiceImpl implements GuvnorService {
     /**
      * Open connection.
      *
-     * @param endpointAddress
-     *            the endpoint address
+     * @param endpointAddress the endpoint address
      * @return the http url connection
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     HttpURLConnection openConnection(String endpointAddress) throws IOException {
         final URL url = new URL(endpointAddress);
@@ -124,11 +118,9 @@ public class GuvnorServiceImpl implements GuvnorService {
     /**
      * Read as string.
      *
-     * @param inputStream
-     *            the input stream
+     * @param inputStream the input stream
      * @return the string
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     private String readAsString(InputStream inputStream) throws IOException {
         final StringBuffer ret = new StringBuffer();

@@ -31,62 +31,49 @@ import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.filereader.FileReader;
 import gov.samhsa.mhc.common.xdm.XdmZipUtils;
 import gov.samhsa.mhc.dss.service.metadata.MetadataGenerator;
+import org.apache.axiom.attachments.ByteArrayDataSource;
+import org.apache.xml.security.encryption.XMLEncryptionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.xml.xpath.XPathExpressionException;
-
-import org.apache.axiom.attachments.ByteArrayDataSource;
-import org.apache.xml.security.encryption.XMLEncryptionException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 
 /**
  * The Class DocumentEditorImpl.
  */
+@Service
 public class DocumentEditorImpl implements DocumentEditor {
 
     /**
      * The metadata generator.
      */
-    private final MetadataGenerator metadataGenerator;
+    @Autowired
+    private MetadataGenerator metadataGenerator;
 
     /**
      * The file reader.
      */
-    private final FileReader fileReader;
+    @Autowired
+    private FileReader fileReader;
 
     /**
      * The document xml converter.
      */
-    private final DocumentXmlConverter documentXmlConverter;
+    @Autowired
+    private DocumentXmlConverter documentXmlConverter;
 
     /**
      * The document accessor.
      */
-    private final DocumentAccessor documentAccessor;
-
-    /**
-     * Instantiates a new document editor impl.
-     *
-     * @param metadataGenerator    the metadata generator
-     * @param fileReader           the file reader
-     * @param documentXmlConverter the document xml converter
-     * @param documentAccessor     the document accessor
-     */
-    public DocumentEditorImpl(MetadataGenerator metadataGenerator,
-                              FileReader fileReader, DocumentXmlConverter documentXmlConverter,
-                              DocumentAccessor documentAccessor) {
-        super();
-        this.metadataGenerator = metadataGenerator;
-        this.fileReader = fileReader;
-        this.documentXmlConverter = documentXmlConverter;
-        this.documentAccessor = documentAccessor;
-    }
+    @Autowired
+    private DocumentAccessor documentAccessor;
 
     /*
      * (non-Javadoc)

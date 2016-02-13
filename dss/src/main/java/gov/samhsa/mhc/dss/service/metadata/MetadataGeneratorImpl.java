@@ -32,6 +32,8 @@ import gov.samhsa.mhc.common.param.Params;
 import gov.samhsa.mhc.common.param.ParamsBuilder;
 import gov.samhsa.mhc.common.util.StringURIResolver;
 import gov.samhsa.mhc.dss.service.exception.MetadataGeneratorException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.xml.transform.URIResolver;
 import java.util.Optional;
@@ -39,6 +41,7 @@ import java.util.Optional;
 /**
  * The Class MetadataGeneratorImpl.
  */
+@Service
 public class MetadataGeneratorImpl implements MetadataGenerator {
 
     /**
@@ -75,17 +78,8 @@ public class MetadataGeneratorImpl implements MetadataGenerator {
     /**
      * The xml transformer.
      */
-    private final XmlTransformer xmlTransformer;
-
-    /**
-     * Instantiates a new metadata generator impl.
-     *
-     * @param xmlTransformer the xml transformer
-     */
-    public MetadataGeneratorImpl(XmlTransformer xmlTransformer) {
-        super();
-        this.xmlTransformer = xmlTransformer;
-    }
+    @Autowired
+    private XmlTransformer xmlTransformer;
 
     /*
      * (non-Javadoc)
