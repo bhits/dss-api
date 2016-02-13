@@ -116,12 +116,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     private SimpleMarshaller marshaller;
 
     /**
-     * The document redactor.
-     */
-    @Autowired
-    private DocumentRedactor documentRedactor;
-
-    /**
      * The document tagger.
      */
     @Autowired
@@ -132,6 +126,12 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      */
     @Autowired
     private DocumentFactModelExtractor documentFactModelExtractor;
+
+    /**
+     * The document redactor.
+     */
+    @Autowired
+    private DocumentRedactor documentRedactor;
 
     /**
      * The embedded clinical document extractor.

@@ -9,3 +9,6 @@ mhc:
       endpointAddress: http://BHITSDEVACS01/guvnor-5.5.0.Final-tomcat-6.0/rest/packages/AnnotationRules/source
       serviceUsername: admin
       servicePassword: admin
+  dss:
+    documentTagger:
+      disclaimerText: disclaimerText

@@ -36,10 +36,14 @@ import javax.xml.transform.URIResolver;
 
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
  * The Class DocumentTaggerImpl.
  */
+@Service
 public class DocumentTaggerImpl implements DocumentTagger {
 
     /**
@@ -66,27 +70,14 @@ public class DocumentTaggerImpl implements DocumentTagger {
     /**
      * The disclaimer text.
      */
+    @Value("${mhc.dss.documentTagger.disclaimerText}")
     private String disclaimerText;
 
     /**
      * The xml transformer.
      */
-    private final XmlTransformer xmlTransformer;
-
-    /**
-     * Instantiates a new document tagger impl.
-     *
-     * @param disclaimerText the disclaimer text
-     * @param xmlTransformer the xml transformer
-     */
-    public DocumentTaggerImpl(String disclaimerText,
-                              XmlTransformer xmlTransformer) {
-        super();
-        this.disclaimerText = StringEscapeUtils.unescapeXml(disclaimerText);
-        this.disclaimerText = disclaimerText.replace("<disclaimerText>",
-                "<disclaimerText xmlns=\"urn:hl7-org:v3\">");
-        this.xmlTransformer = xmlTransformer;
-    }
+    @Autowired
+    private XmlTransformer xmlTransformer;
 
     /*
      * (non-Javadoc)
@@ -97,6 +88,10 @@ public class DocumentTaggerImpl implements DocumentTagger {
      */
     @Override
     public String tagDocument(String document, String executionResponseContainer) {
+        // TODO: 2/12/2016 Resolve disclaimerTest
+       /* StringEscapeUtils.unescapeXml(disclaimerText);
+        disclaimerText.replace("<disclaimerText>",
+                "<disclaimerText xmlns=\"urn:hl7-org:v3\">");*/
 
         try {
             executionResponseContainer = executionResponseContainer.replace(
