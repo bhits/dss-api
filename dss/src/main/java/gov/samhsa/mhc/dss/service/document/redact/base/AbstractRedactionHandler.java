@@ -28,16 +28,14 @@ package gov.samhsa.mhc.dss.service.document.redact.base;
 import gov.samhsa.mhc.brms.domain.ClinicalFact;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The Class AbstractRedactionHandler.
@@ -48,16 +46,6 @@ public abstract class AbstractRedactionHandler {
      * The document accessor.
      */
     protected DocumentAccessor documentAccessor;
-
-    /**
-     * Instantiates a new abstract callback.
-     *
-     * @param documentAccessor the document accessor
-     */
-    public AbstractRedactionHandler(DocumentAccessor documentAccessor) {
-        super();
-        this.documentAccessor = documentAccessor;
-    }
 
     /**
      * Adds the nodes to list.

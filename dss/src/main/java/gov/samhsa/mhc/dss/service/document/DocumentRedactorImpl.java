@@ -29,34 +29,35 @@ import gov.samhsa.mhc.brms.domain.ClinicalFact;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
-import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
+import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
-
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.xpath.XPathExpressionException;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * The Class DocumentRedactorImpl.
  */
+@Service
 public class DocumentRedactorImpl implements DocumentRedactor {
 
     /**
@@ -68,66 +69,44 @@ public class DocumentRedactorImpl implements DocumentRedactor {
     /**
      * The marshaller.
      */
-    private final SimpleMarshaller marshaller;
+    @Autowired
+    private SimpleMarshaller marshaller;
 
     /**
      * The document xml converter.
      */
-    private final DocumentXmlConverter documentXmlConverter;
+    @Autowired
+    private DocumentXmlConverter documentXmlConverter;
 
     /**
      * The document accessor.
      */
-    private final DocumentAccessor documentAccessor;
+    @Autowired
+    private DocumentAccessor documentAccessor;
 
     /**
      * The document level redaction handlers.
      */
-    private final Set<AbstractDocumentLevelRedactionHandler> documentLevelRedactionHandlers;
+    @Autowired
+    private Set<AbstractDocumentLevelRedactionHandler> documentLevelRedactionHandlers;
 
     /**
      * The obligation level redaction handlers.
      */
-    private final Set<AbstractObligationLevelRedactionHandler> obligationLevelRedactionHandlers;
+    @Autowired
+    private Set<AbstractObligationLevelRedactionHandler> obligationLevelRedactionHandlers;
 
     /**
      * The clinical fact level redaction handlers.
      */
-    private final Set<AbstractClinicalFactLevelRedactionHandler> clinicalFactLevelRedactionHandlers;
+    @Autowired
+    private Set<AbstractClinicalFactLevelRedactionHandler> clinicalFactLevelRedactionHandlers;
 
     /**
      * The post redaction level redaction handlers.
      */
-    private final Set<AbstractPostRedactionLevelRedactionHandler> postRedactionLevelRedactionHandlers;
-
-    /**
-     * Instantiates a new document redactor impl.
-     *
-     * @param marshaller                          the marshaller
-     * @param documentXmlConverter                the document xml converter
-     * @param documentAccessor                    the document accessor
-     * @param documentLevelRedactionHandlers      the document level redaction handlers
-     * @param obligationLevelRedactionHandlers    the obligation level redaction handlers
-     * @param clinicalFactLevelRedactionHandlers  the clinical fact level redaction handlers
-     * @param postRedactionLevelRedactionHandlers the post redaction level redaction handlers
-     */
-    public DocumentRedactorImpl(
-            SimpleMarshaller marshaller,
-            DocumentXmlConverter documentXmlConverter,
-            DocumentAccessor documentAccessor,
-            Set<AbstractDocumentLevelRedactionHandler> documentLevelRedactionHandlers,
-            Set<AbstractObligationLevelRedactionHandler> obligationLevelRedactionHandlers,
-            Set<AbstractClinicalFactLevelRedactionHandler> clinicalFactLevelRedactionHandlers,
-            Set<AbstractPostRedactionLevelRedactionHandler> postRedactionLevelRedactionHandlers) {
-        super();
-        this.marshaller = marshaller;
-        this.documentXmlConverter = documentXmlConverter;
-        this.documentAccessor = documentAccessor;
-        this.documentLevelRedactionHandlers = documentLevelRedactionHandlers;
-        this.obligationLevelRedactionHandlers = obligationLevelRedactionHandlers;
-        this.clinicalFactLevelRedactionHandlers = clinicalFactLevelRedactionHandlers;
-        this.postRedactionLevelRedactionHandlers = postRedactionLevelRedactionHandlers;
-    }
+    @Autowired
+    private Set<AbstractPostRedactionLevelRedactionHandler> postRedactionLevelRedactionHandlers;
 
     /*
      * (non-Javadoc)

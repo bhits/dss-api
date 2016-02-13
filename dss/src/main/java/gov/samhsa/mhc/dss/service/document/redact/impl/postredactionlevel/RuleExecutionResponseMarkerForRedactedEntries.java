@@ -29,32 +29,21 @@ import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.RuleExecutionResponse;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
-
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The Class RuleExecutionResponseMarkerForRedactedEntries.
  */
+@Service
 public class RuleExecutionResponseMarkerForRedactedEntries extends
         AbstractPostRedactionLevelRedactionHandler {
-
-    /**
-     * Instantiates a new rule execution response marker for redacted entries.
-     *
-     * @param documentAccessor the document accessor
-     */
-    public RuleExecutionResponseMarkerForRedactedEntries(
-            DocumentAccessor documentAccessor) {
-        super(documentAccessor);
-    }
 
     /*
      * (non-Javadoc)

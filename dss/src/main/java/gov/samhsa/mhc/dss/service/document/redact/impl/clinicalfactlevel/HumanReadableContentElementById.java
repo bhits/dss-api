@@ -37,6 +37,7 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -44,6 +45,7 @@ import org.w3c.dom.NodeList;
 /**
  * The Class HumanReadableContentElementById.
  */
+@Service
 public class HumanReadableContentElementById extends
         AbstractClinicalFactLevelRedactionHandler {
 
@@ -56,17 +58,6 @@ public class HumanReadableContentElementById extends
      * The Constant XPATH_HUMAN_READABLE_CONTENT_ELEMENT_NEXT_TEXT_NODE.
      */
     public static final String XPATH_HUMAN_READABLE_CONTENT_ELEMENT_NEXT_TEXT_NODE = "/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section[child::hl7:entry[child::hl7:generatedEntryId/text()='%1']]/hl7:text/hl7:content[@ID='%2']/following-sibling::node()[position()=1 and self::text()]";
-
-    /**
-     * Instantiates a new document node collector for human readable content
-     * element by id.
-     *
-     * @param documentAccessor the document accessor
-     */
-    public HumanReadableContentElementById(
-            DocumentAccessor documentAccessor) {
-        super(documentAccessor);
-    }
 
     /*
      * (non-Javadoc)

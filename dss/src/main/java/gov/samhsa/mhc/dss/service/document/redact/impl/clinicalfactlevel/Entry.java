@@ -37,12 +37,14 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
  * The Class Entry.
  */
+@Service
 public class Entry extends
         AbstractClinicalFactLevelRedactionHandler {
 
@@ -50,15 +52,6 @@ public class Entry extends
      * The Constant XPATH_ENTRY.
      */
     public static final String XPATH_ENTRY = "//hl7:entry[child::hl7:generatedEntryId[text()='%1']]";
-
-    /**
-     * Instantiates a new document node collector for entry.
-     *
-     * @param documentAccessor the document accessor
-     */
-    public Entry(DocumentAccessor documentAccessor) {
-        super(documentAccessor);
-    }
 
     /*
      * (non-Javadoc)

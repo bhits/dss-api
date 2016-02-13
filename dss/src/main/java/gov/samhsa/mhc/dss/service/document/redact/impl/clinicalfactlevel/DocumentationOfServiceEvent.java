@@ -30,6 +30,7 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -43,6 +44,7 @@ import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevel
 /**
  * The Class DocumentationOfServiceEvent.
  */
+@Service
 public class DocumentationOfServiceEvent extends
         AbstractClinicalFactLevelRedactionHandler {
 
@@ -50,15 +52,6 @@ public class DocumentationOfServiceEvent extends
      * The Constant XPATH_SERVICE_EVENT.
      */
     public static final String XPATH_SERVICE_EVENT = "/hl7:ClinicalDocument/hl7:documentationOf/hl7:serviceEvent[hl7:generatedServiceEventId[text()='%1']]";
-
-    /**
-     * Instantiates a new documentation of service event.
-     *
-     * @param documentAccessor the document accessor
-     */
-    public DocumentationOfServiceEvent(DocumentAccessor documentAccessor) {
-        super(documentAccessor);
-    }
 
     /*
      * (non-Javadoc)

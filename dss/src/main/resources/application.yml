@@ -12,3 +12,7 @@ mhc:
   dss:
     documentTagger:
       disclaimerText: disclaimerText
+    UnsupportedHeaderElementHandler:
+      headersWhiteList: headersWhiteList
+    UnsupportedSectionHandler:
+      sectionWhiteList: sectionWhiteList

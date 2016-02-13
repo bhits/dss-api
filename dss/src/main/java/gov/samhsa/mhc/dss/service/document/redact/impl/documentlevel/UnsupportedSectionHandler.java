@@ -1,32 +1,24 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.documentlevel;
 
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.xpath.XPathExpressionException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class UnsupportedSectionHandler extends
         AbstractDocumentLevelRedactionHandler {
 
-    private final Set<String> sectionWhiteList;
-
     private static final String XPATH_SECTION = "//hl7:structuredBody/hl7:component[child::hl7:section[child::hl7:code[@code='%1']]]";
-
     private static final String XPATH_ALL_SECTION_CODES = "//hl7:structuredBody/hl7:component/hl7:section/hl7:code/@code";
-
-    public UnsupportedSectionHandler(DocumentAccessor documentAccessor,
-                                     Set<String> sectionWhiteList) {
-        super(documentAccessor);
-        this.sectionWhiteList = sectionWhiteList;
-    }
+    // TODO: value
+    @Value("${mhc.dss.UnsupportedSectionHandler.sectionWhiteList}")
+    private Set<String> sectionWhiteList;
 
     @Override
     public void execute(Document xmlDocument,

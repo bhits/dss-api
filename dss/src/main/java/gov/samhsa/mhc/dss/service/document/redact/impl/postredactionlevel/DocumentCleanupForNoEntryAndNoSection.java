@@ -28,26 +28,25 @@ package gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.xpath.XPathExpressionException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 /**
  * The Class DocumentCleanupForNoEntryAndNoSection.
  */
+@Service
 public class DocumentCleanupForNoEntryAndNoSection extends
         AbstractPostRedactionLevelRedactionHandler {
 
@@ -81,16 +80,6 @@ public class DocumentCleanupForNoEntryAndNoSection extends
      */
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
-
-    /**
-     * Instantiates a new document cleanup for no section.
-     *
-     * @param documentAccessor the document accessor
-     */
-    public DocumentCleanupForNoEntryAndNoSection(
-            DocumentAccessor documentAccessor) {
-        super(documentAccessor);
-    }
 
     /*
      * (non-Javadoc)

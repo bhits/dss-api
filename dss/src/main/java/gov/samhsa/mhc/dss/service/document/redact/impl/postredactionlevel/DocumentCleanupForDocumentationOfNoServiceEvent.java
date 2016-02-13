@@ -30,6 +30,7 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -43,6 +44,7 @@ import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLeve
 /**
  * The Class DocumentCleanupForDocumentationOfNoServiceEvent.
  */
+@Service
 public class DocumentCleanupForDocumentationOfNoServiceEvent extends
         AbstractPostRedactionLevelRedactionHandler {
 
@@ -50,17 +52,6 @@ public class DocumentCleanupForDocumentationOfNoServiceEvent extends
      * The Constant XPATH_DOCUMENTATIONOF_WITH_NO_SERVICE_EVENT.
      */
     public static final String XPATH_DOCUMENTATIONOF_WITH_NO_SERVICE_EVENT = "/hl7:ClinicalDocument/hl7:documentationOf[not(hl7:serviceEvent)]";
-
-    /**
-     * Instantiates a new document cleanup for documentation of no service
-     * event.
-     *
-     * @param documentAccessor the document accessor
-     */
-    public DocumentCleanupForDocumentationOfNoServiceEvent(
-            DocumentAccessor documentAccessor) {
-        super(documentAccessor);
-    }
 
     /*
      * (non-Javadoc)

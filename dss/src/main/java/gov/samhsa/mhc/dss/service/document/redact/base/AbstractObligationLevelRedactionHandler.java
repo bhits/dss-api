@@ -28,29 +28,17 @@ package gov.samhsa.mhc.dss.service.document.redact.base;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The Class AbstractObligationLevelRedactionHandler.
  */
 public abstract class AbstractObligationLevelRedactionHandler extends AbstractRedactionHandler {
-
-    /**
-     * Instantiates a new abstract obligation level callback.
-     *
-     * @param documentAccessor the document accessor
-     */
-    public AbstractObligationLevelRedactionHandler(DocumentAccessor documentAccessor) {
-        super(documentAccessor);
-    }
 
     /**
      * Execute.
