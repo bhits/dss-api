@@ -21,7 +21,7 @@ public class CommonLibraryConfig {
 
     @Bean
     public AuditService auditService() throws AuditException {
-        return new AuditServiceImpl("AuditService");
+        return new AuditServiceImpl("DSSAuditService");
     }
 
     @Bean
