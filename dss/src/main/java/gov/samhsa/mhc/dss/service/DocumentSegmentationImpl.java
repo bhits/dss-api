@@ -155,11 +155,11 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      * The xml validator.
      */
     private XmlValidation xmlValidator;
-    // TODO: 2/12/2016 Add value
-//    @Value("${mhc.dss.documentSegmentationImpl.defaultIsAudited}")
+
+    @Value("${mhc.dss.documentSegmentationImpl.defaultIsAudited}")
     private boolean defaultIsAudited;
 
-//    @Value("${mhc.dss.documentSegmentationImpl.defaultIsAuditFailureByPass}")
+    @Value("${mhc.dss.documentSegmentationImpl.defaultIsAuditFailureByPass}")
     private boolean defaultIsAuditFailureByPass;
 
     /*

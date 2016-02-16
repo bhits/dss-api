@@ -55,20 +55,19 @@ public class GuvnorServiceImpl implements GuvnorService {
     /**
      * The endpoint address.
      */
-    // TODO: 2/12/2016 Add value
-//    @Value("${mhc.brms.guvnor.endpointAddress}")
+    @Value("${mhc.brms.guvnor.endpointAddress}")
     private String endpointAddress;
 
     /**
      * The guvnor service username.
      */
-//    @Value("${mhc.brms.guvnor.serviceUsername}")
+    @Value("${mhc.brms.guvnor.serviceUsername}")
     private String guvnorServiceUsername;
 
     /**
      * The guvnor service password.
      */
-//    @Value("${mhc.brms.guvnor.servicePassword}")
+    @Value("${mhc.brms.guvnor.servicePassword}")
     private String guvnorServicePassword;
 
     /*

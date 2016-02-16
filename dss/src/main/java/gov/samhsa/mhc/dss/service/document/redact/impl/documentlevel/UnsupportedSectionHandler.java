@@ -19,9 +19,6 @@ public class UnsupportedSectionHandler extends
     private static final String XPATH_SECTION = "//hl7:structuredBody/hl7:component[child::hl7:section[child::hl7:code[@code='%1']]]";
     private static final String XPATH_ALL_SECTION_CODES = "//hl7:structuredBody/hl7:component/hl7:section/hl7:code/@code";
 
-    // TODO: value
-
-//    @Value("${mhc.dss.unsupportedSectionHandler.sectionWhiteList}")
     private Set<String> sectionWhiteList;
 
     @Override

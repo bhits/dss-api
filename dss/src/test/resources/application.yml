@@ -1,7 +1,0 @@
-mhc:
-  brms:
-    config:
-      guvnor:
-        username: admin
-        password: admin
-        service: http://BHITSDEVACS01/guvnor-5.5.0.Final-tomcat-6.0/rest/packages/AnnotationRules/source

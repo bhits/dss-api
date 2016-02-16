@@ -70,8 +70,7 @@ public class DocumentTaggerImpl implements DocumentTagger {
     /**
      * The disclaimer text.
      */
-    // TODO: 2/12/2016 Add value
-//    @Value("${mhc.dss.documentTagger.disclaimerText}")
+    @Value("${mhc.dss.DocumentTaggerImpl.disclaimerText}")
     private String disclaimerText;
 
     /**

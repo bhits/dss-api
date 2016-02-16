@@ -28,6 +28,7 @@ package gov.samhsa.mhc.dss.infrastructure.valueset;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.CodeAndCodeSystemSetDto;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryDto;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryListDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
@@ -56,31 +57,12 @@ public class ValueSetServiceImpl implements ValueSetService {
     /**
      * The endpoint address.
      */
-    // TODO: 2/12/2016 value
+    @Value("${mhc.dss.ValueSetServiceImpl.endpointAddress}")
     private String endpointAddress;
 
     private String singleCodeRestUrl;
 
     private String multipleCodeRestUrl;
-
-    /**
-     * Instantiates a new value set service impl.
-     */
-    public ValueSetServiceImpl() {
-        super();
-    }
-
-    /**
-     * Instantiates a new value set service impl.
-     *
-     * @param endpointAddress the endpoint address
-     */
-    public ValueSetServiceImpl(String endpointAddress) {
-        super();
-        this.endpointAddress = endpointAddress;
-        this.singleCodeRestUrl = null;
-        this.multipleCodeRestUrl = null;
-    }
 
     /*
      * (non-Javadoc)
