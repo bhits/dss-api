@@ -1,18 +1,18 @@
 package AnnotationRules
 
-import gov.samhsa.acs.brms.domain.ClinicalFact
-import gov.samhsa.acs.brms.domain.Confidentiality
-import gov.samhsa.acs.brms.domain.FactModel
-import gov.samhsa.acs.brms.domain.ObligationPolicyDocument
-import gov.samhsa.acs.brms.domain.RefrainPolicy
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer
-import gov.samhsa.acs.brms.domain.RuleExecutionResponse
-import gov.samhsa.acs.brms.domain.Sensitivity
-import gov.samhsa.acs.brms.domain.SubjectPurposeOfUse
-import gov.samhsa.acs.brms.domain.UsPrivacyLaw
-import gov.samhsa.acs.brms.domain.XacmlResult
+import gov.samhsa.mhc.brms.domain.ClinicalFact
+import gov.samhsa.mhc.brms.domain.Confidentiality
+import gov.samhsa.mhc.brms.domain.FactModel
+import gov.samhsa.mhc.brms.domain.ObligationPolicyDocument
+import gov.samhsa.mhc.brms.domain.RefrainPolicy
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer
+import gov.samhsa.mhc.brms.domain.RuleExecutionResponse
+import gov.samhsa.mhc.brms.domain.Sensitivity
+import gov.samhsa.mhc.brms.domain.SubjectPurposeOfUse
+import gov.samhsa.mhc.brms.domain.UsPrivacyLaw
+import gov.samhsa.mhc.brms.domain.XacmlResult
 
-global gov.samhsa.acs.brms.domain.RuleExecutionContainer ruleExecutionContainer
+global gov.samhsa.mhc.brms.domain.RuleExecutionContainer ruleExecutionContainer
 
 
 

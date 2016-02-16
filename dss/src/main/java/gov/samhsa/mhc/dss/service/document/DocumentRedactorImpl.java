@@ -166,7 +166,7 @@ public class DocumentRedactorImpl implements DocumentRedactor {
      *
      * @see
      * gov.samhsa.mhc.dss.service.document.DocumentRedactor#redactDocument
-     * (java.lang.String, gov.samhsa.acs.brms.domain.RuleExecutionContainer,
+     * (java.lang.String, gov.samhsa.mhc.brms.domain.RuleExecutionContainer,
      * gov.samhsa.mhc.brms.domain.XacmlResult,
      * gov.samhsa.mhc.brms.domain.FactModel)
      */

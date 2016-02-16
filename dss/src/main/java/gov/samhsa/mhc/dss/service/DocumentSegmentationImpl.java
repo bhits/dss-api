@@ -176,7 +176,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             throws XmlDocumentReadFailureException,
             InvalidSegmentedClinicalDocumentException, AuditException {
         String document = new String(dssRequest.getDocument(), getCharset(dssRequest.getDocumentEncoding()));
-        Assert.notNull(document);
+        Assert.hasText(document);
         final String originalDocument = document;
         XmlValidationResult originalClinicalDocumentValidationResult = null;
         try {
