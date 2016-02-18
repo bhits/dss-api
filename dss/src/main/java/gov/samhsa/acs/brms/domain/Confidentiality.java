@@ -23,11 +23,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package gov.samhsa.mhc.brms.domain;
+package gov.samhsa.acs.brms.domain;
 
 /**
- * The Enum Sensitivity.
+ * The Enum Confidentiality.
  */
-public enum Sensitivity {
-    ETH, GDIS, HIV, PSY, SDV, SEX, STD, TBOO, SICKLE
+public enum Confidentiality {
+    V(3), R(2), N(1);
+
+    /** The priority. */
+    private int priority;
+
+    /**
+     * Instantiates a new confidentiality.
+     *
+     * @param p the p
+     */
+    Confidentiality(int p) {
+        priority = p;
+    }
+
+    /**
+     * Gets the priority.
+     *
+     * @return the priority
+     */
+    int getPriority() {
+        return priority;
+    }
 }

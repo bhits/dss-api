@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.brms.domain;
+package gov.samhsa.acs.brms.domain;
 
 public class EntryReference {
 

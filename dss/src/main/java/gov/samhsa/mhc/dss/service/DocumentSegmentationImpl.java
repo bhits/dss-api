@@ -26,10 +26,10 @@
 package gov.samhsa.mhc.dss.service;
 
 import ch.qos.logback.audit.AuditException;
-import gov.samhsa.mhc.brms.domain.ClinicalFact;
-import gov.samhsa.mhc.brms.domain.FactModel;
-import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
-import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.acs.brms.domain.ClinicalFact;
+import gov.samhsa.acs.brms.domain.FactModel;
+import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.acs.brms.domain.XacmlResult;
 import gov.samhsa.mhc.brms.service.RuleExecutionService;
 import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
 import gov.samhsa.mhc.common.audit.AuditService;
@@ -59,6 +59,7 @@ import org.springframework.util.Assert;
 import org.xml.sax.SAXParseException;
 
 import javax.activation.DataHandler;
+import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -408,6 +409,13 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
                 rawData));
     }
 
+    @PostConstruct
+    public void afterPropertiesSet() {
+        this.xmlValidator = new XmlValidation(this.getClass().getClassLoader()
+                .getResourceAsStream(C32_CDA_XSD_PATH + C32_CDA_XSD_NAME),
+                C32_CDA_XSD_PATH);
+    }
+
     private Charset getCharset(Optional<String> documentEncoding) {
         return documentEncoding.map(Charset::forName).orElse(DEFAULT_ENCODING);
     }
@@ -468,17 +476,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
                 throw e;
             }
         }
-    }
-
-    /**
-     * Creates the xml validator.
-     *
-     * @return the xml validation
-     */
-    private XmlValidation createXmlValidator() {
-        return new XmlValidation(this.getClass().getClassLoader()
-                .getResourceAsStream(C32_CDA_XSD_PATH + C32_CDA_XSD_NAME),
-                C32_CDA_XSD_PATH);
     }
 
     private String marshal(Object o) {

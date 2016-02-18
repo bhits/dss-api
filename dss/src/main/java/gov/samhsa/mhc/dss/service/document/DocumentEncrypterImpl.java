@@ -25,9 +25,9 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.mhc.brms.domain.ObligationPolicyDocument;
-import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
-import gov.samhsa.mhc.brms.domain.RuleExecutionResponse;
+import gov.samhsa.acs.brms.domain.ObligationPolicyDocument;
+import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.acs.brms.domain.RuleExecutionResponse;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;

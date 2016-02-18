@@ -1,6 +1,6 @@
 package gov.samhsa.mhc.dss.service.dto;
 
-import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.acs.brms.domain.XacmlResult;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
@@ -9,12 +9,12 @@ public class DSSRequest {
 
     @NotNull
     protected XacmlResult xacmlResult;
-    protected Optional<Boolean> audited;
-    protected Optional<Boolean> auditFailureByPass;
-    protected Optional<Boolean> enableTryPolicyResponse;
+    protected Optional<Boolean> audited = Optional.empty();
+    protected Optional<Boolean> auditFailureByPass = Optional.empty();
+    protected Optional<Boolean> enableTryPolicyResponse = Optional.empty();
     @NotNull
     private byte[] document;
-    private Optional<String> documentEncoding;
+    private Optional<String> documentEncoding = Optional.empty();
 
     public byte[] getDocument() {
         return document;
@@ -28,8 +28,8 @@ public class DSSRequest {
         return documentEncoding;
     }
 
-    public void setDocumentEncoding(Optional<String> documentEncoding) {
-        this.documentEncoding = documentEncoding;
+    public void setDocumentEncoding(String documentEncoding) {
+        this.documentEncoding = Optional.of(documentEncoding);
     }
 
     public XacmlResult getXacmlResult() {
@@ -44,23 +44,23 @@ public class DSSRequest {
         return audited;
     }
 
-    public void setAudited(Optional<Boolean> audited) {
-        this.audited = audited;
+    public void setAudited(Boolean audited) {
+        this.audited = Optional.of(audited);
     }
 
     public Optional<Boolean> getAuditFailureByPass() {
         return auditFailureByPass;
     }
 
-    public void setAuditFailureByPass(Optional<Boolean> auditFailureByPass) {
-        this.auditFailureByPass = auditFailureByPass;
+    public void setAuditFailureByPass(Boolean auditFailureByPass) {
+        this.auditFailureByPass = Optional.of(auditFailureByPass);
     }
 
     public Optional<Boolean> getEnableTryPolicyResponse() {
         return enableTryPolicyResponse;
     }
 
-    public void setEnableTryPolicyResponse(Optional<Boolean> enableTryPolicyResponse) {
-        this.enableTryPolicyResponse = enableTryPolicyResponse;
+    public void setEnableTryPolicyResponse(Boolean enableTryPolicyResponse) {
+        this.enableTryPolicyResponse = Optional.of(enableTryPolicyResponse);
     }
 }

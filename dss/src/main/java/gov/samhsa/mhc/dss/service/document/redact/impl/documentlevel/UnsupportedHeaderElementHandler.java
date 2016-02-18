@@ -1,25 +1,31 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.documentlevel;
 
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPathExpressionException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Service
+@Component
+@ConfigurationProperties(prefix = "mhc.dss.redact")
 public class UnsupportedHeaderElementHandler extends
         AbstractDocumentLevelRedactionHandler {
 
     private static final String XPATH_HEADERS_PREFIX = "/hl7:ClinicalDocument/hl7:%1";
     private static final String XPATH_ALL_HEARDERS = "//hl7:ClinicalDocument/child::hl7:*";
 
-    private Set<String> headersWhiteList;
+    private List<String> headersWhiteList = new ArrayList<>();
+
+    public List<String> getHeadersWhiteList() {
+        return headersWhiteList;
+    }
 
     @Override
     public void execute(Document xmlDocument,

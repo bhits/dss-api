@@ -23,11 +23,49 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package gov.samhsa.mhc.brms.domain;
+package gov.samhsa.acs.brms.domain;
+
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
 /**
- * The Enum ObligationPolicyDocument.
+ * The Enum SubjectPurposeOfUse.
  */
-public enum ObligationPolicyDocument {
-    CPLYOSP, CPLYPOL, DEID, DELAU, ENCRYPT, HUAPRV, MASK, MINEC, PSEUD, REDACT
+@XmlEnum
+public enum SubjectPurposeOfUse {
+    @XmlEnumValue("TREATMENT")
+    HEALTHCARE_TREATMENT("TREATMENT"),
+    @XmlEnumValue("PAYMENT")
+    PAYMENT("PAYMENT"),
+    @XmlEnumValue("EMERGENCY")
+    EMERGENCY_TREATMENT("EMERGENCY"),
+    @XmlEnumValue("RESEARCH")
+    RESEARCH("RESEARCH");
+
+    private final String purpose;
+
+    SubjectPurposeOfUse(String p) {
+        purpose = p;
+    }
+
+    public static SubjectPurposeOfUse fromValue(String v) {
+        return valueOf(v);
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public static SubjectPurposeOfUse fromAbbreviation(String purposeOfUse) {
+        for (SubjectPurposeOfUse p : SubjectPurposeOfUse.values()) {
+            if (p.getPurpose().equals(purposeOfUse)) {
+                return p;
+            }
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append("The abbreviation '");
+        builder.append(purposeOfUse);
+        builder.append("' is not defined in this enum.");
+        throw new IllegalArgumentException(builder.toString());
+    }
 }

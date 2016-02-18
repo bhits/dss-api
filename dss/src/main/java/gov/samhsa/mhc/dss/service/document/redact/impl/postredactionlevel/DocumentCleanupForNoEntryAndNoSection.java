@@ -25,9 +25,9 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel;
 
-import gov.samhsa.mhc.brms.domain.FactModel;
-import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
-import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.acs.brms.domain.FactModel;
+import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.acs.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
@@ -86,9 +86,9 @@ public class DocumentCleanupForNoEntryAndNoSection extends
      *
      * @see gov.samhsa.mhc.dss.service.document.redact.
      * AbstractPostRedactionLevelCallback#execute(org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.XacmlResult,
-     * gov.samhsa.mhc.brms.domain.FactModel, org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.RuleExecutionContainer, java.util.List,
+     * gov.samhsa.acs.brms.domain.XacmlResult,
+     * gov.samhsa.acs.brms.domain.FactModel, org.w3c.dom.Document,
+     * gov.samhsa.acs.brms.domain.RuleExecutionContainer, java.util.List,
      * java.util.Set)
      */
     @Override

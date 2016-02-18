@@ -25,9 +25,9 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document.redact.impl.obligationlevel;
 
-import gov.samhsa.mhc.brms.domain.FactModel;
-import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
-import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.acs.brms.domain.FactModel;
+import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.acs.brms.domain.XacmlResult;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -55,9 +55,9 @@ public class Section extends
      *
      * @see gov.samhsa.mhc.dss.service.document.redact.
      * AbstractObligationLevelCallback#execute(org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.XacmlResult,
-     * gov.samhsa.mhc.brms.domain.FactModel, org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.RuleExecutionContainer, java.util.List,
+     * gov.samhsa.acs.brms.domain.XacmlResult,
+     * gov.samhsa.acs.brms.domain.FactModel, org.w3c.dom.Document,
+     * gov.samhsa.acs.brms.domain.RuleExecutionContainer, java.util.List,
      * java.util.Set, java.util.Set, java.lang.String)
      */
     @Override

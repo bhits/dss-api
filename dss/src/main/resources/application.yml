@@ -10,6 +10,36 @@ mhc:
       serviceUsername: admin
       servicePassword: admin
   dss:
+    redact:
+      headersWhiteList:
+        - "realmCode"
+        - "typeId"
+        - "templateId"
+        - "id"
+        - "code"
+        - "title"
+        - "effectiveTime"
+        - "confidentialityCode"
+        - "languageCode"
+        - "setId"
+        - "versionNumber"
+        - "copyTime"
+        - "recordTarget"
+        - "author"
+        - "dataEnterer"
+        - "custodian"
+        - "legalAuthenticator"
+        - "inFulfillmentOf"
+        - "documentationOf"
+        - "relatedDocument"
+        - "authorization"
+        - "componentOf"
+        - "component"
+      sectionWhiteList:
+        - "11450-4"
+        - "48765-2"
+        - "10160-0"
+        - "30954-2"
     DocumentTaggerImpl:
       disclaimerText: |
                     &lt;disclaimerText&gt;
@@ -50,4 +80,4 @@ mhc:
       defaultIsAudited: true
       defaultIsAuditFailureByPass: true
     ValueSetServiceImpl:
-      endpointAddress: endpointAddress
+      endpointAddress: http://localhost:8083/pcm/lookupService

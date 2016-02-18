@@ -26,7 +26,7 @@
 package gov.samhsa.mhc.dss.service;
 
 import ch.qos.logback.audit.AuditException;
-import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.acs.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.mhc.dss.service.dto.DSSRequest;
 import gov.samhsa.mhc.dss.service.dto.DSSResponse;
@@ -34,7 +34,6 @@ import gov.samhsa.mhc.dss.service.dto.SegmentDocumentResponse;
 import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * The Interface DocumentSegmentation.

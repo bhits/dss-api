@@ -32,6 +32,7 @@ import gov.samhsa.mhc.common.util.StringURIResolver;
 
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.xml.transform.URIResolver;
 
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
@@ -73,11 +74,20 @@ public class DocumentTaggerImpl implements DocumentTagger {
     @Value("${mhc.dss.DocumentTaggerImpl.disclaimerText}")
     private String disclaimerText;
 
+    private String disclaimerTextXml;
+
     /**
      * The xml transformer.
      */
     @Autowired
     private XmlTransformer xmlTransformer;
+
+    @PostConstruct
+    public void afterPropertiesSet(){
+        this.disclaimerTextXml = StringEscapeUtils.unescapeXml(this.disclaimerText);
+        this.disclaimerTextXml = disclaimerTextXml.replace("<disclaimerText>",
+                "<disclaimerText xmlns=\"urn:hl7-org:v3\">");
+    }
 
     /*
      * (non-Javadoc)
@@ -88,11 +98,6 @@ public class DocumentTaggerImpl implements DocumentTagger {
      */
     @Override
     public String tagDocument(String document, String executionResponseContainer) {
-        // TODO: 2/12/2016 Resolve disclaimerTest
-       /* StringEscapeUtils.unescapeXml(disclaimerText);
-        disclaimerText.replace("<disclaimerText>",
-                "<disclaimerText xmlns=\"urn:hl7-org:v3\">");*/
-
         try {
             executionResponseContainer = executionResponseContainer.replace(
                     "<ruleExecutionContainer>",
@@ -103,7 +108,7 @@ public class DocumentTaggerImpl implements DocumentTagger {
             stringURIResolver.put(
                     URI_RESOLVER_HREF_RULE_EXECUTION_RESPONSE_CONTAINER,
                     executionResponseContainer);
-            stringURIResolver.put(URI_RESOLVER_HREF_DISCLAMER, disclaimerText);
+            stringURIResolver.put(URI_RESOLVER_HREF_DISCLAMER, disclaimerTextXml);
             final Optional<URIResolver> uriResolver = Optional
                     .of(stringURIResolver);
             final String taggedDocument = xmlTransformer.transform(document,
