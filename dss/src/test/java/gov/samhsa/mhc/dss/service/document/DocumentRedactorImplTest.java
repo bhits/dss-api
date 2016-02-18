@@ -1,37 +1,15 @@
-// TODO: 2/12/2016 Fix unit test
-/*
 package gov.samhsa.mhc.dss.service.document;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
-
-import gov.samhsa.mhc.brms.domain.ClinicalFact;
-import gov.samhsa.mhc.brms.domain.Confidentiality;
-import gov.samhsa.mhc.brms.domain.FactModel;
-import gov.samhsa.mhc.brms.domain.ObligationPolicyDocument;
-import gov.samhsa.mhc.brms.domain.RefrainPolicy;
-import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
-import gov.samhsa.mhc.brms.domain.RuleExecutionResponse;
-import gov.samhsa.mhc.brms.domain.Sensitivity;
-import gov.samhsa.mhc.brms.domain.UsPrivacyLaw;
-import gov.samhsa.mhc.brms.domain.XacmlResult;
-import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.mhc.brms.domain.*;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
-import gov.samhsa.mhc.common.filereader.FileReaderImpl;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformerImpl;
+import gov.samhsa.mhc.common.filereader.FileReaderImpl;
+import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
+import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetService;
+import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetServiceImplMock;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
@@ -43,24 +21,8 @@ import gov.samhsa.mhc.dss.service.document.redact.impl.documentlevel.Unsupported
 import gov.samhsa.mhc.dss.service.document.redact.impl.obligationlevel.Section;
 import gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel.DocumentCleanupForNoEntryAndNoSection;
 import gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel.RuleExecutionResponseMarkerForRedactedEntries;
-import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetService;
-import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetServiceImplMock;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.dss.service.metadata.MetadataGeneratorImpl;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.xpath.XPathExpressionException;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.junit.Before;
@@ -73,9 +35,30 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DocumentRedactorImplTest {
-    private static final String PROBLEMS = "@Problems";
+import javax.xml.bind.JAXBException;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.*;
 
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.*;
+
+public class DocumentRedactorImplTest {
+    public static final Set<String> headersWhiteList = new HashSet<String>(
+            Arrays.asList("realmCode", "typeId", "templateId", "id", "code",
+                    "title", "effectiveTime", "confidentialityCode",
+                    "languageCode", "setId", "versionNumber", "copyTime",
+                    "recordTarget", "author", "dataEnterer", "custodian",
+                    "legalAuthenticator", "inFulfillmentOf", "documentationOf",
+                    "relatedDocument", "authorization", "componentOf",
+                    "component"));
+    private static final String PROBLEMS = "@Problems";
     private static final String ALLERGIES = "@Allergies";
     private static final String MEDICATIONS = "@Medications";
     private static final String RESULTS = "@Results";
@@ -91,22 +74,12 @@ public class DocumentRedactorImplTest {
     private static final String SEX = "SEX";
     private static final String STD = "STD";
     private static final String PROBLEMS_SECTION = "11450-4";
-
     private static final String ALLERGIES_SECTION = "48765-2";
     private static final String MEDICATIONS_SECTION = "10160-0";
     private static final String RESULTS_SECTION = "30954-2";
     private static final String NOT_SELECTED = "";
     private static final String EMPTY_RULE_EXECUTION_RESPONSE_CONTAINER = "<ruleExecutionContainer><executionResponseList></executionResponseList></ruleExecutionContainer>";
-
     private static final String MOCK_XACML_RESULT = "<xacmlResult><pdpDecision>Permit</pdpDecision><purposeOfUse>TREAT</purposeOfUse><messageId>4617a579-1881-4e40-9f98-f85bd81d6502</messageId><homeCommunityId>2.16.840.1.113883.3.467</homeCommunityId><pdpObligation>Drug Abuse</pdpObligation><pdpObligation>Psychiatric Information</pdpObligation><pdpObligation>HIV</pdpObligation></xacmlResult>";
-    public static final Set<String> headersWhiteList = new HashSet<String>(
-            Arrays.asList("realmCode", "typeId", "templateId", "id", "code",
-                    "title", "effectiveTime", "confidentialityCode",
-                    "languageCode", "setId", "versionNumber", "copyTime",
-                    "recordTarget", "author", "dataEnterer", "custodian",
-                    "legalAuthenticator", "inFulfillmentOf", "documentationOf",
-                    "relatedDocument", "authorization", "componentOf",
-                    "component"));
     private static SimpleMarshallerImpl marshaller;
 
     private static FileReaderImpl fileReader;
@@ -131,6 +104,115 @@ public class DocumentRedactorImplTest {
     private RuleExecutionContainer ruleExecutionContainer;
 
     private RuleExecutionContainer ruleExecutionContainerWithHivEth;
+
+    private static Document readDocument(String filePath) throws IOException,
+            ClassNotFoundException {
+        return (Document) readObject(filePath);
+    }
+
+    private static Object readObject(String filePath) throws IOException,
+            ClassNotFoundException {
+        final File file = new File(filePath);
+        byte[] b = null;
+
+        b = FileUtils.readFileToByteArray(file);
+        final ByteArrayInputStream in = new ByteArrayInputStream(b);
+        final ObjectInputStream is = new ObjectInputStream(in);
+        return is.readObject();
+    }
+
+    private static XacmlResult setMockXacmlResult(String xacmlResultXml)
+            throws JAXBException {
+        /*
+         * XacmlResult mock = mock(XacmlResult.class); List<String> obligations
+		 * = new LinkedList<String>(); obligations.add("ETH");
+		 * obligations.add("HIV");
+		 * when(mock.getPdpObligations()).thenReturn(obligations)
+		 * .thenReturn(obligations).thenReturn(obligations); return mock;
+		 */
+        return marshaller.unmarshalFromXml(XacmlResult.class, xacmlResultXml);
+    }
+
+    @SuppressWarnings("unused")
+    private static XacmlResult setMockXacmlResult_WrongSensitivity() {
+        final XacmlResult mock = mock(XacmlResult.class);
+        final List<String> obligations = new LinkedList<String>();
+        obligations.add("STD");
+        obligations.add("SEX");
+        when(mock.getPdpObligations()).thenReturn(obligations)
+                .thenReturn(obligations).thenReturn(obligations);
+        return mock;
+    }
+
+    private static RuleExecutionContainer setRuleExecutionContainer() {
+        final RuleExecutionContainer container = new RuleExecutionContainer();
+        final RuleExecutionResponse r1 = new RuleExecutionResponse();
+        r1.setC32SectionLoincCode("11450-4");
+        r1.setC32SectionTitle("Problems");
+        r1.setCode("66214007");
+        r1.setCodeSystemName("SNOMED CT");
+        r1.setDisplayName("Substance Abuse Disorder");
+        r1.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
+        r1.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
+        r1.setImpliedConfSection(Confidentiality.R);
+        r1.setItemAction("REDACT");
+        r1.setObservationId("e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7");
+        r1.setSensitivity(Sensitivity.ETH);
+        r1.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
+        final RuleExecutionResponse r2 = new RuleExecutionResponse();
+        r2.setC32SectionLoincCode("11450-4");
+        r2.setC32SectionTitle("Problems");
+        r2.setCode("111880001");
+        r2.setCodeSystemName("SNOMED CT");
+        r2.setDisplayName("Acute HIV");
+        r2.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
+        r2.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
+        r2.setImpliedConfSection(Confidentiality.R);
+        r2.setItemAction("MASK");
+        r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
+        r2.setSensitivity(Sensitivity.HIV);
+        r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
+        final List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
+        list.add(r1);
+        list.add(r2);
+        container.setExecutionResponseList(list);
+        return container;
+    }
+
+    private static RuleExecutionContainer setRuleExecutionContainer_WrongSensitivity() {
+        final RuleExecutionContainer container = new RuleExecutionContainer();
+        final RuleExecutionResponse r1 = new RuleExecutionResponse();
+        r1.setC32SectionLoincCode("11450-4");
+        r1.setC32SectionTitle("Problems");
+        r1.setCode("66214007");
+        r1.setCodeSystemName("SNOMED CT");
+        r1.setDisplayName("Substance Abuse Disorder");
+        r1.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
+        r1.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
+        r1.setImpliedConfSection(Confidentiality.R);
+        r1.setItemAction("REDACT");
+        r1.setObservationId("e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7");
+        r1.setSensitivity(Sensitivity.STD);
+        r1.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
+        final RuleExecutionResponse r2 = new RuleExecutionResponse();
+        r2.setC32SectionLoincCode("11450-4");
+        r2.setC32SectionTitle("Problems");
+        r2.setCode("111880001");
+        r2.setCodeSystemName("SNOMED CT");
+        r2.setDisplayName("Acute HIV");
+        r2.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
+        r2.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
+        r2.setImpliedConfSection(Confidentiality.R);
+        r2.setItemAction("MASK");
+        r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
+        r2.setSensitivity(Sensitivity.SEX);
+        r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
+        final List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
+        list.add(r1);
+        list.add(r2);
+        container.setExecutionResponseList(list);
+        return container;
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -864,7 +946,7 @@ public class DocumentRedactorImplTest {
     }
 
     @Test(expected = DocumentSegmentationException.class)
-    public void testRedactDocument_Throws_DocumentSegmentationException() {
+    public void testRedactDocument_Throws_DS4PException() {
         @SuppressWarnings("unused")
         final String result = documentRedactor.redactDocument("", null,
                 new FactModel()).getRedactedDocument();
@@ -954,9 +1036,7 @@ public class DocumentRedactorImplTest {
 
     private NodeList getHumanReadableTextNodeList(String c32, String textContent)
             throws XPathExpressionException, XMLEncryptionException, Exception {
-        String xPathExprHumanReadableTextNode = "//hl7:section/hl7:text/*/
-/*//*
-text()[contains(lower-case(.), '%')]";
+        String xPathExprHumanReadableTextNode = "//hl7:section/hl7:text//*/text()[contains(lower-case(.), '%')]";
         xPathExprHumanReadableTextNode = xPathExprHumanReadableTextNode
                 .replace("%", textContent.toLowerCase());
         final NodeList nodeList = documentAccessor.getNodeList(
@@ -1065,116 +1145,4 @@ text()[contains(lower-case(.), '%')]";
             fact.setValueSetCategories(valueSetCategories);
         }
     }
-
-    private static Document readDocument(String filePath) throws IOException,
-            ClassNotFoundException {
-        return (Document) readObject(filePath);
-    }
-
-    private static Object readObject(String filePath) throws IOException,
-            ClassNotFoundException {
-        final File file = new File(filePath);
-        byte[] b = null;
-
-        b = FileUtils.readFileToByteArray(file);
-        final ByteArrayInputStream in = new ByteArrayInputStream(b);
-        final ObjectInputStream is = new ObjectInputStream(in);
-        return is.readObject();
-    }
-
-    private static XacmlResult setMockXacmlResult(String xacmlResultXml)
-            throws JAXBException {
-        */
-/*
-         * XacmlResult mock = mock(XacmlResult.class); List<String> obligations
-		 * = new LinkedList<String>(); obligations.add("ETH");
-		 * obligations.add("HIV");
-		 * when(mock.getPdpObligations()).thenReturn(obligations)
-		 * .thenReturn(obligations).thenReturn(obligations); return mock;
-		 *//*
-
-        return marshaller.unmarshalFromXml(XacmlResult.class, xacmlResultXml);
-    }
-
-    @SuppressWarnings("unused")
-    private static XacmlResult setMockXacmlResult_WrongSensitivity() {
-        final XacmlResult mock = mock(XacmlResult.class);
-        final List<String> obligations = new LinkedList<String>();
-        obligations.add("STD");
-        obligations.add("SEX");
-        when(mock.getPdpObligations()).thenReturn(obligations)
-                .thenReturn(obligations).thenReturn(obligations);
-        return mock;
-    }
-
-    private static RuleExecutionContainer setRuleExecutionContainer() {
-        final RuleExecutionContainer container = new RuleExecutionContainer();
-        final RuleExecutionResponse r1 = new RuleExecutionResponse();
-        r1.setC32SectionLoincCode("11450-4");
-        r1.setC32SectionTitle("Problems");
-        r1.setCode("66214007");
-        r1.setCodeSystemName("SNOMED CT");
-        r1.setDisplayName("Substance Abuse Disorder");
-        r1.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
-        r1.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
-        r1.setImpliedConfSection(Confidentiality.R);
-        r1.setItemAction("REDACT");
-        r1.setObservationId("e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7");
-        r1.setSensitivity(Sensitivity.ETH);
-        r1.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        final RuleExecutionResponse r2 = new RuleExecutionResponse();
-        r2.setC32SectionLoincCode("11450-4");
-        r2.setC32SectionTitle("Problems");
-        r2.setCode("111880001");
-        r2.setCodeSystemName("SNOMED CT");
-        r2.setDisplayName("Acute HIV");
-        r2.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
-        r2.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
-        r2.setImpliedConfSection(Confidentiality.R);
-        r2.setItemAction("MASK");
-        r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
-        r2.setSensitivity(Sensitivity.HIV);
-        r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        final List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
-        list.add(r1);
-        list.add(r2);
-        container.setExecutionResponseList(list);
-        return container;
-    }
-
-    private static RuleExecutionContainer setRuleExecutionContainer_WrongSensitivity() {
-        final RuleExecutionContainer container = new RuleExecutionContainer();
-        final RuleExecutionResponse r1 = new RuleExecutionResponse();
-        r1.setC32SectionLoincCode("11450-4");
-        r1.setC32SectionTitle("Problems");
-        r1.setCode("66214007");
-        r1.setCodeSystemName("SNOMED CT");
-        r1.setDisplayName("Substance Abuse Disorder");
-        r1.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
-        r1.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
-        r1.setImpliedConfSection(Confidentiality.R);
-        r1.setItemAction("REDACT");
-        r1.setObservationId("e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7");
-        r1.setSensitivity(Sensitivity.STD);
-        r1.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        final RuleExecutionResponse r2 = new RuleExecutionResponse();
-        r2.setC32SectionLoincCode("11450-4");
-        r2.setC32SectionTitle("Problems");
-        r2.setCode("111880001");
-        r2.setCodeSystemName("SNOMED CT");
-        r2.setDisplayName("Acute HIV");
-        r2.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
-        r2.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
-        r2.setImpliedConfSection(Confidentiality.R);
-        r2.setItemAction("MASK");
-        r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
-        r2.setSensitivity(Sensitivity.SEX);
-        r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        final List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
-        list.add(r1);
-        list.add(r2);
-        container.setExecutionResponseList(list);
-        return container;
-    }
 }
-*/

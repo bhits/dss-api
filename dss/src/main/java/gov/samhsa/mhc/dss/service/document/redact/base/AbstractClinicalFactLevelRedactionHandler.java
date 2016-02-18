@@ -29,6 +29,7 @@ import gov.samhsa.mhc.brms.domain.ClinicalFact;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -48,6 +49,16 @@ public abstract class AbstractClinicalFactLevelRedactionHandler extends
      * The Constant XPATH_REFERENCES_BY_ENTRY.
      */
     public static final String XPATH_REFERENCES_BY_ENTRY = "//EntryReference[entry='%1']/reference/text()";
+
+    /**
+     * Instantiates a new abstract clinical fact level callback.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    public AbstractClinicalFactLevelRedactionHandler(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /**
      * Execute.

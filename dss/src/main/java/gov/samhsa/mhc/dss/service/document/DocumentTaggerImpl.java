@@ -70,7 +70,6 @@ public class DocumentTaggerImpl implements DocumentTagger {
     /**
      * The disclaimer text.
      */
-    @Value("${mhc.dss.DocumentTaggerImpl.disclaimerText}")
     private String disclaimerText;
 
     /**
@@ -78,6 +77,27 @@ public class DocumentTaggerImpl implements DocumentTagger {
      */
     @Autowired
     private XmlTransformer xmlTransformer;
+
+    public DocumentTaggerImpl() {
+    }
+
+    /**
+     * Instantiates a new document tagger impl.
+     *
+     * @param disclaimerText
+     *            the disclaimer text
+     * @param xmlTransformer
+     *            the xml transformer
+     */
+    @Autowired
+    public DocumentTaggerImpl(@Value("${mhc.dss.DocumentTaggerImpl.disclaimerText}") String disclaimerText,
+                              XmlTransformer xmlTransformer) {
+        super();
+        this.disclaimerText = StringEscapeUtils.unescapeXml(disclaimerText);
+        this.disclaimerText = disclaimerText.replace("<disclaimerText>",
+                "<disclaimerText xmlns=\"urn:hl7-org:v3\">");
+        this.xmlTransformer = xmlTransformer;
+    }
 
     /*
      * (non-Javadoc)
@@ -88,10 +108,6 @@ public class DocumentTaggerImpl implements DocumentTagger {
      */
     @Override
     public String tagDocument(String document, String executionResponseContainer) {
-        // TODO: 2/12/2016 Resolve disclaimerTest
-       /* StringEscapeUtils.unescapeXml(disclaimerText);
-        disclaimerText.replace("<disclaimerText>",
-                "<disclaimerText xmlns=\"urn:hl7-org:v3\">");*/
 
         try {
             executionResponseContainer = executionResponseContainer.replace(

@@ -34,11 +34,14 @@ import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 
 import java.security.Key;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
 /**
  * The Class DocumentMaskerImpl.
  */
+@Service
 public class DocumentMaskerImpl implements DocumentMasker {
 
     /**
@@ -50,13 +53,18 @@ public class DocumentMaskerImpl implements DocumentMasker {
     /**
      * The document xml converter.
      */
-    private final DocumentXmlConverter documentXmlConverter;
+    @Autowired
+    private DocumentXmlConverter documentXmlConverter;
+
+    public DocumentMaskerImpl() {
+    }
 
     /**
      * Instantiates a new document masker impl.
      *
      * @param documentXmlConverter the document xml converter
      */
+    @Autowired
     public DocumentMaskerImpl(DocumentXmlConverter documentXmlConverter) {
         super();
         this.documentXmlConverter = documentXmlConverter;

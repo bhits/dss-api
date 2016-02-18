@@ -1,7 +1,8 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.documentlevel;
 
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -20,6 +21,15 @@ public class UnsupportedHeaderElementHandler extends
     private static final String XPATH_ALL_HEARDERS = "//hl7:ClinicalDocument/child::hl7:*";
 
     private Set<String> headersWhiteList;
+
+    public UnsupportedHeaderElementHandler() {
+    }
+
+    public UnsupportedHeaderElementHandler(DocumentAccessor documentAccessor,
+                                           Set<String> sectionWhiteList) {
+        super(documentAccessor);
+        this.headersWhiteList = sectionWhiteList;
+    }
 
     @Override
     public void execute(Document xmlDocument,

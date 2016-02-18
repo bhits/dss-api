@@ -28,7 +28,9 @@ package gov.samhsa.mhc.dss.service.document.redact.impl.obligationlevel;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
@@ -49,6 +51,17 @@ public class Section extends
      * The Constant XPATH_SECTION.
      */
     public static final String XPATH_SECTION = "//hl7:structuredBody/hl7:component[child::hl7:section[child::hl7:code[@code='%1']]]";
+
+    /**
+     * Instantiates a new document node collector for section.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public Section(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /*
      * (non-Javadoc)

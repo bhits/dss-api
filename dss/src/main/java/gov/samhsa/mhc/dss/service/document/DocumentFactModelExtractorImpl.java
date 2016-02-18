@@ -65,6 +65,21 @@ public class DocumentFactModelExtractorImpl implements
     @Autowired
     private XmlTransformer xmlTransformer;
 
+    public DocumentFactModelExtractorImpl() {
+    }
+
+    /**
+     * Instantiates a new document fact model extractor impl.
+     *
+     * @param xmlTransformer
+     *            the xml transformer
+     */
+    @Autowired
+    public DocumentFactModelExtractorImpl(XmlTransformer xmlTransformer) {
+        super();
+        this.xmlTransformer = xmlTransformer;
+    }
+
     /*
      * (non-Javadoc)
      *

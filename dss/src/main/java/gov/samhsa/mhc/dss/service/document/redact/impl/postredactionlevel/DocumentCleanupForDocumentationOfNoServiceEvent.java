@@ -30,6 +30,7 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -52,6 +53,19 @@ public class DocumentCleanupForDocumentationOfNoServiceEvent extends
      * The Constant XPATH_DOCUMENTATIONOF_WITH_NO_SERVICE_EVENT.
      */
     public static final String XPATH_DOCUMENTATIONOF_WITH_NO_SERVICE_EVENT = "/hl7:ClinicalDocument/hl7:documentationOf[not(hl7:serviceEvent)]";
+
+    /**
+     * Instantiates a new document cleanup for documentation of no service
+     * event.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public DocumentCleanupForDocumentationOfNoServiceEvent(
+            DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /*
      * (non-Javadoc)

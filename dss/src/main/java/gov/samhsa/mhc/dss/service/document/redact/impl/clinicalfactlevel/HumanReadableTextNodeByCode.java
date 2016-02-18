@@ -29,8 +29,10 @@ import gov.samhsa.mhc.brms.domain.ClinicalFact;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -50,6 +52,18 @@ public class HumanReadableTextNodeByCode extends
      * The Constant XPATH_HUMAN_READABLE_TEXT_NODE.
      */
     public static final String XPATH_HUMAN_READABLE_TEXT_NODE = "//hl7:section[child::hl7:entry[child::hl7:generatedEntryId/text()='%1']]/hl7:text//*/text()[contains(lower-case(.), '%2')]";
+
+    /**
+     * Instantiates a new document node collector for human readable text node
+     * by code.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public HumanReadableTextNodeByCode(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /*
      * (non-Javadoc)
