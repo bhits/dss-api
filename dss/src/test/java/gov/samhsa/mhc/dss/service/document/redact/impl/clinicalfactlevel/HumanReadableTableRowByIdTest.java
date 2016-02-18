@@ -1,5 +1,3 @@
-// TODO: 2/12/2016 Fix unit test
-/*
 package gov.samhsa.mhc.dss.service.document.redact.impl.clinicalfactlevel;
 
 import static org.junit.Assert.assertEquals;
@@ -99,4 +97,3 @@ public class HumanReadableTableRowByIdTest {
         assertEquals("HIV", redactSensitiveCategoryCodes.toArray()[0]);
     }
 }
-*/

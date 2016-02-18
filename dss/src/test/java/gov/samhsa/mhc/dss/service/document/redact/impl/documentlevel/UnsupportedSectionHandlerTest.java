@@ -1,5 +1,4 @@
 // TODO: 2/12/2016 Fix unit test
-/*
 package gov.samhsa.mhc.dss.service.document.redact.impl.documentlevel;
 
 import static org.junit.Assert.assertEquals;
@@ -62,4 +61,3 @@ public class UnsupportedSectionHandlerTest {
     }
 
 }
-*/
