@@ -72,6 +72,16 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     @Autowired
     private SimpleMarshaller marshaller;
 
+    public RuleExecutionServiceImpl() {
+    }
+
+    public RuleExecutionServiceImpl(GuvnorService guvnorService,
+                                    SimpleMarshaller marshaller) {
+        super();
+        this.guvnorService = guvnorService;
+        this.marshaller = marshaller;
+    }
+
     /*
      * (non-Javadoc)
      *

@@ -27,6 +27,7 @@ package gov.samhsa.mhc.brms.service.guvnor;
 
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -55,20 +56,26 @@ public class GuvnorServiceImpl implements GuvnorService {
     /**
      * The endpoint address.
      */
-    @Value("${mhc.brms.guvnor.endpointAddress}")
     private String endpointAddress;
 
     /**
      * The guvnor service username.
      */
-    @Value("${mhc.brms.guvnor.serviceUsername}")
     private String guvnorServiceUsername;
 
     /**
      * The guvnor service password.
      */
-    @Value("${mhc.brms.guvnor.servicePassword}")
     private String guvnorServicePassword;
+
+    @Autowired
+    public GuvnorServiceImpl(@Value("${mhc.brms.guvnor.endpointAddress}") String endpointAddress,
+                             @Value("${mhc.brms.guvnor.serviceUsername}") String guvnorServiceUsername,
+                             @Value("${mhc.brms.guvnor.servicePassword}") String guvnorServicePassword) {
+        this.endpointAddress = endpointAddress;
+        this.guvnorServiceUsername = guvnorServiceUsername;
+        this.guvnorServicePassword = guvnorServicePassword;
+    }
 
     /*
      * (non-Javadoc)

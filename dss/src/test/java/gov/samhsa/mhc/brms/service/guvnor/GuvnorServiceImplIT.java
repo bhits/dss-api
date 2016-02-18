@@ -1,5 +1,3 @@
-// TODO: 2/12/2016 Fix unit test 
-/*
 package gov.samhsa.mhc.brms.service.guvnor;
 
 import org.junit.Before;
@@ -47,4 +45,4 @@ public class GuvnorServiceImplIT {
         assertNotNull(response);
         assertNotEquals("", response);
     }
-}*/
+}

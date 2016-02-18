@@ -2,10 +2,6 @@ package gov.samhsa.mhc.brms.service.guvnor;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -17,7 +13,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class GuvnorServiceImplTest {
 
     private static String GUNVOR_REST_URL;
@@ -25,9 +20,6 @@ public class GuvnorServiceImplTest {
     private static String USERNAME;
 
     private static String PASSWORD;
-
-    @InjectMocks
-    private GuvnorServiceImpl sut;
 
     @Before
     public void setUp() throws URISyntaxException, IOException {
@@ -40,15 +32,13 @@ public class GuvnorServiceImplTest {
         GUNVOR_REST_URL = props.getProperty("guvnor.service");
         USERNAME = props.getProperty("guvnor.username");
         PASSWORD = props.getProperty("guvnor.password");
-        ReflectionTestUtils.setField(sut, "endpointAddress", GUNVOR_REST_URL);
-        ReflectionTestUtils.setField(sut, "guvnorServiceUsername", USERNAME);
-        ReflectionTestUtils.setField(sut, "guvnorServicePassword", PASSWORD);
     }
 
     @Test
     public void testGetVersionedRulesFromPackage() throws IOException {
         // Arrange
         String mockString = "mockString";
+        GuvnorServiceImpl sut = new GuvnorServiceImpl(GUNVOR_REST_URL, USERNAME, PASSWORD);
         GuvnorServiceImpl spy = spy(sut);
         HttpURLConnection mockConnection = mock(HttpURLConnection.class);
         when(spy.openConnection(GUNVOR_REST_URL)).thenReturn(mockConnection);
