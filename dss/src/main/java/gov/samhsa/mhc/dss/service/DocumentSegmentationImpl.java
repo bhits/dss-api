@@ -162,6 +162,59 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     @Value("${mhc.dss.documentSegmentationImpl.defaultIsAuditFailureByPass}")
     private boolean defaultIsAuditFailureByPass;
 
+    public DocumentSegmentationImpl() {
+    }
+
+    /**
+     * Instantiates a new document processor impl.
+     *
+     * @param ruleExecutionService
+     *            the rule execution service
+     * @param auditService
+     *            the audit service
+     * @param documentEditor
+     *            the document editor
+     * @param marshaller
+     *            the marshaller
+     * @param documentRedactor
+     *            the document redactor
+     * @param documentTagger
+     *            the document tagger
+     * @param documentFactModelExtractor
+     *            the document fact model extractor
+     * @param embeddedClinicalDocumentExtractor
+     *            the embedded clinical document extractor
+     * @param valueSetService
+     *            the value set service
+     * @param additionalMetadataGeneratorForSegmentedClinicalDocument
+     *            the additional metadata generator for segmented clinical
+     *            document
+     */
+    @Autowired
+    public DocumentSegmentationImpl(
+            RuleExecutionService ruleExecutionService,
+            AuditService auditService,
+            DocumentEditor documentEditor,
+            SimpleMarshaller marshaller,
+            DocumentRedactor documentRedactor,
+            DocumentTagger documentTagger,
+            DocumentFactModelExtractor documentFactModelExtractor,
+            EmbeddedClinicalDocumentExtractor embeddedClinicalDocumentExtractor,
+            ValueSetService valueSetService,
+            AdditionalMetadataGeneratorForSegmentedClinicalDocument additionalMetadataGeneratorForSegmentedClinicalDocument) {
+        this.ruleExecutionService = ruleExecutionService;
+        this.auditService = auditService;
+        this.documentEditor = documentEditor;
+        this.marshaller = marshaller;
+        this.documentRedactor = documentRedactor;
+        this.documentTagger = documentTagger;
+        this.documentFactModelExtractor = documentFactModelExtractor;
+        this.embeddedClinicalDocumentExtractor = embeddedClinicalDocumentExtractor;
+        this.valueSetService = valueSetService;
+        this.additionalMetadataGeneratorForSegmentedClinicalDocument = additionalMetadataGeneratorForSegmentedClinicalDocument;
+        this.xmlValidator = createXmlValidator();
+    }
+
     /*
      * (non-Javadoc)
      *
