@@ -1,6 +1,8 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.documentlevel;
 
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -25,6 +27,14 @@ public class UnsupportedSectionHandler extends
 
     public List<String> getSectionWhiteList() {
         return sectionWhiteList;
+    }
+
+    public UnsupportedSectionHandler() {
+    }
+
+    @Autowired
+    public UnsupportedSectionHandler(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
     }
 
     @Override

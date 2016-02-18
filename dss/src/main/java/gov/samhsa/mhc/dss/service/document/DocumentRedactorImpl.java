@@ -108,6 +108,46 @@ public class DocumentRedactorImpl implements DocumentRedactor {
     @Autowired
     private Set<AbstractPostRedactionLevelRedactionHandler> postRedactionLevelRedactionHandlers;
 
+    public DocumentRedactorImpl() {
+    }
+
+    /**
+     * Instantiates a new document redactor impl.
+     *
+     * @param marshaller
+     *            the marshaller
+     * @param documentXmlConverter
+     *            the document xml converter
+     * @param documentAccessor
+     *            the document accessor
+     * @param documentLevelRedactionHandlers
+     *            the document level redaction handlers
+     * @param obligationLevelRedactionHandlers
+     *            the obligation level redaction handlers
+     * @param clinicalFactLevelRedactionHandlers
+     *            the clinical fact level redaction handlers
+     * @param postRedactionLevelRedactionHandlers
+     *            the post redaction level redaction handlers
+     */
+    @Autowired
+    public DocumentRedactorImpl(
+            SimpleMarshaller marshaller,
+            DocumentXmlConverter documentXmlConverter,
+            DocumentAccessor documentAccessor,
+            Set<AbstractDocumentLevelRedactionHandler> documentLevelRedactionHandlers,
+            Set<AbstractObligationLevelRedactionHandler> obligationLevelRedactionHandlers,
+            Set<AbstractClinicalFactLevelRedactionHandler> clinicalFactLevelRedactionHandlers,
+            Set<AbstractPostRedactionLevelRedactionHandler> postRedactionLevelRedactionHandlers) {
+        super();
+        this.marshaller = marshaller;
+        this.documentXmlConverter = documentXmlConverter;
+        this.documentAccessor = documentAccessor;
+        this.documentLevelRedactionHandlers = documentLevelRedactionHandlers;
+        this.obligationLevelRedactionHandlers = obligationLevelRedactionHandlers;
+        this.clinicalFactLevelRedactionHandlers = clinicalFactLevelRedactionHandlers;
+        this.postRedactionLevelRedactionHandlers = postRedactionLevelRedactionHandlers;
+    }
+
     /*
      * (non-Javadoc)
      *

@@ -50,6 +50,20 @@ public abstract class AbstractRedactionHandler {
     protected DocumentAccessor documentAccessor;
 
     /**
+     * Instantiates a new abstract callback.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    public AbstractRedactionHandler(DocumentAccessor documentAccessor) {
+        super();
+        this.documentAccessor = documentAccessor;
+    }
+
+    protected AbstractRedactionHandler() {
+    }
+
+    /**
      * Adds the nodes to list.
      *
      * @param xmlDocument                            the xml document

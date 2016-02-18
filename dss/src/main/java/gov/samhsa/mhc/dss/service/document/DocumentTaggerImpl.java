@@ -32,7 +32,6 @@ import gov.samhsa.mhc.common.util.StringURIResolver;
 
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
 import javax.xml.transform.URIResolver;
 
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
@@ -71,10 +70,7 @@ public class DocumentTaggerImpl implements DocumentTagger {
     /**
      * The disclaimer text.
      */
-    @Value("${mhc.dss.DocumentTaggerImpl.disclaimerText}")
     private String disclaimerText;
-
-    private String disclaimerTextXml;
 
     /**
      * The xml transformer.
@@ -82,11 +78,25 @@ public class DocumentTaggerImpl implements DocumentTagger {
     @Autowired
     private XmlTransformer xmlTransformer;
 
-    @PostConstruct
-    public void afterPropertiesSet(){
-        this.disclaimerTextXml = StringEscapeUtils.unescapeXml(this.disclaimerText);
-        this.disclaimerTextXml = disclaimerTextXml.replace("<disclaimerText>",
+    public DocumentTaggerImpl() {
+    }
+
+    /**
+     * Instantiates a new document tagger impl.
+     *
+     * @param disclaimerText
+     *            the disclaimer text
+     * @param xmlTransformer
+     *            the xml transformer
+     */
+    @Autowired
+    public DocumentTaggerImpl(@Value("${mhc.dss.DocumentTaggerImpl.disclaimerText}") String disclaimerText,
+                              XmlTransformer xmlTransformer) {
+        super();
+        this.disclaimerText = StringEscapeUtils.unescapeXml(disclaimerText);
+        this.disclaimerText = disclaimerText.replace("<disclaimerText>",
                 "<disclaimerText xmlns=\"urn:hl7-org:v3\">");
+        this.xmlTransformer = xmlTransformer;
     }
 
     /*
@@ -108,7 +118,7 @@ public class DocumentTaggerImpl implements DocumentTagger {
             stringURIResolver.put(
                     URI_RESOLVER_HREF_RULE_EXECUTION_RESPONSE_CONTAINER,
                     executionResponseContainer);
-            stringURIResolver.put(URI_RESOLVER_HREF_DISCLAMER, disclaimerTextXml);
+            stringURIResolver.put(URI_RESOLVER_HREF_DISCLAMER, disclaimerText);
             final Optional<URIResolver> uriResolver = Optional
                     .of(stringURIResolver);
             final String taggedDocument = xmlTransformer.transform(document,

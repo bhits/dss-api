@@ -31,6 +31,7 @@ import java.util.Set;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -52,6 +53,18 @@ public class HumanReadableTableRowByDisplayName extends
      * The Constant XPATH_HUMAN_READABLE_TABLE_ROW_BY_DISPLAYNAME.
      */
     public static final String XPATH_HUMAN_READABLE_TABLE_ROW_BY_DISPLAYNAME = "/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section[child::hl7:entry[child::hl7:generatedEntryId/text()='%1']]/hl7:text/hl7:table/hl7:tbody/hl7:tr//text()[contains(lower-case(.), '%2')]/ancestor::hl7:tr";
+
+    /**
+     * Instantiates a new document node collector for human readable table row
+     * by display name.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public HumanReadableTableRowByDisplayName(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /*
      * (non-Javadoc)

@@ -1,38 +1,18 @@
-// TODO: 2/12/2016 Fix unit test
-/*
 package gov.samhsa.mhc.dss.service.document;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import gov.samhsa.mhc.brms.service.RuleExecutionServiceImpl;
 import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.service.RuleExecutionServiceImpl;
 import gov.samhsa.mhc.brms.service.guvnor.GuvnorServiceImpl;
-import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
-import gov.samhsa.mhc.common.namespace.DefaultNamespaceContext;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
-import gov.samhsa.mhc.common.filereader.FileReaderImpl;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformerImpl;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
+import gov.samhsa.mhc.common.filereader.FileReaderImpl;
+import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
+import gov.samhsa.mhc.common.namespace.DefaultNamespaceContext;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +20,21 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-// TODO: 2/8/2016
-@Ignore
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class DocumentTaggerImplTest {
 
     private static final String N = "N";
@@ -1147,4 +1140,3 @@ public class DocumentTaggerImplTest {
                 expectedSectionLevelConfidentiality);
     }
 }
-*/

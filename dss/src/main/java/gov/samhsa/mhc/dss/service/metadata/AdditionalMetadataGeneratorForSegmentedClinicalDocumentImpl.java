@@ -93,6 +93,23 @@ public class AdditionalMetadataGeneratorForSegmentedClinicalDocumentImpl
     @Autowired
     private XmlTransformer xmlTrasformer;
 
+    public AdditionalMetadataGeneratorForSegmentedClinicalDocumentImpl() {
+    }
+
+    /**
+     * Instantiates a new additional metadata generator for segmented clinical
+     * document impl.
+     *
+     * @param xmlTrasformer
+     *            the xml trasformer
+     */
+    @Autowired
+    public AdditionalMetadataGeneratorForSegmentedClinicalDocumentImpl(
+            XmlTransformer xmlTrasformer) {
+        super();
+        this.xmlTrasformer = xmlTrasformer;
+    }
+
     /*
      * (non-Javadoc)
      *

@@ -36,6 +36,7 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -51,6 +52,17 @@ public class Entry extends
      * The Constant XPATH_ENTRY.
      */
     public static final String XPATH_ENTRY = "//hl7:entry[child::hl7:generatedEntryId[text()='%1']]";
+
+    /**
+     * Instantiates a new document node collector for entry.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public Entry(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /*
      * (non-Javadoc)

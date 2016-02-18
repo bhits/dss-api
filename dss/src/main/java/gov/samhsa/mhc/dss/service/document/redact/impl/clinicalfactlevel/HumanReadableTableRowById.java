@@ -29,7 +29,9 @@ import gov.samhsa.acs.brms.domain.ClinicalFact;
 import gov.samhsa.acs.brms.domain.FactModel;
 import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
 import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -50,6 +52,19 @@ public class HumanReadableTableRowById extends
      * The Constant XPATH_HUMAN_READABLE_TABLE_ROW_BY_REFERENCE.
      */
     public static final String XPATH_HUMAN_READABLE_TABLE_ROW_BY_REFERENCE = "/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section[child::hl7:entry[child::hl7:generatedEntryId/text()='%1']]/hl7:text/hl7:table/hl7:tbody/hl7:tr[descendant-or-self::node()[@ID='%2']]";
+
+    /**
+     * Instantiates a new document node collector for human readable table row
+     * by id.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public HumanReadableTableRowById(
+            DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /*
      * (non-Javadoc)

@@ -1,8 +1,10 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.documentlevel;
 
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -13,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Component
+@Service
 @ConfigurationProperties(prefix = "mhc.dss.redact")
 public class UnsupportedHeaderElementHandler extends
         AbstractDocumentLevelRedactionHandler {
@@ -25,6 +27,14 @@ public class UnsupportedHeaderElementHandler extends
 
     public List<String> getHeadersWhiteList() {
         return headersWhiteList;
+    }
+
+    public UnsupportedHeaderElementHandler() {
+    }
+
+    @Autowired
+    public UnsupportedHeaderElementHandler(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
     }
 
     @Override

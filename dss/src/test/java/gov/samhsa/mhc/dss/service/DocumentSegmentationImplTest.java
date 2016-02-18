@@ -1,32 +1,13 @@
-// TODO: 2/12/2016 Fix unit test
+// TODO: 2/18/2016 Fix unit Test
 /*
 package gov.samhsa.mhc.dss.service;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyMapOf;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import ch.qos.logback.audit.AuditException;
 import gov.samhsa.mhc.brms.domain.*;
 import gov.samhsa.mhc.brms.service.RuleExecutionService;
 import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
-import gov.samhsa.mhc.dss.service.audit.DssAuditVerb;
-import gov.samhsa.mhc.common.audit.AuditVerb;
 import gov.samhsa.mhc.common.audit.AuditServiceImpl;
+import gov.samhsa.mhc.common.audit.AuditVerb;
 import gov.samhsa.mhc.common.audit.PredicateKey;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
@@ -39,6 +20,7 @@ import gov.samhsa.mhc.common.validation.XmlValidationResult;
 import gov.samhsa.mhc.common.validation.exception.InvalidXmlDocumentException;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetServiceImplMock;
+import gov.samhsa.mhc.dss.service.audit.DssAuditVerb;
 import gov.samhsa.mhc.dss.service.document.*;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 import gov.samhsa.mhc.dss.service.dto.SegmentDocumentResponse;
@@ -72,22 +54,31 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class DocumentSegmentationImplTest {
-    private static String xacmlResult;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyMapOf;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.*;
 
+public class DocumentSegmentationImplTest {
+    private static final String PURPOSE_OF_USE = "TREATMENT";
+    private static final String XDS_ENTRY_ID = "123";
+    private static final String MESSAGE_ID = "cf8cace6-6331-4a45-8e79-5bf503925be4";
+    private static String xacmlResult;
     private static String factModel;
     private static XacmlResult xacmlResultObj;
     private static FactModel factModelObj;
     private static RuleExecutionContainer ruleExecutionContainerObj;
     private static String senderEmailAddress;
-
     private static String recipientEmailAddress;
     private static FileReader fileReader;
-
     private static DocumentXmlConverterImpl documentXmlConverter;
     private static SimpleMarshallerImpl marshaller;
     private static RuleExecutionService ruleExecutionServiceClientMock;
-
     private static AuditServiceImpl auditServiceMock;
     private static DocumentEditorImpl documentEditorMock;
     private static DocumentFactModelExtractorImpl documentFactModelExtractorMock;
@@ -99,7 +90,6 @@ public class DocumentSegmentationImplTest {
     private static XmlValidation xmlValidatorMock;
     private static RedactedDocument redactedDocumentMock;
     private static String testOriginal_C32_xml;
-
     private static String testFactModel_xml;
     private static String testExecutionResponseContainer_xml;
     private static String testRedacted_C32_xml;
@@ -107,13 +97,58 @@ public class DocumentSegmentationImplTest {
     private static String testMasked_C32_xml;
     private static String testEncrypted_C32_xml;
     private static String testAdditionalMetadata_xml;
-    private static final String PURPOSE_OF_USE = "TREATMENT";
-
-    private static final String XDS_ENTRY_ID = "123";
-    private static final String MESSAGE_ID = "cf8cace6-6331-4a45-8e79-5bf503925be4";
     private static DocumentSegmentation documentSegmentation;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private static RuleExecutionContainer setRuleExecutionContainer() {
+        final RuleExecutionContainer container = new RuleExecutionContainer();
+        final RuleExecutionResponse r1 = new RuleExecutionResponse();
+        r1.setC32SectionLoincCode("11450-4");
+        r1.setC32SectionTitle("Problems");
+        r1.setCode("66214007");
+        r1.setCodeSystemName("SNOMED CT");
+        r1.setDisplayName("Substance Abuse Disorder");
+        r1.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
+        r1.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
+        r1.setImpliedConfSection(Confidentiality.R);
+        r1.setItemAction("REDACT");
+        r1.setObservationId("e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7");
+        r1.setSensitivity(Sensitivity.ETH);
+        r1.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
+        final RuleExecutionResponse r2 = new RuleExecutionResponse();
+        r2.setC32SectionLoincCode("11450-4");
+        r2.setC32SectionTitle("Problems");
+        r2.setCode("111880001");
+        r2.setCodeSystemName("SNOMED CT");
+        r2.setDisplayName("Acute HIV");
+        r2.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
+        r2.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
+        r2.setImpliedConfSection(Confidentiality.R);
+        r2.setItemAction("MASK");
+        r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
+        r2.setSensitivity(Sensitivity.HIV);
+        r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
+        final List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
+        list.add(r1);
+        list.add(r2);
+        container.setExecutionResponseList(list);
+        return container;
+    }
+
+    private static XacmlResult setXacmlResult() {
+        final XacmlResult xacmlResultObject = new XacmlResult();
+        xacmlResultObject.setPdpDecision("PERMIT");
+        xacmlResultObject
+                .setSubjectPurposeOfUse(SubjectPurposeOfUse.HEALTHCARE_TREATMENT);
+        xacmlResultObject.setMessageId("cf8cace6-6331-4a45-8e79-5bf503925be4");
+        xacmlResultObject.setHomeCommunityId("2.16.840.1.113883.3.467");
+        final String[] o = {"51848-0", "121181", "47420-5", "46240-8", "ETH",
+                "GDIS", "PSY", "SEX", "18748-4", "11504-8", "34117-2"};
+        final List<String> obligations = Arrays.asList(o);
+        xacmlResultObject.setPdpObligations(obligations);
+        return xacmlResultObject;
+    }
 
     @Before
     public void setUp() throws XPathExpressionException,
@@ -228,7 +263,7 @@ public class DocumentSegmentationImplTest {
         // Document masker
         */
 /*
-         * documentMaskerMock = mock(DocumentMaskerImpl.class); when(
+		 * documentMaskerMock = mock(DocumentMaskerImpl.class); when(
 		 * documentMaskerMock.maskDocument(eq(testTagged_C32_xml),
 		 * any(Key.class), eq(ruleExecutionContainerObj),
 		 * eq(xacmlResultObj))).thenReturn(testMasked_C32_xml);
@@ -236,7 +271,7 @@ public class DocumentSegmentationImplTest {
 
 
         // Document encrypter
-        */
+		*/
 /*
 		 * documentEncrypterMock = mock(DocumentEncrypterImpl.class); when(
 		 * documentEncrypterMock.encryptDocument(any(Key.class),
@@ -689,55 +724,6 @@ public class DocumentSegmentationImplTest {
         assertTrue(metadata.contains("nodeRepresentation=\"NODSCLCD\">"));
         assertTrue(metadata
                 .contains("<rim:LocalizedString value=\"NODSCLCD\"/>"));
-    }
-
-    private static RuleExecutionContainer setRuleExecutionContainer() {
-        final RuleExecutionContainer container = new RuleExecutionContainer();
-        final RuleExecutionResponse r1 = new RuleExecutionResponse();
-        r1.setC32SectionLoincCode("11450-4");
-        r1.setC32SectionTitle("Problems");
-        r1.setCode("66214007");
-        r1.setCodeSystemName("SNOMED CT");
-        r1.setDisplayName("Substance Abuse Disorder");
-        r1.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
-        r1.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
-        r1.setImpliedConfSection(Confidentiality.R);
-        r1.setItemAction("REDACT");
-        r1.setObservationId("e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7");
-        r1.setSensitivity(Sensitivity.ETH);
-        r1.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        final RuleExecutionResponse r2 = new RuleExecutionResponse();
-        r2.setC32SectionLoincCode("11450-4");
-        r2.setC32SectionTitle("Problems");
-        r2.setCode("111880001");
-        r2.setCodeSystemName("SNOMED CT");
-        r2.setDisplayName("Acute HIV");
-        r2.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
-        r2.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
-        r2.setImpliedConfSection(Confidentiality.R);
-        r2.setItemAction("MASK");
-        r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
-        r2.setSensitivity(Sensitivity.HIV);
-        r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        final List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
-        list.add(r1);
-        list.add(r2);
-        container.setExecutionResponseList(list);
-        return container;
-    }
-
-    private static XacmlResult setXacmlResult() {
-        final XacmlResult xacmlResultObject = new XacmlResult();
-        xacmlResultObject.setPdpDecision("PERMIT");
-        xacmlResultObject
-                .setSubjectPurposeOfUse(SubjectPurposeOfUse.HEALTHCARE_TREATMENT);
-        xacmlResultObject.setMessageId("cf8cace6-6331-4a45-8e79-5bf503925be4");
-        xacmlResultObject.setHomeCommunityId("2.16.840.1.113883.3.467");
-        final String[] o = {"51848-0", "121181", "47420-5", "46240-8", "ETH",
-                "GDIS", "PSY", "SEX", "18748-4", "11504-8", "34117-2"};
-        final List<String> obligations = Arrays.asList(o);
-        xacmlResultObject.setPdpObligations(obligations);
-        return xacmlResultObject;
     }
 }
 */

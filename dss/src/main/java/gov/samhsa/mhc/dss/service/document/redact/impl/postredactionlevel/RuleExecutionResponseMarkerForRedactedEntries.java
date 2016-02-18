@@ -29,7 +29,9 @@ import gov.samhsa.acs.brms.domain.FactModel;
 import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
 import gov.samhsa.acs.brms.domain.RuleExecutionResponse;
 import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -44,6 +46,18 @@ import java.util.Set;
 @Service
 public class RuleExecutionResponseMarkerForRedactedEntries extends
         AbstractPostRedactionLevelRedactionHandler {
+
+    /**
+     * Instantiates a new rule execution response marker for redacted entries.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public RuleExecutionResponseMarkerForRedactedEntries(
+            DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /*
      * (non-Javadoc)

@@ -75,6 +75,32 @@ public class DocumentEditorImpl implements DocumentEditor {
     @Autowired
     private DocumentAccessor documentAccessor;
 
+    public DocumentEditorImpl() {
+    }
+
+    /**
+     * Instantiates a new document editor impl.
+     *
+     * @param metadataGenerator
+     *            the metadata generator
+     * @param fileReader
+     *            the file reader
+     * @param documentXmlConverter
+     *            the document xml converter
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public DocumentEditorImpl(MetadataGenerator metadataGenerator,
+                              FileReader fileReader, DocumentXmlConverter documentXmlConverter,
+                              DocumentAccessor documentAccessor) {
+        super();
+        this.metadataGenerator = metadataGenerator;
+        this.fileReader = fileReader;
+        this.documentXmlConverter = documentXmlConverter;
+        this.documentAccessor = documentAccessor;
+    }
+
     /*
      * (non-Javadoc)
      *

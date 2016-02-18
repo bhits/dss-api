@@ -62,6 +62,26 @@ public class EmbeddedClinicalDocumentExtractorImpl implements
     @Autowired
     private DocumentAccessor documentAccessor;
 
+    public EmbeddedClinicalDocumentExtractorImpl() {
+    }
+
+    /**
+     * Instantiates a new embedded clinical document extractor impl.
+     *
+     * @param documentXmlConverter
+     *            the document xml converter
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public EmbeddedClinicalDocumentExtractorImpl(
+            DocumentXmlConverter documentXmlConverter,
+            DocumentAccessor documentAccessor) {
+        super();
+        this.documentXmlConverter = documentXmlConverter;
+        this.documentAccessor = documentAccessor;
+    }
+
     /*
      * (non-Javadoc)
      *

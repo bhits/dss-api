@@ -30,6 +30,7 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -51,6 +52,17 @@ public class DocumentationOfServiceEvent extends
      * The Constant XPATH_SERVICE_EVENT.
      */
     public static final String XPATH_SERVICE_EVENT = "/hl7:ClinicalDocument/hl7:documentationOf/hl7:serviceEvent[hl7:generatedServiceEventId[text()='%1']]";
+
+    /**
+     * Instantiates a new documentation of service event.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    @Autowired
+    public DocumentationOfServiceEvent(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /*
      * (non-Javadoc)

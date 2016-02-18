@@ -81,6 +81,21 @@ public class MetadataGeneratorImpl implements MetadataGenerator {
     @Autowired
     private XmlTransformer xmlTransformer;
 
+    public MetadataGeneratorImpl() {
+    }
+
+    /**
+     * Instantiates a new metadata generator impl.
+     *
+     * @param xmlTransformer
+     *            the xml transformer
+     */
+    @Autowired
+    public MetadataGeneratorImpl(XmlTransformer xmlTransformer) {
+        super();
+        this.xmlTransformer = xmlTransformer;
+    }
+
     /*
      * (non-Javadoc)
      *

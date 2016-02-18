@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-// TODO: Remove Brms when separate Brms
 @ComponentScan(basePackageClasses = {DssApplication.class, BrmsBasePackageMarkerInterface.class})
 public class DssApplication {
 

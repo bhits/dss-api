@@ -28,6 +28,7 @@ package gov.samhsa.mhc.dss.service.document.redact.base;
 import gov.samhsa.acs.brms.domain.FactModel;
 import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
 import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -40,6 +41,16 @@ import java.util.Set;
  */
 public abstract class AbstractPostRedactionLevelRedactionHandler extends
         AbstractRedactionHandler {
+
+    /**
+     * Instantiates a new abstract post redaction level callback.
+     *
+     * @param documentAccessor
+     *            the document accessor
+     */
+    public AbstractPostRedactionLevelRedactionHandler(DocumentAccessor documentAccessor) {
+        super(documentAccessor);
+    }
 
     /**
      * Execute.
