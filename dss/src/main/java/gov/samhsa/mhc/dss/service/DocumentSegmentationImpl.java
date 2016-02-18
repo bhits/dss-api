@@ -224,7 +224,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      */
     @SuppressWarnings("unchecked")
     @Override
-    // TODO: 2/11/2016 string to byte 
     public DSSResponse segmentDocument(DSSRequest dssRequest)
             throws XmlDocumentReadFailureException,
             InvalidSegmentedClinicalDocumentException, AuditException {
