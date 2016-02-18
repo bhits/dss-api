@@ -25,16 +25,16 @@ public class UnsupportedSectionHandler extends
 
     private List<String> sectionWhiteList = new ArrayList<>();
 
-    public List<String> getSectionWhiteList() {
-        return sectionWhiteList;
-    }
-
     public UnsupportedSectionHandler() {
     }
 
     @Autowired
     public UnsupportedSectionHandler(DocumentAccessor documentAccessor) {
         super(documentAccessor);
+    }
+
+    public List<String> getSectionWhiteList() {
+        return sectionWhiteList;
     }
 
     @Override

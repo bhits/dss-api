@@ -25,16 +25,16 @@ public class UnsupportedHeaderElementHandler extends
 
     private List<String> headersWhiteList = new ArrayList<>();
 
-    public List<String> getHeadersWhiteList() {
-        return headersWhiteList;
-    }
-
     public UnsupportedHeaderElementHandler() {
     }
 
     @Autowired
     public UnsupportedHeaderElementHandler(DocumentAccessor documentAccessor) {
         super(documentAccessor);
+    }
+
+    public List<String> getHeadersWhiteList() {
+        return headersWhiteList;
     }
 
     @Override

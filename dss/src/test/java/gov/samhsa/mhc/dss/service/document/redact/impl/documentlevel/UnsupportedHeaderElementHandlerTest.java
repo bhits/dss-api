@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -29,14 +30,14 @@ import org.w3c.dom.Node;
 public class UnsupportedHeaderElementHandlerTest {
 
     public static final String TEST_PATH = "sampleC32/";
-    public static final Set<String> unsupportedHeaders = new HashSet<String>(
+    public static final List<String> unsupportedHeaders =
             Arrays.asList("realmCode", "typeId", "templateId", "id", "code",
                     "title", "effectiveTime", "confidentialityCode",
                     "languageCode", "setId", "versionNumber", "copyTime",
                     "recordTarget", "author", "dataEnterer", "custodian",
                     "legalAuthenticator", "inFulfillmentOf", "documentationOf",
                     "relatedDocument", "authorization", "componentOf",
-                    "component"));
+                    "component");
 
     private Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
     private FileReader fileReader;
@@ -49,8 +50,9 @@ public class UnsupportedHeaderElementHandlerTest {
         fileReader = new FileReaderImpl();
         documentAccessor = new DocumentAccessorImpl();
         documentXmlConverter = new DocumentXmlConverterImpl();
-        sut = new UnsupportedHeaderElementHandler(documentAccessor,
-                unsupportedHeaders);
+        sut = new UnsupportedHeaderElementHandler(documentAccessor);
+        ReflectionTestUtils.setField(sut, "headersWhiteList", unsupportedHeaders);
+
     }
 
     @Test

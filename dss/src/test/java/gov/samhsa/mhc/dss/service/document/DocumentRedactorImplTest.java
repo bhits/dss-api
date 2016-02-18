@@ -1,6 +1,6 @@
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.mhc.brms.domain.*;
+import gov.samhsa.acs.brms.domain.*;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
@@ -50,14 +50,14 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.*;
 
 public class DocumentRedactorImplTest {
-    public static final Set<String> headersWhiteList = new HashSet<String>(
+    public static final List<String> headersWhiteList =
             Arrays.asList("realmCode", "typeId", "templateId", "id", "code",
                     "title", "effectiveTime", "confidentialityCode",
                     "languageCode", "setId", "versionNumber", "copyTime",
                     "recordTarget", "author", "dataEnterer", "custodian",
                     "legalAuthenticator", "inFulfillmentOf", "documentationOf",
                     "relatedDocument", "authorization", "componentOf",
-                    "component"));
+                    "component");
     private static final String PROBLEMS = "@Problems";
     private static final String ALLERGIES = "@Allergies";
     private static final String MEDICATIONS = "@Medications";
@@ -247,8 +247,10 @@ public class DocumentRedactorImplTest {
         final Set<AbstractClinicalFactLevelRedactionHandler> clinicalFactLevelChain = new HashSet<AbstractClinicalFactLevelRedactionHandler>();
         final Set<AbstractPostRedactionLevelRedactionHandler> postRedactionChain = new HashSet<AbstractPostRedactionLevelRedactionHandler>();
         final Set<AbstractDocumentLevelRedactionHandler> documentLevelRedactionHandlers = new HashSet<AbstractDocumentLevelRedactionHandler>();
-        documentLevelRedactionHandlers.add(new UnsupportedHeaderElementHandler(
-                documentAccessor, headersWhiteList));
+        UnsupportedHeaderElementHandler unsupportedHeaderElementHandler = new UnsupportedHeaderElementHandler(
+                documentAccessor);
+        ReflectionTestUtils.setField(unsupportedHeaderElementHandler, "headersWhiteList", headersWhiteList);
+        documentLevelRedactionHandlers.add(unsupportedHeaderElementHandler);
         obligationLevelChain.add(new Section(documentAccessor));
         clinicalFactLevelChain.add(new Entry(documentAccessor));
         clinicalFactLevelChain.add(new HumanReadableTextNodeByCode(
@@ -1128,7 +1130,8 @@ public class DocumentRedactorImplTest {
         final DocumentXmlConverterImpl converter = new DocumentXmlConverterImpl();
         final DocumentXmlConverterImpl spy = spy(converter);
 
-        c32Document = readDocument("src/test/resources/xmlDocument.txt");
+        final String c32 = new FileReaderImpl().readFile("sampleC32/c32.xml");
+        c32Document = converter.loadDocument(c32);
 
         doReturn(c32Document).when(spy).loadDocument(anyString());
         return spy;

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Open Behavioral Health Information Technology Architecture (OBHITA.org)
- * <p>
+ * <p/>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  * * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  * * Neither the name of the <organization> nor the
  * names of its contributors may be used to endorse or promote products
  * derived from this software without specific prior written permission.
- * <p>
+ * <p/>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -59,7 +59,6 @@ import org.springframework.util.Assert;
 import org.xml.sax.SAXParseException;
 
 import javax.activation.DataHandler;
-import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -169,27 +168,17 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     /**
      * Instantiates a new document processor impl.
      *
-     * @param ruleExecutionService
-     *            the rule execution service
-     * @param auditService
-     *            the audit service
-     * @param documentEditor
-     *            the document editor
-     * @param marshaller
-     *            the marshaller
-     * @param documentRedactor
-     *            the document redactor
-     * @param documentTagger
-     *            the document tagger
-     * @param documentFactModelExtractor
-     *            the document fact model extractor
-     * @param embeddedClinicalDocumentExtractor
-     *            the embedded clinical document extractor
-     * @param valueSetService
-     *            the value set service
-     * @param additionalMetadataGeneratorForSegmentedClinicalDocument
-     *            the additional metadata generator for segmented clinical
-     *            document
+     * @param ruleExecutionService                                    the rule execution service
+     * @param auditService                                            the audit service
+     * @param documentEditor                                          the document editor
+     * @param marshaller                                              the marshaller
+     * @param documentRedactor                                        the document redactor
+     * @param documentTagger                                          the document tagger
+     * @param documentFactModelExtractor                              the document fact model extractor
+     * @param embeddedClinicalDocumentExtractor                       the embedded clinical document extractor
+     * @param valueSetService                                         the value set service
+     * @param additionalMetadataGeneratorForSegmentedClinicalDocument the additional metadata generator for segmented clinical
+     *                                                                document
      */
     @Autowired
     public DocumentSegmentationImpl(
@@ -401,7 +390,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         DSSResponse dssResponse = new DSSResponse();
         dssResponse.setSegmentedDocument(segmentDocumentResponse.getSegmentedDocumentXml().getBytes(DEFAULT_ENCODING));
         dssResponse.setEncoding(DEFAULT_ENCODING.toString());
-        if(dssRequest.getEnableTryPolicyResponse().orElse(Boolean.FALSE)){
+        if (dssRequest.getEnableTryPolicyResponse().orElse(Boolean.FALSE)) {
             dssResponse.setTryPolicyDocument(segmentDocumentResponse.getTryPolicyDocumentXml().getBytes(DEFAULT_ENCODING));
         }
         return dssResponse;
@@ -461,9 +450,8 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
                 rawData));
     }
 
-    @PostConstruct
-    public void afterPropertiesSet() {
-        this.xmlValidator = new XmlValidation(this.getClass().getClassLoader()
+    private XmlValidation createXmlValidator() {
+        return new XmlValidation(this.getClass().getClassLoader()
                 .getResourceAsStream(C32_CDA_XSD_PATH + C32_CDA_XSD_NAME),
                 C32_CDA_XSD_PATH);
     }

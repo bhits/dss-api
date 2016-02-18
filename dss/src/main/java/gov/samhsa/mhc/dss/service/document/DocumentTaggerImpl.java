@@ -93,8 +93,7 @@ public class DocumentTaggerImpl implements DocumentTagger {
     public DocumentTaggerImpl(@Value("${mhc.dss.DocumentTaggerImpl.disclaimerText}") String disclaimerText,
                               XmlTransformer xmlTransformer) {
         super();
-        this.disclaimerText = StringEscapeUtils.unescapeXml(disclaimerText);
-        this.disclaimerText = disclaimerText.replace("<disclaimerText>",
+        this.disclaimerText = StringEscapeUtils.unescapeXml(disclaimerText).replace("<disclaimerText>",
                 "<disclaimerText xmlns=\"urn:hl7-org:v3\">");
         this.xmlTransformer = xmlTransformer;
     }

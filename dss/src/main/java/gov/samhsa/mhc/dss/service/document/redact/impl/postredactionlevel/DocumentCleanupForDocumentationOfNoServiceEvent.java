@@ -25,21 +25,20 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
+import gov.samhsa.acs.brms.domain.FactModel;
+import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.samhsa.acs.brms.domain.FactModel;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
-import gov.samhsa.acs.brms.domain.XacmlResult;
-import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
+import javax.xml.xpath.XPathExpressionException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The Class DocumentCleanupForDocumentationOfNoServiceEvent.

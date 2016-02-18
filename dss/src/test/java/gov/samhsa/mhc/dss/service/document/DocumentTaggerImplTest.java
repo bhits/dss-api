@@ -1,6 +1,6 @@
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.acs.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.service.RuleExecutionServiceImpl;
 import gov.samhsa.mhc.brms.service.guvnor.GuvnorServiceImpl;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;

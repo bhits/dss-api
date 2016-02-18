@@ -21,14 +21,14 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 public class UnsupportedSectionHandlerTest {
 
     public static final String TEST_PATH = "sampleC32/";
-    public static final Set<String> sectionWhiteList =
-            new HashSet<String>(Arrays.asList("11450-4", "48765-2", "10160-0", "30954-2"));
+    public static final List<String> sectionWhiteList = Arrays.asList("11450-4", "48765-2", "10160-0", "30954-2");
 
     private Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
     private FileReader fileReader;
@@ -41,7 +41,8 @@ public class UnsupportedSectionHandlerTest {
         fileReader = new FileReaderImpl();
         documentAccessor = new DocumentAccessorImpl();
         documentXmlConverter = new DocumentXmlConverterImpl();
-        sut = new UnsupportedSectionHandler(documentAccessor, sectionWhiteList);
+        sut = new UnsupportedSectionHandler(documentAccessor);
+        ReflectionTestUtils.setField(sut, "sectionWhiteList", sectionWhiteList);
     }
 
 

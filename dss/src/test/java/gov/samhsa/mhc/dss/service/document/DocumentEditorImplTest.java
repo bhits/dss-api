@@ -1,22 +1,11 @@
 package gov.samhsa.mhc.dss.service.document;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import gov.samhsa.mhc.brms.domain.XacmlResult;
+import gov.samhsa.acs.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.mhc.common.filereader.FileReaderImpl;
 import gov.samhsa.mhc.common.util.EncryptTool;
 import gov.samhsa.mhc.dss.service.metadata.MetadataGeneratorImpl;
-
-import java.security.Key;
-
 import org.apache.axiom.attachments.ByteArrayDataSource;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,23 +14,48 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.security.Key;
+
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class DocumentEditorImplTest {
 
+    private static final String EXPECTED_DATE = "20101026130945";
     private static FileReaderImpl fileReader;
-
     private static DocumentXmlConverterImpl documentXmlConverter;
     private static DocumentAccessorImpl documentAccessor;
     private static MetadataGeneratorImpl metadataGeneratorMock;
     private static XacmlResult xacmlResultMock;
     private static String c32;
-
     private static Document c32Document;
     private static String xPathDate;
     private static String ruleExecutionResponseContainer;
-    private static final String EXPECTED_DATE = "20101026130945";
     private static DocumentEditorImpl documentEditor;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @BeforeClass
+    public static void setUp() throws Exception {
+        fileReader = new FileReaderImpl();
+        documentXmlConverter = new DocumentXmlConverterImpl();
+        metadataGeneratorMock = mock(MetadataGeneratorImpl.class);
+        documentAccessor = new DocumentAccessorImpl();
+        when(
+                metadataGeneratorMock.generateMetadataXml(anyString(),
+                        anyString(), anyString(), anyString(), anyString()))
+                .thenReturn(fileReader.readFile("testMetadata.xml"));
+        documentEditor = new DocumentEditorImpl(metadataGeneratorMock,
+                fileReader, documentXmlConverter, documentAccessor);
+
+        c32 = fileReader.readFile("sampleC32/c32.xml");
+        c32Document = documentXmlConverter.loadDocument(c32);
+        xPathDate = "//hl7:effectiveTime";
+        ruleExecutionResponseContainer = "<ruleExecutionContainer><executionResponseList><executionResponse><c32SectionLoincCode>11450-4</c32SectionLoincCode><c32SectionTitle>Problems</c32SectionTitle><code>66214007</code><codeSystemName>SNOMED CT</codeSystemName><displayName>Substance Abuse Disorder</displayName><documentObligationPolicy>ENCRYPT</documentObligationPolicy><documentRefrainPolicy>NORDSLCD</documentRefrainPolicy><impliedConfSection>R</impliedConfSection><itemAction>REDACT</itemAction><observationId>e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7</observationId><sensitivity>ETH</sensitivity><USPrivacyLaw>42CFRPart2</USPrivacyLaw></executionResponse><executionResponse><c32SectionLoincCode>11450-4</c32SectionLoincCode><c32SectionTitle>Problems</c32SectionTitle><code>111880001</code><codeSystemName>SNOMED CT</codeSystemName><displayName>Acute HIV</displayName><documentObligationPolicy>ENCRYPT</documentObligationPolicy><documentRefrainPolicy>NORDSLCD</documentRefrainPolicy><impliedConfSection>R</impliedConfSection><itemAction>MASK</itemAction><observationId>d11275e7-67ae-11db-bd13-0800200c9a66</observationId><sensitivity>HIV</sensitivity><USPrivacyLaw>42CFRPart2</USPrivacyLaw></executionResponse></executionResponseList></ruleExecutionContainer>";
+        xacmlResultMock = mock(XacmlResult.class);
+    }
 
     @Test
     public void testGetElement() {
@@ -131,25 +145,5 @@ public class DocumentEditorImplTest {
         assertTrue(rawData.toString().startsWith(
                 "org.apache.axiom.attachments.ByteArrayDataSource@"));
         assertEquals("application/octet-stream", rawData.getContentType());
-    }
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        fileReader = new FileReaderImpl();
-        documentXmlConverter = new DocumentXmlConverterImpl();
-        metadataGeneratorMock = mock(MetadataGeneratorImpl.class);
-        documentAccessor = new DocumentAccessorImpl();
-        when(
-                metadataGeneratorMock.generateMetadataXml(anyString(),
-                        anyString(), anyString(), anyString(), anyString()))
-                .thenReturn(fileReader.readFile("testMetadata.xml"));
-        documentEditor = new DocumentEditorImpl(metadataGeneratorMock,
-                fileReader, documentXmlConverter, documentAccessor);
-
-        c32 = fileReader.readFile("sampleC32/c32.xml");
-        c32Document = documentXmlConverter.loadDocument(c32);
-        xPathDate = "//hl7:effectiveTime";
-        ruleExecutionResponseContainer = "<ruleExecutionContainer><executionResponseList><executionResponse><c32SectionLoincCode>11450-4</c32SectionLoincCode><c32SectionTitle>Problems</c32SectionTitle><code>66214007</code><codeSystemName>SNOMED CT</codeSystemName><displayName>Substance Abuse Disorder</displayName><documentObligationPolicy>ENCRYPT</documentObligationPolicy><documentRefrainPolicy>NORDSLCD</documentRefrainPolicy><impliedConfSection>R</impliedConfSection><itemAction>REDACT</itemAction><observationId>e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7</observationId><sensitivity>ETH</sensitivity><USPrivacyLaw>42CFRPart2</USPrivacyLaw></executionResponse><executionResponse><c32SectionLoincCode>11450-4</c32SectionLoincCode><c32SectionTitle>Problems</c32SectionTitle><code>111880001</code><codeSystemName>SNOMED CT</codeSystemName><displayName>Acute HIV</displayName><documentObligationPolicy>ENCRYPT</documentObligationPolicy><documentRefrainPolicy>NORDSLCD</documentRefrainPolicy><impliedConfSection>R</impliedConfSection><itemAction>MASK</itemAction><observationId>d11275e7-67ae-11db-bd13-0800200c9a66</observationId><sensitivity>HIV</sensitivity><USPrivacyLaw>42CFRPart2</USPrivacyLaw></executionResponse></executionResponseList></ruleExecutionContainer>";
-        xacmlResultMock = mock(XacmlResult.class);
     }
 }
