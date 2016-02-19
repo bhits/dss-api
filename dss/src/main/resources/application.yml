@@ -1,6 +1,9 @@
 server:
   context-path: /dss
-  port: 8087
+  port: 8450
+  ssl:
+    key-store: C:/java/mhc.keystore
+    key-store-password: changeit
 logging:
   file: C:/java/MHC_LOGS/dss/dss.log
 mhc:
