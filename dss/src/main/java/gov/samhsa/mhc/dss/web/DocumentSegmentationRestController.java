@@ -22,7 +22,7 @@ public class DocumentSegmentationRestController {
 
     @RequestMapping("/")
     public String index() {
-        return "Greetings from DSS API !";
+        return "Welcome to Document Segmentation Service";
     }
 
     @RequestMapping(value = "/segmentedDocument", method = RequestMethod.POST)
