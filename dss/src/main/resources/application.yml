@@ -2,7 +2,7 @@ server:
   context-path: /dss
   port: 8450
   ssl:
-    key-store: C:/java/mhc.keystore
+    key-store: C:/ssl_keystore.keystore
     key-store-password: changeit
 logging:
   file: C:/java/MHC_LOGS/dss/dss.log
@@ -83,4 +83,4 @@ mhc:
       defaultIsAudited: true
       defaultIsAuditFailureByPass: true
     ValueSetServiceImpl:
-      endpointAddress: http://localhost:8083/pcm/lookupService
+      endpointAddress: https://localhost:8446/pcm/lookupService
