@@ -2,10 +2,10 @@ server:
   context-path: /dss
   port: 8450
   ssl:
-    key-store: C:/ssl_keystore.keystore
+    key-store: /ssl_keystore.keystore
     key-store-password: changeit
 logging:
-  file: C:/java/MHC_LOGS/dss/dss.log
+  file: /java/MHC_LOGS/dss/dss.log
 mhc:
   brms:
     guvnor:
