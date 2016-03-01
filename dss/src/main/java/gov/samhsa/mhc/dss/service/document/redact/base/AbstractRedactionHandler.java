@@ -25,8 +25,8 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document.redact.base;
 
-import gov.samhsa.acs.brms.domain.ClinicalFact;
-import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.brms.domain.ClinicalFact;
+import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;

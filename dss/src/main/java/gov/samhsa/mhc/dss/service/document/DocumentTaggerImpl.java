@@ -101,7 +101,7 @@ public class DocumentTaggerImpl implements DocumentTagger {
     /*
      * (non-Javadoc)
      *
-     * @see gov.samhsa.acs.documentsegmentation.util
+     * @see gov.samhsa.mhc.documentsegmentation.util
      * .DocumentTagger#tagDocument(java.lang.String, java.lang.String,
      * java.lang.String)
      */

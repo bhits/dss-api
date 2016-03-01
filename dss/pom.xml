@@ -71,151 +71,198 @@
         <drools.version>5.4.0.Final</drools.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- MHC Common Libraries -->
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>logger-wrapper</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+    <profiles>
+        <profile>
+            <id>fullbuild</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter</artifactId>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>marshaller</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>common-unit</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-test</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <!-- MHC Common Libraries -->
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>logger-wrapper</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>file-reader</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>marshaller</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>xml-validation</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>common-unit</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>param</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>file-reader</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>common-util</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>xml-validation</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>document-transformer</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>param</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>document-accessor</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>common-util</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>document-converter</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>document-transformer</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>xdm</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>document-accessor</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>namespace</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>document-converter</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
-            <artifactId>audit-service</artifactId>
-            <version>${mhc.common-libraries.version}</version>
-        </dependency>
-        <!-- BRMS dependencies -->
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>knowledge-api</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>xdm</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-core</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>namespace</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-compiler</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
-        <!-- Third-party dependencies -->
-        <dependency>
-            <groupId>net.sf.saxon</groupId>
-            <artifactId>Saxon-HE</artifactId>
-            <version>${saxon-HE.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>gov.samhsa.mhc</groupId>
+                    <artifactId>audit-service</artifactId>
+                    <version>${mhc.common-libraries.version}</version>
+                </dependency>
+                <!-- BRMS dependencies -->
+                <dependency>
+                    <groupId>org.drools</groupId>
+                    <artifactId>knowledge-api</artifactId>
+                    <version>${drools.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>org.apache.ws.commons.axiom</groupId>
-            <artifactId>axiom-api</artifactId>
-            <version>${axiom-api.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>org.drools</groupId>
+                    <artifactId>drools-core</artifactId>
+                    <version>${drools.version}</version>
+                </dependency>
 
-        <dependency>
-            <groupId>xml-security</groupId>
-            <artifactId>xmlsec</artifactId>
-            <version>${xmlsec.version}</version>
-        </dependency>
+                <dependency>
+                    <groupId>org.drools</groupId>
+                    <artifactId>drools-compiler</artifactId>
+                    <version>${drools.version}</version>
+                </dependency>
+                <!-- Third-party dependencies -->
+                <dependency>
+                    <groupId>net.sf.saxon</groupId>
+                    <artifactId>Saxon-HE</artifactId>
+                    <version>${saxon-HE.version}</version>
+                </dependency>
 
-        <!-- Logback -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-    </dependencies>
+                <dependency>
+                    <groupId>org.apache.ws.commons.axiom</groupId>
+                    <artifactId>axiom-api</artifactId>
+                    <version>${axiom-api.version}</version>
+                </dependency>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+                <dependency>
+                    <groupId>xml-security</groupId>
+                    <artifactId>xmlsec</artifactId>
+                    <version>${xmlsec.version}</version>
+                </dependency>
+
+                <!-- Logback -->
+                <dependency>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-core</artifactId>
+                    <version>${logback.version}</version>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+    <!-- To generate fact modal jar without dependencies
+     mvn clean install -Pfactmodal-->
+    <profile>
+        <id>factmodal</id>
+        <properties>
+            <maven.test.skip>true</maven.test.skip>
+        </properties>
+        <build>
+            <finalName>factmodal</finalName>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <includes>
+                            <include>gov/samhsa/mhc/brms/domain/*.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>gov/samhsa/mhc/brms/service/*.java</exclude>
+                            <exclude>gov/samhsa/mhc/dss/**/*.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <excludes>
+                        <exclude>**/*</exclude>
+                    </excludes>
+                </resource>
+            </resources>
+        </build>
+    </profile>
+    </profiles>
 </project>

@@ -25,7 +25,7 @@
  ******************************************************************************/
 package gov.samhsa.mhc.brms.service;
 
-import gov.samhsa.acs.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
 
 /**

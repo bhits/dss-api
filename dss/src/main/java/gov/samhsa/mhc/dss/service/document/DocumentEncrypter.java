@@ -25,7 +25,7 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 
 import java.security.Key;
 

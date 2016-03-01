@@ -2,10 +2,10 @@
 /*
 package gov.samhsa.mhc.dss.service;
 
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
-import gov.samhsa.acs.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.service.RuleExecutionServiceImpl;
-import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.brms.service.guvnor.GuvnorServiceImpl;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;

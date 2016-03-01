@@ -1,6 +1,6 @@
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.acs.brms.domain.*;
+import gov.samhsa.mhc.brms.domain.*;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;

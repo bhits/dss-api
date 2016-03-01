@@ -25,7 +25,7 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.brms.domain.XacmlResult;
 
 import java.io.IOException;
 

@@ -9,8 +9,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import gov.samhsa.acs.brms.domain.FactModel;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;

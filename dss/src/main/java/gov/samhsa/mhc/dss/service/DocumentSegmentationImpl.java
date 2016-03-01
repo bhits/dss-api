@@ -26,10 +26,10 @@
 package gov.samhsa.mhc.dss.service;
 
 import ch.qos.logback.audit.AuditException;
-import gov.samhsa.acs.brms.domain.ClinicalFact;
-import gov.samhsa.acs.brms.domain.FactModel;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
-import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.brms.domain.ClinicalFact;
+import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.brms.service.RuleExecutionService;
 import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
 import gov.samhsa.mhc.common.audit.AuditService;
@@ -209,7 +209,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      * (non-Javadoc)
      *
      * @see
-     * gov.samhsa.acs.documentsegmentation.DocumentSegmentation#segmentDocument
+     * gov.samhsa.mhc.documentsegmentation.DocumentSegmentation#segmentDocument
      * (java.lang.String, java.lang.String, boolean, boolean, boolean)
      */
     @SuppressWarnings("unchecked")
@@ -399,12 +399,12 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     /*
      * (non-Javadoc)
      *
-     * @see gov.samhsa.acs.documentsegmentation.DocumentSegmentation#
+     * @see gov.samhsa.mhc.documentsegmentation.DocumentSegmentation#
      * setAdditionalMetadataForSegmentedClinicalDocument
      * (gov.samhsa.consent2share
      * .schema.documentsegmentation.SegmentDocumentResponse, java.lang.String,
      * java.lang.String, java.lang.String,
-     * gov.samhsa.acs.brms.domain.XacmlResult)
+     * gov.samhsa.mhc.brms.domain.XacmlResult)
      */
     @Override
     public void setAdditionalMetadataForSegmentedClinicalDocument(
@@ -428,11 +428,11 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     /*
      * (non-Javadoc)
      *
-     * @see gov.samhsa.acs.documentsegmentation.DocumentSegmentation#
+     * @see gov.samhsa.mhc.documentsegmentation.DocumentSegmentation#
      * setDocumentPayloadRawData
      * (gov.samhsa.consent2share.schema.documentsegmentation
      * .SegmentDocumentResponse, boolean, java.lang.String, java.lang.String,
-     * gov.samhsa.acs.brms.domain.XacmlResult)
+     * gov.samhsa.mhc.brms.domain.XacmlResult)
      */
     @Override
     public void setDocumentPayloadRawData(

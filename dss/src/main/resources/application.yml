@@ -9,7 +9,7 @@ logging:
 mhc:
   brms:
     guvnor:
-      endpointAddress: http://BHITSDEVACS01/guvnor-5.5.0.Final-tomcat-6.0/rest/packages/AnnotationRules/source
+      endpointAddress: http://BHITSDEVHIE01/guvnor-5.5.0.Final-tomcat-6.0/rest/packages/AnnotationRules/source
       serviceUsername: admin
       servicePassword: admin
   dss:

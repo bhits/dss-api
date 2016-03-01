@@ -25,8 +25,8 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
-import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
@@ -81,8 +81,8 @@ public class DocumentMaskerImpl implements DocumentMasker {
      *
      * @see gov.samhsa.mhc.dss.service.document
      * .DocumentMasker#maskDocument(java.lang.String, java.security.Key,
-     * gov.samhsa.acs.common.bean.RuleExecutionContainer,
-     * gov.samhsa.acs.common.bean.XacmlResult)
+     * gov.samhsa.mhc.common.bean.RuleExecutionContainer,
+     * gov.samhsa.mhc.common.bean.XacmlResult)
      */
     @Override
     public String maskDocument(String document, Key deSedeMaskKey,

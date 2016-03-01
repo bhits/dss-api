@@ -23,7 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package gov.samhsa.acs.brms.domain;
+package gov.samhsa.mhc.brms.domain;
 
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -42,7 +42,7 @@ public class RuleExecutionResponse {
     private Confidentiality ImpliedConfSection;
 
     /** The Sensitivity. */
-    private Sensitivity Sensitivity;
+    private gov.samhsa.mhc.brms.domain.Sensitivity Sensitivity;
 
     /** The Item action. */
     private String ItemAction;
@@ -197,7 +197,7 @@ public class RuleExecutionResponse {
      *
      * @return the sensitivity
      */
-    public Sensitivity getSensitivity() {
+    public gov.samhsa.mhc.brms.domain.Sensitivity getSensitivity() {
         return Sensitivity;
     }
 
@@ -207,7 +207,7 @@ public class RuleExecutionResponse {
      * @param sensitivity
      *            the new sensitivity
      */
-    public void setSensitivity(Sensitivity sensitivity) {
+    public void setSensitivity(gov.samhsa.mhc.brms.domain.Sensitivity sensitivity) {
         Sensitivity = sensitivity;
     }
 

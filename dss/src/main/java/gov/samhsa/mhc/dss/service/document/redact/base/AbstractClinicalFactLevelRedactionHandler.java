@@ -25,10 +25,10 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document.redact.base;
 
-import gov.samhsa.acs.brms.domain.ClinicalFact;
-import gov.samhsa.acs.brms.domain.FactModel;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
-import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.brms.domain.ClinicalFact;
+import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
 import org.w3c.dom.Document;

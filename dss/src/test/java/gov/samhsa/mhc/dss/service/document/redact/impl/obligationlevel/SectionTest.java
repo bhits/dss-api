@@ -2,8 +2,8 @@ package gov.samhsa.mhc.dss.service.document.redact.impl.obligationlevel;
 
 import static org.junit.Assert.assertEquals;
 
-import gov.samhsa.acs.brms.domain.FactModel;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;

@@ -25,9 +25,9 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.acs.brms.domain.ObligationPolicyDocument;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
-import gov.samhsa.acs.brms.domain.RuleExecutionResponse;
+import gov.samhsa.mhc.brms.domain.ObligationPolicyDocument;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.RuleExecutionResponse;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
@@ -81,7 +81,7 @@ public class DocumentEncrypterImpl implements DocumentEncrypter {
      * (non-Javadoc)
      *
      * @see gov.samhsa.mhc.dss.service.document.DocumentEncrypter#encryptDocument(java.security.Key, java.lang.String,
-     * gov.samhsa.acs.common.bean.RuleExecutionContainer)
+     * gov.samhsa.mhc.common.bean.RuleExecutionContainer)
      */
     @Override
     public String encryptDocument(Key deSedeEncryptKey, String document,

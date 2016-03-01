@@ -1,6 +1,6 @@
 package gov.samhsa.mhc.dss.service.dto;
 
-import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.brms.domain.XacmlResult;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;

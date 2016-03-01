@@ -25,8 +25,8 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.acs.brms.domain.FactModel;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 
 /**

@@ -25,9 +25,9 @@
  ******************************************************************************/
 package gov.samhsa.mhc.brms.service;
 
-import gov.samhsa.acs.brms.domain.ClinicalFact;
-import gov.samhsa.acs.brms.domain.FactModel;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.ClinicalFact;
+import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
 import gov.samhsa.mhc.brms.service.guvnor.GuvnorService;
 import gov.samhsa.mhc.common.log.Logger;
@@ -87,7 +87,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      *
      * @see
      * gov.samhsa.mhc.brms.RuleExecutionService#assertAndExecuteClinicalFacts
-     * (gov.samhsa.acs.brms.domain.FactModel)
+     * (gov.samhsa.mhc.brms.domain.FactModel)
      */
     @Override
     public AssertAndExecuteClinicalFactsResponse assertAndExecuteClinicalFacts(

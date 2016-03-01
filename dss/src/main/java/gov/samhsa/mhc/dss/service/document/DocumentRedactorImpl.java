@@ -25,10 +25,10 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.acs.brms.domain.ClinicalFact;
-import gov.samhsa.acs.brms.domain.FactModel;
-import gov.samhsa.acs.brms.domain.RuleExecutionContainer;
-import gov.samhsa.acs.brms.domain.XacmlResult;
+import gov.samhsa.mhc.brms.domain.ClinicalFact;
+import gov.samhsa.mhc.brms.domain.FactModel;
+import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
+import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
@@ -206,9 +206,9 @@ public class DocumentRedactorImpl implements DocumentRedactor {
      *
      * @see
      * gov.samhsa.mhc.dss.service.document.DocumentRedactor#redactDocument
-     * (java.lang.String, gov.samhsa.acs.brms.domain.RuleExecutionContainer,
-     * gov.samhsa.acs.brms.domain.XacmlResult,
-     * gov.samhsa.acs.brms.domain.FactModel)
+     * (java.lang.String, gov.samhsa.mhc.brms.domain.RuleExecutionContainer,
+     * gov.samhsa.mhc.brms.domain.XacmlResult,
+     * gov.samhsa.mhc.brms.domain.FactModel)
      */
     @Override
     public RedactedDocument redactDocument(String document,
