@@ -228,22 +228,22 @@
             </build>
 
         </profile>
-    <!-- To generate fact modal jar without dependencies
-     mvn clean install -Pfactmodal-->
+    <!-- To generate fact model jar without dependencies
+     mvn clean install -Pfactmodel-->
     <profile>
-        <id>factmodal</id>
+        <id>factmodel</id>
         <properties>
             <maven.test.skip>true</maven.test.skip>
         </properties>
         <build>
-            <finalName>factmodal</finalName>
+            <finalName>factmodel</finalName>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                         <includes>
                             <include>gov/samhsa/mhc/brms/domain/*.java</include>
                         </includes>
