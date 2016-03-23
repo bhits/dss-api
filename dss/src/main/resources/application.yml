@@ -1,3 +1,6 @@
+spring:
+  profiles:
+    active: docker
 server:
   context-path: /dss
   port: 8450
@@ -84,3 +87,11 @@ mhc:
       defaultIsAuditFailureByPass: true
     ValueSetServiceImpl:
       endpointAddress: https://localhost:8446/pcm/lookupService
+
+
+---
+spring.profiles: docker
+server.ssl:
+  key-store: /java/keystore/mhc.keystore
+  key-store-password: changeit
+mhc.dss.ValueSetServiceImpl.endpointAddress: https://pcm.mhc:8446/pcm/lookupService

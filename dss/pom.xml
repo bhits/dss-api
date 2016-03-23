@@ -69,6 +69,7 @@
         <logback.version>1.0.11</logback.version>
         <!-- BRMS Libraries' version -->
         <drools.version>5.4.0.Final</drools.version>
+        <docker.maven.version>0.4.3</docker.maven.version>
     </properties>
 
 
@@ -224,19 +225,35 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                     </plugin>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker.maven.version}</version>
+                        <configuration>
+                            <imageName>${project.artifactId}</imageName>
+                            <dockerDirectory>src/main/docker</dockerDirectory>
+                            <resources>
+                                <resource>
+                                    <targetPath>/</targetPath>
+                                    <directory>${project.build.directory}</directory>
+                                    <include>${project.build.finalName}.jar</include>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
 
         </profile>
     <!-- To generate fact modal jar without dependencies
-     mvn clean install -Pfactmodal-->
+     mvn clean install -Pfactmodel-->
     <profile>
-        <id>factmodal</id>
+        <id>factmodel</id>
         <properties>
             <maven.test.skip>true</maven.test.skip>
         </properties>
         <build>
-            <finalName>factmodal</finalName>
+            <finalName>factmodel</finalName>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
