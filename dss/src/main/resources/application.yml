@@ -91,8 +91,6 @@ mhc:
     documentSegmentationImpl:
       defaultIsAudited: true
       defaultIsAuditFailureByPass: true
-    ValueSetServiceImpl:
-      endpointAddress: https://localhost:8446/pcm/lookupService
 ---
 spring.profiles: ssl
 server:
