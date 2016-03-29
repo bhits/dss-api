@@ -5,7 +5,7 @@
 
     <groupId>gov.samhsa.mhc</groupId>
     <artifactId>dss</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>dss</name>
@@ -248,7 +248,7 @@
             </build>
 
         </profile>
-    <!-- To generate fact modal jar without dependencies
+    <!-- To generate fact model jar without dependencies
      mvn clean install -Pfactmodel-->
     <profile>
         <id>factmodel</id>
@@ -262,8 +262,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                         <includes>
                             <include>gov/samhsa/mhc/brms/domain/*.java</include>
                         </includes>
