@@ -26,33 +26,21 @@
 package gov.samhsa.mhc.dss.infrastructure.valueset;
 
 
-import gov.samhsa.mhc.dss.infrastructure.valueset.dto.CodeAndCodeSystemSetDto;
-import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryListDto;
+import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;
+import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryDto;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-/**
- * The Interface ValueSetService.
- */
+@FeignClient("pcm")
 public interface ValueSetService {
 
-    /**
-     * Lookup value set categories.
-     *
-     * @param code       the code
-     * @param codeSystem the code system
-     * @return the set
-     */
-    public abstract Set<String> lookupValueSetCategories(String code,
-                                                         String codeSystem);
-
-
-    public ValueSetQueryListDto RestfulValueSetCategories(ValueSetQueryListDto valueSetQueryListDtos);
-
-    List<Map<String, Object>> lookupValuesetCategoriesOfMultipleCodeAndCodeSystemSet(
-            List<CodeAndCodeSystemSetDto> codeAndCodeSystemSetDtoList);
-
-
+    @RequestMapping(value = "/lookupService/valueSetCategories", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    List<ValueSetQueryDto> lookupValueSetCategories(@Valid @RequestBody List<ConceptCodeAndCodeSystemOidDto> conceptCodeAndCodeSystemOidDtos);
 }

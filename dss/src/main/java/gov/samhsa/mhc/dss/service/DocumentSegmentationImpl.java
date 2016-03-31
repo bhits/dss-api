@@ -26,7 +26,6 @@
 package gov.samhsa.mhc.dss.service;
 
 import ch.qos.logback.audit.AuditException;
-import gov.samhsa.mhc.brms.domain.ClinicalFact;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
@@ -42,7 +41,8 @@ import gov.samhsa.mhc.common.validation.XmlValidation;
 import gov.samhsa.mhc.common.validation.XmlValidationResult;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetService;
-import gov.samhsa.mhc.dss.infrastructure.valueset.dto.CodeAndCodeSystemSetDto;
+import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;
+import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryDto;
 import gov.samhsa.mhc.dss.service.document.*;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 import gov.samhsa.mhc.dss.service.dto.DSSRequest;
@@ -63,7 +63,11 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static gov.samhsa.mhc.dss.service.audit.DssAuditVerb.SEGMENT_DOCUMENT;
 import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.*;
@@ -267,37 +271,22 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             factModel = marshaller.unmarshalFromXml(FactModel.class,
                     factModelXml);
 
-            final List<CodeAndCodeSystemSetDto> codeAndCodeSystemSetDtoList = new ArrayList<CodeAndCodeSystemSetDto>();
             // Get and set value set categories to clinical facts
-            for (final ClinicalFact fact : factModel.getClinicalFactList()) {
-                final CodeAndCodeSystemSetDto codeAndCodeSystemSetDto = new CodeAndCodeSystemSetDto();
-                codeAndCodeSystemSetDto.setConceptCode(fact.getCode());
-                codeAndCodeSystemSetDto.setCodeSystemOid(fact.getCodeSystem());
-                codeAndCodeSystemSetDtoList.add(codeAndCodeSystemSetDto);
-            }
+            final List<ConceptCodeAndCodeSystemOidDto> conceptCodeAndCodeSystemOidDtoList =
+                    factModel.getClinicalFactList().stream()
+                            .map(fact -> new ConceptCodeAndCodeSystemOidDto(fact.getCode(), fact.getCodeSystem()))
+                            .collect(Collectors.toList());
 
             // Get value set categories
-            final List<Map<String, Object>> valueSetCategories = valueSetService
-                    .lookupValuesetCategoriesOfMultipleCodeAndCodeSystemSet(codeAndCodeSystemSetDtoList);
-            // Iterator<HashMap<String, String>> iterator=valueSetCategories.k
-            // TODO (BU): Refactor this code and make sure you get the value set
-            // categories by code and code system (not by index)
-            for (int i = 0; i < factModel.getClinicalFactList().size(); i++) {
-                final Map<String, Object> valueSetMap = valueSetCategories
-                        .get(i);
-                final ClinicalFact fact = factModel.getClinicalFactList()
-                        .get(i);
-                Assert.isTrue(fact.getCode().equals(
-                        valueSetMap.get("conceptCode")));
-                Assert.isTrue(fact.getCodeSystem().equals(
-                        valueSetMap.get("codeSystemOid")));
-                if (valueSetMap.get("vsCategoryCodes") != null) {
-                    fact.setValueSetCategories(new HashSet<String>(
-                            (ArrayList<String>) valueSetMap
-                                    .get("vsCategoryCodes")));
-                }
-            }
-            // FileHelper.writeStringToFile(factModel, "FactModel.xml");
+            final List<ValueSetQueryDto>  valueSetCategories = valueSetService
+                    .lookupValueSetCategories(conceptCodeAndCodeSystemOidDtoList);
+            factModel.getClinicalFactList()
+                    .stream()
+                    .forEach(fact -> valueSetCategories.stream()
+                            .filter(dto -> fact.getCode().equals(dto.getConceptCode()) && fact.getCodeSystem().equals(dto.getCodeSystemOid()))
+                            .map(ValueSetQueryDto::getVsCategoryCodes)
+                            .filter(Objects::nonNull)
+                            .findAny().ifPresent(fact::setValueSetCategories));
 
             // get execution response container
             final AssertAndExecuteClinicalFactsResponse brmsResponse = ruleExecutionService

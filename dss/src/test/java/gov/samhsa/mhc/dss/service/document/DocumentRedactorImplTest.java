@@ -10,6 +10,8 @@ import gov.samhsa.mhc.common.filereader.FileReaderImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetService;
 import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetServiceImplMock;
+import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;
+import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryDto;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
@@ -1141,9 +1143,10 @@ public class DocumentRedactorImplTest {
         // Get and set value set categories to clinical facts
         for (final ClinicalFact fact : factModel.getClinicalFactList()) {
             // Get value set categories
+
             final Set<String> valueSetCategories = valueSetService
-                    .lookupValueSetCategories(fact.getCode(),
-                            fact.getCodeSystem());
+                    .lookupValueSetCategories(Arrays.asList(new ConceptCodeAndCodeSystemOidDto(fact.getCode(), fact.getCodeSystem())))
+                    .stream().findAny().map(ValueSetQueryDto::getVsCategoryCodes).orElse(null);
             // Set retrieved value set categories to the clinical fact
             fact.setValueSetCategories(valueSetCategories);
         }

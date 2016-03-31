@@ -60,6 +60,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <spring.cloud.version>Brixton.M4</spring.cloud.version>
         <!-- MHC Common Libraries' version -->
         <mhc.common-libraries.version>1.1.0</mhc.common-libraries.version>
         <!-- Third-party library versions -->
@@ -73,7 +74,6 @@
     </properties>
 
 
-
     <profiles>
         <profile>
             <id>fullbuild</id>
@@ -85,16 +85,21 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter</artifactId>
                 </dependency>
-
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
                 </dependency>
-
                 <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-test</artifactId>
-                    <scope>test</scope>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-eureka</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-ribbon</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-feign</artifactId>
                 </dependency>
                 <!-- MHC Common Libraries -->
                 <dependency>
@@ -102,73 +107,61 @@
                     <artifactId>logger-wrapper</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>marshaller</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>common-unit</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>file-reader</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>xml-validation</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>param</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>common-util</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>document-transformer</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>document-accessor</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>document-converter</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>xdm</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>namespace</artifactId>
                     <version>${mhc.common-libraries.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>gov.samhsa.mhc</groupId>
                     <artifactId>audit-service</artifactId>
@@ -180,13 +173,11 @@
                     <artifactId>knowledge-api</artifactId>
                     <version>${drools.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>org.drools</groupId>
                     <artifactId>drools-core</artifactId>
                     <version>${drools.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>org.drools</groupId>
                     <artifactId>drools-compiler</artifactId>
@@ -198,26 +189,42 @@
                     <artifactId>Saxon-HE</artifactId>
                     <version>${saxon-HE.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>org.apache.ws.commons.axiom</groupId>
                     <artifactId>axiom-api</artifactId>
                     <version>${axiom-api.version}</version>
                 </dependency>
-
                 <dependency>
                     <groupId>xml-security</groupId>
                     <artifactId>xmlsec</artifactId>
                     <version>${xmlsec.version}</version>
                 </dependency>
-
                 <!-- Logback -->
                 <dependency>
                     <groupId>ch.qos.logback</groupId>
                     <artifactId>logback-core</artifactId>
                     <version>${logback.version}</version>
                 </dependency>
+
+                <!-- Test -->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-test</artifactId>
+                    <scope>test</scope>
+                </dependency>
             </dependencies>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-starter-parent</artifactId>
+                        <version>${spring.cloud.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
 
             <build>
                 <plugins>
@@ -248,41 +255,41 @@
             </build>
 
         </profile>
-    <!-- To generate fact model jar without dependencies
-     mvn clean install -Pfactmodel-->
-    <profile>
-        <id>factmodel</id>
-        <properties>
-            <maven.test.skip>true</maven.test.skip>
-        </properties>
-        <build>
-            <finalName>factmodel</finalName>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                        <includes>
-                            <include>gov/samhsa/mhc/brms/domain/*.java</include>
-                        </includes>
+        <!-- To generate fact model jar without dependencies
+         mvn clean install -Pfactmodel-->
+        <profile>
+            <id>factmodel</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <build>
+                <finalName>factmodel</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
+                            <includes>
+                                <include>gov/samhsa/mhc/brms/domain/*.java</include>
+                            </includes>
+                            <excludes>
+                                <exclude>gov/samhsa/mhc/brms/service/*.java</exclude>
+                                <exclude>gov/samhsa/mhc/dss/**/*.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
                         <excludes>
-                            <exclude>gov/samhsa/mhc/brms/service/*.java</exclude>
-                            <exclude>gov/samhsa/mhc/dss/**/*.java</exclude>
+                            <exclude>**/*</exclude>
                         </excludes>
-                    </configuration>
-                </plugin>
-            </plugins>
-            <resources>
-                <resource>
-                    <directory>src/main/resources</directory>
-                    <excludes>
-                        <exclude>**/*</exclude>
-                    </excludes>
-                </resource>
-            </resources>
-        </build>
-    </profile>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
     </profiles>
 </project>

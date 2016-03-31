@@ -1,24 +1,20 @@
 package gov.samhsa.mhc.dss.infrastructure.valueset;
 
 import gov.samhsa.mhc.common.filereader.FileReader;
-import gov.samhsa.mhc.common.filereader.FileReaderImpl;
-import gov.samhsa.mhc.dss.infrastructure.valueset.dto.CodeAndCodeSystemSetDto;
-import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryListDto;
+import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;
+import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryDto;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 public class ValueSetServiceImplMock implements ValueSetService {
+    private static final String VALUE_SET_MOCK_DATA_PATH = "MockValueSetData.csv";
     private FileReader fileReader;
     private List<ConceptCode> conceptCodeList;
-    private static final String VALUE_SET_MOCK_DATA_PATH = "MockValueSetData.csv";
 
     public ValueSetServiceImplMock() {
     }
@@ -33,39 +29,6 @@ public class ValueSetServiceImplMock implements ValueSetService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetService#
-     * lookupValueSetCategories(java.lang.String, java.lang.String)
-     */
-    @Override
-    public Set<String> lookupValueSetCategories(String code, String codeSystem) {
-        Set<String> categories = new HashSet<String>();
-        for (ConceptCode conceptCode : conceptCodeList) {
-            if (isEqual(conceptCode, code, codeSystem)) {
-                String category = conceptCode.getValueSetCategory();
-                if (!categories.contains(category)) {
-                    categories.add(conceptCode.getValueSetCategory());
-                }
-            }
-        }
-        return categories;
-    }
-
-    @Override
-    public List<Map<String, Object>> lookupValuesetCategoriesOfMultipleCodeAndCodeSystemSet(
-            List<CodeAndCodeSystemSetDto> codeAndCodeSystemSetDtoList) {
-        List<Map<String, Object>> valueSetQueryDtoList = new ArrayList<Map<String, Object>>();
-        for (CodeAndCodeSystemSetDto codeAndCodeSystemSetDto : codeAndCodeSystemSetDtoList) {
-            Map<String, Object> valueSetMap = new HashMap<String, Object>();
-            valueSetMap.put("conceptCode", codeAndCodeSystemSetDto.getConceptCode());
-            valueSetMap.put("codeSystemOid", codeAndCodeSystemSetDto.getCodeSystemOid());
-            valueSetMap.put("vsCategoryCodes", null);
-            valueSetQueryDtoList.add(valueSetMap);
-        }
-        return valueSetQueryDtoList;
-    }
 
     @Override
     public String toString() {
@@ -101,18 +64,26 @@ public class ValueSetServiceImplMock implements ValueSetService {
                 && c1.getCodeSystem().equals(codeSystem);
     }
 
-    public static void main(String[] args) {
-        ValueSetServiceImplMock v = new ValueSetServiceImplMock(new FileReaderImpl());
-        System.out.println(v.lookupValueSetCategories("111880001",
-                "2.16.840.1.113883.6.96"));
-        System.out.println(v);
+    @Override
+    public List<ValueSetQueryDto> lookupValueSetCategories(@Valid @RequestBody List<ConceptCodeAndCodeSystemOidDto> conceptCodeAndCodeSystemOidDtos) {
+        return conceptCodeAndCodeSystemOidDtos.stream()
+                .map(dto -> {
+                    final Optional<ConceptCode> any = conceptCodeList.stream()
+                            .filter(cc -> dto.getConceptCode().equals(cc.getCode()) && dto.getCodeSystemOid().equals(cc.getCodeSystem()))
+                            .findAny();
+                    return any.map(cc -> {
+                        ValueSetQueryDto r = new ValueSetQueryDto();
+                        r.setConceptCode(dto.getConceptCode());
+                        r.setCodeSystemOid(dto.getCodeSystemOid());
+                        Set<String> vs = new HashSet<>();
+                        vs.add(cc.getValueSetCategory());
+                        r.setVsCategoryCodes(vs);
+                        return r;
+                    }).orElse(null);
+                })
+                .filter(Objects::nonNull)
+                .collect(toList());
     }
 
-    @Override
-    public ValueSetQueryListDto RestfulValueSetCategories(
-            ValueSetQueryListDto valueSetQueryListDtos) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }
