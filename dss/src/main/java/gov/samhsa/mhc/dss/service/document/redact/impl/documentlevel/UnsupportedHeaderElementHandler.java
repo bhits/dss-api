@@ -1,19 +1,23 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.documentlevel;
 
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
+import gov.samhsa.mhc.dss.service.document.redact.RedactionHandlerException;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPathExpressionException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @ConfigurationProperties(prefix = "mhc.dss.redact")
@@ -38,30 +42,26 @@ public class UnsupportedHeaderElementHandler extends
     }
 
     @Override
-    public void execute(Document xmlDocument,
-                        Set<String> redactSectionCodesAndGeneratedEntryIds,
-                        List<Node> listOfNodes) throws XPathExpressionException {
-        // Create new headers redaction list
-        final Set<String> headersRedactionList = new HashSet<String>();
+    public RedactionHandlerResult execute(Document xmlDocument) {
+        try {
+            // Get complete header list
+            final Stream<Node> allHeaders = documentAccessor.getNodeListAsStream(xmlDocument,
+                    XPATH_ALL_HEARDERS);
 
-        // Get complete section list
-        final NodeList sectionList = documentAccessor.getNodeList(xmlDocument,
-                XPATH_ALL_HEARDERS);
+            // Find the headers that are not in the white list
+            final Set<String> headersRedactionList = allHeaders
+                    .map(Node::getNodeName)
+                    .filter(StringUtils::hasText)
+                    .filter(nodeName -> !headersWhiteList.contains(nodeName))
+                    .collect(toSet());
 
-        // Check if every section code is in the white list. If not add it to
-        // redaction list.
-        for (int i = 0; i < sectionList.getLength(); i++) {
-            final Node node = sectionList.item(i);
-            if (!headersWhiteList.contains(node.getNodeName())) {
-                headersRedactionList.add(node.getNodeName());
-            }
-        }
-
-        // Add redaction list to the global list.
-        for (final String header : headersRedactionList) {
-            addNodesToList(xmlDocument, listOfNodes,
-                    redactSectionCodesAndGeneratedEntryIds,
-                    XPATH_HEADERS_PREFIX, header);
+            // Add redaction list to the global list.
+            return headersRedactionList.stream()
+                    .map(header -> addNodesToList(xmlDocument, XPATH_HEADERS_PREFIX, header))
+                    .reduce(RedactionHandlerResult::concat)
+                    .orElseGet(RedactionHandlerResult::new);
+        } catch (XPathExpressionException e) {
+            throw new RedactionHandlerException(e);
         }
     }
 }

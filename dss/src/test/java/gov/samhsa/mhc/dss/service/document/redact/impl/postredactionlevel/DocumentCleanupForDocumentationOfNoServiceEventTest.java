@@ -1,7 +1,5 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel;
 
-import static org.junit.Assert.assertEquals;
-
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
@@ -15,22 +13,17 @@ import gov.samhsa.mhc.common.marshaller.SimpleMarshallerException;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractor;
 import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractorImpl;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
-import org.junit.After;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentCleanupForDocumentationOfNoServiceEventTest {
@@ -57,10 +50,6 @@ public class DocumentCleanupForDocumentationOfNoServiceEventTest {
         sut = new DocumentCleanupForDocumentationOfNoServiceEvent(documentAccessor);
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
-
     @Test
     public void testExecute_DocumentationOf_Has_ServiceEvent() throws IOException, SimpleMarshallerException, XPathExpressionException {
         // Arrange
@@ -72,13 +61,11 @@ public class DocumentCleanupForDocumentationOfNoServiceEventTest {
         Document c32Document = documentXmlConverter.loadDocument(c32);
         Document factModelDocument = documentXmlConverter.loadDocument(factmodelXml);
         FactModel factModel = marshaller.unmarshalFromXml(FactModel.class, factmodelXml);
-        List<Node> listOfNodes = new LinkedList<Node>();
-        Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
+        RedactionHandlerResult preRedactionResults = new RedactionHandlerResult();
 
         // Act
         sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds);
+                factModelDocument, ruleExecutionContainer, preRedactionResults);
 
         // Assert
         assertEquals(1, documentAccessor.getNodeList(c32Document, "//hl7:documentationOf").getLength());
@@ -97,13 +84,11 @@ public class DocumentCleanupForDocumentationOfNoServiceEventTest {
         Document c32Document = documentXmlConverter.loadDocument(c32);
         Document factModelDocument = documentXmlConverter.loadDocument(factmodelXml);
         FactModel factModel = marshaller.unmarshalFromXml(FactModel.class, factmodelXml);
-        List<Node> listOfNodes = new LinkedList<Node>();
-        Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
+        RedactionHandlerResult preRedactionResults = new RedactionHandlerResult();
 
         // Act
         sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds);
+                factModelDocument, ruleExecutionContainer, preRedactionResults);
 
         // Assert
         assertEquals(0, documentAccessor.getNodeList(c32Document, "//hl7:documentationOf").getLength());

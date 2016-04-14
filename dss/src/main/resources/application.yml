@@ -15,6 +15,7 @@ eureka:
       enabled: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+hystrix.command.default.execution.timeout.enabled: false
 mhc:
   brms:
     guvnor:

@@ -1,7 +1,5 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.obligationlevel;
 
-import static org.junit.Assert.assertEquals;
-
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
@@ -11,26 +9,21 @@ import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.mhc.common.filereader.FileReader;
 import gov.samhsa.mhc.common.filereader.FileReaderImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerException;
+import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractor;
 import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractorImpl;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
-import org.junit.After;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SectionTest {
@@ -57,10 +50,6 @@ public class SectionTest {
         sut = new Section(documentAccessor);
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
-
     @Test
     public void testExecute() throws IOException, SimpleMarshallerException, XPathExpressionException {
         // Arrange
@@ -73,24 +62,19 @@ public class SectionTest {
         Document c32Document = documentXmlConverter.loadDocument(c32);
         Document factModelDocument = documentXmlConverter.loadDocument(factmodelXml);
         FactModel factModel = marshaller.unmarshalFromXml(FactModel.class, factmodelXml);
-        List<Node> listOfNodes = new LinkedList<Node>();
-        Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
-        Set<String> redactSectionCodes = new HashSet<String>();
         factModel.getXacmlResult().getPdpObligations().add(sectionCode);
 
         // Act
-        sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds,
-                redactSectionCodes, sectionCode);
+        final RedactionHandlerResult response = sut.execute(c32Document, factModel.getXacmlResult(), factModel,
+                factModelDocument, ruleExecutionContainer, sectionCode);
 
         // Assert
-        assertEquals(1, listOfNodes.size());
-        assertEquals(1, redactSectionCodesAndGeneratedEntryIds.size());
-        assertEquals(1, redactSectionCodes.size());
-        assertEquals("component", listOfNodes.get(0).getNodeName());
-        assertEquals("section", listOfNodes.get(0).getChildNodes().item(1).getNodeName());
-        assertEquals(sectionCode, redactSectionCodesAndGeneratedEntryIds.toArray()[0]);
-        assertEquals(sectionCode, redactSectionCodes.toArray()[0]);
+        assertEquals(1, response.getRedactNodeList().size());
+        assertEquals(1, response.getRedactSectionCodesAndGeneratedEntryIds().size());
+        assertEquals(1, response.getRedactSectionSet().size());
+        assertEquals("component", response.getRedactNodeList().get(0).getNodeName());
+        assertEquals("section", response.getRedactNodeList().get(0).getChildNodes().item(1).getNodeName());
+        assertEquals(sectionCode, response.getRedactSectionCodesAndGeneratedEntryIds().toArray()[0]);
+        assertEquals(sectionCode, response.getRedactSectionSet().toArray()[0]);
     }
 }

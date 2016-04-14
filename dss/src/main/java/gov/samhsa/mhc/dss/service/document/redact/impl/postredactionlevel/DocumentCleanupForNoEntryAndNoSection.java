@@ -30,20 +30,17 @@ import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
-import gov.samhsa.mhc.common.log.Logger;
-import gov.samhsa.mhc.common.log.LoggerFactory;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
+import gov.samhsa.mhc.dss.service.document.redact.RedactionHandlerException;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPathExpressionException;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * The Class DocumentCleanupForNoEntryAndNoSection.
@@ -78,16 +75,9 @@ public class DocumentCleanupForNoEntryAndNoSection extends
     public static final String XPATH_SECTION_COMPONENT_WITH_NO_ENTRY = "/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component[hl7:section[not(hl7:entry)]]";
 
     /**
-     * The logger.
-     */
-    private final Logger logger = LoggerFactory
-            .getLogger(this.getClass());
-
-    /**
      * Instantiates a new document cleanup for no section.
      *
-     * @param documentAccessor
-     *            the document accessor
+     * @param documentAccessor the document accessor
      */
     @Autowired
     public DocumentCleanupForNoEntryAndNoSection(
@@ -95,30 +85,21 @@ public class DocumentCleanupForNoEntryAndNoSection extends
         super(documentAccessor);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.mhc.dss.service.document.redact.
-     * AbstractPostRedactionLevelCallback#execute(org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.XacmlResult,
-     * gov.samhsa.mhc.brms.domain.FactModel, org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.RuleExecutionContainer, java.util.List,
-     * java.util.Set)
-     */
     @Override
     public void execute(Document xmlDocument, XacmlResult xacmlResult,
                         FactModel factModel, Document factModelDocument,
                         RuleExecutionContainer ruleExecutionContainer,
-                        List<Node> listOfNodes,
-                        Set<String> redactSectionCodesAndGeneratedEntryIds)
-            throws XPathExpressionException {
+                        RedactionHandlerResult preRedactionResults) {
+        try {
+            // Clean up section components with no entries
+            cleanUpSectionComponentsWithNoEntries(xmlDocument);
 
-        // Clean up section components with no entries
-        cleanUpSectionComponentsWithNoEntries(xmlDocument);
-
-        // Add empty component/section under structuredBody if none exists
-        // (required to pass validation)
-        addEmptySectionComponentIfNoneExists(xmlDocument);
+            // Add empty component/section under structuredBody if none exists
+            // (required to pass validation)
+            addEmptySectionComponentIfNoneExists(xmlDocument);
+        } catch (DocumentAccessorException e) {
+            throw new RedactionHandlerException(e);
+        }
     }
 
     /**
@@ -149,25 +130,8 @@ public class DocumentCleanupForNoEntryAndNoSection extends
      */
     private void cleanUpSectionComponentsWithNoEntries(Document xmlDocument)
             throws DocumentAccessorException {
-        final NodeList emptySectionComponents = documentAccessor.getNodeList(
+        final Stream<Node> emptySectionComponents = documentAccessor.getNodeListAsStream(
                 xmlDocument, XPATH_SECTION_COMPONENT_WITH_NO_ENTRY);
-        if (emptySectionComponents != null) {
-            for (int i = 0; i < emptySectionComponents.getLength(); i++) {
-                final Node sectionComponent = emptySectionComponents.item(i);
-                try {
-                    sectionComponent.getParentNode().removeChild(
-                            sectionComponent);
-                } catch (final NullPointerException e) {
-                    logger.info(
-                            () -> new StringBuilder().append("Node Name: '")
-                                    .append(sectionComponent.getNodeName())
-                                    .append("'").append("; Node Value: '")
-                                    .append(sectionComponent.getNodeValue())
-                                    .append("'")
-                                    .append("; has already been removed.")
-                                    .toString(), e);
-                }
-            }
-        }
+        emptySectionComponents.forEach(this::nullSafeRemove);
     }
 }

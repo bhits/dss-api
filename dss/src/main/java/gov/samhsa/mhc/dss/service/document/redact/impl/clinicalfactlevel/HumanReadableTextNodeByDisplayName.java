@@ -30,16 +30,14 @@ import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
-import javax.xml.xpath.XPathExpressionException;
-import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 /**
  * The Class HumanReadableTextNodeByDisplayName.
@@ -64,36 +62,19 @@ public class HumanReadableTextNodeByDisplayName extends
         super(documentAccessor);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.mhc.dss.service.document.redact.
-     * AbstractClinicalFactLevelCallback#execute(org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.XacmlResult,
-     * gov.samhsa.mhc.brms.domain.FactModel, org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.ClinicalFact,
-     * gov.samhsa.mhc.brms.domain.RuleExecutionContainer, java.util.List,
-     * java.util.Set, java.util.Set)
-     */
     @Override
-    public void execute(Document xmlDocument, XacmlResult xacmlResult,
-                        FactModel factModel, Document factModelDocument, ClinicalFact fact,
-                        RuleExecutionContainer ruleExecutionContainer,
-                        List<Node> listOfNodes,
-                        Set<String> redactSectionCodesAndGeneratedEntryIds,
-                        Set<String> redactSensitiveCategoryCodes)
-            throws XPathExpressionException {
-        String displayName = fact.getDisplayName().toLowerCase();
-        if (!StringUtils.isBlank(displayName)) {
-            String foundCategory = findMatchingCategory(xacmlResult, fact);
-            // If there is at least one value set category in obligations
-            if (foundCategory != null) {
-                addNodesToList(xmlDocument, listOfNodes,
-                        redactSectionCodesAndGeneratedEntryIds,
-                        XPATH_HUMAN_READABLE_TEXT_NODE, fact.getEntry(),
-                        displayName);
-                redactSensitiveCategoryCodes.add(foundCategory);
-            }
-        }
+    public RedactionHandlerResult execute(Document xmlDocument, XacmlResult xacmlResult,
+                                          FactModel factModel, Document factModelDocument, ClinicalFact fact,
+                                          RuleExecutionContainer ruleExecutionContainer) {
+        return Optional.ofNullable(fact.getDisplayName())
+                .filter(StringUtils::hasText)
+                .map(String::toLowerCase)
+                .flatMap(displayName -> findMatchingCategoryAsOptional(xacmlResult, fact)
+                        .map(foundCategory -> addNodesToListForSensitiveCategory(
+                                foundCategory, xmlDocument,
+                                XPATH_HUMAN_READABLE_TEXT_NODE,
+                                fact.getEntry(), displayName))
+                )
+                .orElseGet(RedactionHandlerResult::new);
     }
 }

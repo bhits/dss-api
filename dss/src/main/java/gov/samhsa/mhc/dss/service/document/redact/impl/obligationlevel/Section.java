@@ -29,16 +29,12 @@ import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
-import javax.xml.xpath.XPathExpressionException;
-import java.util.List;
-import java.util.Set;
 
 /**
  * The Class Section.
@@ -55,41 +51,27 @@ public class Section extends
     /**
      * Instantiates a new document node collector for section.
      *
-     * @param documentAccessor
-     *            the document accessor
+     * @param documentAccessor the document accessor
      */
     @Autowired
     public Section(DocumentAccessor documentAccessor) {
         super(documentAccessor);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.mhc.dss.service.document.redact.
-     * AbstractObligationLevelCallback#execute(org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.XacmlResult,
-     * gov.samhsa.mhc.brms.domain.FactModel, org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.RuleExecutionContainer, java.util.List,
-     * java.util.Set, java.util.Set, java.lang.String)
-     */
     @Override
-    public void execute(Document xmlDocument, XacmlResult xacmlResult,
-                        FactModel factModel, Document factModelDocument,
-                        RuleExecutionContainer ruleExecutionContainer,
-                        List<Node> listOfNodes,
-                        Set<String> redactSectionCodesAndGeneratedEntryIds,
-                        Set<String> redactSectionCodes, String sectionLoincCode)
-            throws XPathExpressionException {
+    public RedactionHandlerResult execute(Document xmlDocument, XacmlResult xacmlResult,
+                                          FactModel factModel, Document factModelDocument,
+                                          RuleExecutionContainer ruleExecutionContainer,
+                                          String sectionLoincCode) {
         // If there is any section with a code exists in pdp obligations,
         // add that section to redactNodeList.
         Assert.notNull(sectionLoincCode, this.getClass().getSimpleName()
                 + " requires the c32 section LOINC code to be provided.");
-        int added = addNodesToList(xmlDocument, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds, XPATH_SECTION,
+        final RedactionHandlerResult redactionHandlerResult = addNodesToList(xmlDocument, XPATH_SECTION,
                 sectionLoincCode);
-        if (added > 0) {
-            redactSectionCodes.add(sectionLoincCode);
+        if (redactionHandlerResult.getRedactNodeList().size() > 0) {
+            redactionHandlerResult.getRedactSectionSet().add(sectionLoincCode);
         }
+        return redactionHandlerResult;
     }
 }

@@ -25,7 +25,6 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
-import gov.samhsa.mhc.brms.domain.ClinicalFact;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
@@ -36,6 +35,7 @@ import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
@@ -49,10 +49,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPathExpressionException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The Class DocumentRedactorImpl.
@@ -114,20 +111,13 @@ public class DocumentRedactorImpl implements DocumentRedactor {
     /**
      * Instantiates a new document redactor impl.
      *
-     * @param marshaller
-     *            the marshaller
-     * @param documentXmlConverter
-     *            the document xml converter
-     * @param documentAccessor
-     *            the document accessor
-     * @param documentLevelRedactionHandlers
-     *            the document level redaction handlers
-     * @param obligationLevelRedactionHandlers
-     *            the obligation level redaction handlers
-     * @param clinicalFactLevelRedactionHandlers
-     *            the clinical fact level redaction handlers
-     * @param postRedactionLevelRedactionHandlers
-     *            the post redaction level redaction handlers
+     * @param marshaller                          the marshaller
+     * @param documentXmlConverter                the document xml converter
+     * @param documentAccessor                    the document accessor
+     * @param documentLevelRedactionHandlers      the document level redaction handlers
+     * @param obligationLevelRedactionHandlers    the obligation level redaction handlers
+     * @param clinicalFactLevelRedactionHandlers  the clinical fact level redaction handlers
+     * @param postRedactionLevelRedactionHandlers the post redaction level redaction handlers
      */
     @Autowired
     public DocumentRedactorImpl(
@@ -214,7 +204,6 @@ public class DocumentRedactorImpl implements DocumentRedactor {
     public RedactedDocument redactDocument(String document,
                                            RuleExecutionContainer ruleExecutionContainer, FactModel factModel) {
 
-        Document xmlDocument = null;
         String tryPolicyDocument = null;
         final List<Node> redactNodeList = new LinkedList<Node>();
         final Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
@@ -223,38 +212,37 @@ public class DocumentRedactorImpl implements DocumentRedactor {
         final XacmlResult xacmlResult = factModel.getXacmlResult();
 
         try {
-            xmlDocument = documentXmlConverter.loadDocument(document);
+            final Document xmlDocument = documentXmlConverter.loadDocument(document);
             final Document factModelDocument = documentXmlConverter
                     .loadDocument(marshaller.marshal(factModel));
 
-            // Document Level redaction handlers
-            for (final AbstractDocumentLevelRedactionHandler documentLevelRedactionHandler : documentLevelRedactionHandlers) {
-                documentLevelRedactionHandler.execute(xmlDocument,
-                        redactSectionCodesAndGeneratedEntryIds, redactNodeList);
-            }
+            // DOCUMENT LEVEL REDACTION HANDLERS
+            final RedactionHandlerResult documentLevelResults = documentLevelRedactionHandlers
+                    .stream()
+                    .map(handler -> handler.execute(xmlDocument))
+                    .reduce(RedactionHandlerResult::concat)
+                    .orElseGet(RedactionHandlerResult::new);
 
             // OBLIGATION LEVEL REDACTION HANDLERS
-            for (final String obligation : xacmlResult.getPdpObligations()) {
-                for (final AbstractObligationLevelRedactionHandler obligationLevelRedactionHandler : obligationLevelRedactionHandlers) {
-                    obligationLevelRedactionHandler.execute(xmlDocument,
-                            xacmlResult, factModel, factModelDocument,
-                            ruleExecutionContainer, redactNodeList,
-                            redactSectionCodesAndGeneratedEntryIds,
-                            redactSectionSet, obligation);
-                }
-            }
+            final RedactionHandlerResult obligationLevelResults = xacmlResult.getPdpObligations().stream()
+                    .flatMap(obligation -> obligationLevelRedactionHandlers
+                            .stream()
+                            .map(handler -> handler.execute(xmlDocument, xacmlResult, factModel, factModelDocument, ruleExecutionContainer, obligation)))
+                    .reduce(RedactionHandlerResult::concat)
+                    .orElseGet(RedactionHandlerResult::new);
 
             // CLINICAL FACT LEVEL REDACTION HANDLERS
-            for (final ClinicalFact fact : factModel.getClinicalFactList()) {
-                // For each clinical fact
-                for (final AbstractClinicalFactLevelRedactionHandler clinicalFactLevelRedactionHandler : clinicalFactLevelRedactionHandlers) {
-                    clinicalFactLevelRedactionHandler.execute(xmlDocument,
-                            xacmlResult, factModel, factModelDocument, fact,
-                            ruleExecutionContainer, redactNodeList,
-                            redactSectionCodesAndGeneratedEntryIds,
-                            redactCategorySet);
-                }
-            }
+            final RedactionHandlerResult clinicalFactLevelResults = factModel.getClinicalFactList().stream()
+                    .flatMap(fact -> clinicalFactLevelRedactionHandlers
+                            .stream()
+                            .map(handler -> handler.execute(xmlDocument, xacmlResult, factModel, factModelDocument, fact, ruleExecutionContainer)))
+                    .reduce(RedactionHandlerResult::concat)
+                    .orElseGet(RedactionHandlerResult::new);
+
+            final RedactionHandlerResult combinedResults = RedactionHandlerResult.empty()
+                    .concat(documentLevelResults)
+                    .concat(obligationLevelResults)
+                    .concat(clinicalFactLevelResults);
 
             // Create tryPolicyDocument before the actual redacting
             tryPolicyDocument = documentXmlConverter
@@ -263,22 +251,13 @@ public class DocumentRedactorImpl implements DocumentRedactor {
             // REDACTION
             // Redact all nodes in redactNodeList
             // (sections, entries, text nodes)
-            for (final Node nodeToBeReadacted : redactNodeList) {
-                redactNodeIfNotNull(nodeToBeReadacted);
-            }
+            redactNodesIfNotNull(combinedResults.getRedactNodeList());
 
             // POST REDACTION LEVEL REDACTION HANDLERS
-            for (final AbstractPostRedactionLevelRedactionHandler postRedactionRedactionHandler : postRedactionLevelRedactionHandlers) {
-                postRedactionRedactionHandler.execute(xmlDocument, xacmlResult,
-                        factModel, factModelDocument, ruleExecutionContainer,
-                        redactNodeList, redactSectionCodesAndGeneratedEntryIds);
-            }
+            postRedactionLevelRedactionHandlers.forEach(handler -> handler.execute(xmlDocument, xacmlResult, factModel, factModelDocument, ruleExecutionContainer, combinedResults));
 
             // Convert redacted document to xml string
             document = documentXmlConverter.convertXmlDocToString(xmlDocument);
-
-            // Debug
-            // FileHelper.writeDocToFile(xmlDocument, "Redacted_C32.xml");
         } catch (final Exception e) {
             logger.error(e.getMessage(), e);
             throw new DocumentSegmentationException(e.toString(), e);
@@ -340,5 +319,11 @@ public class DocumentRedactorImpl implements DocumentRedactor {
                         .toString());
             }
         }
+    }
+
+    private void redactNodesIfNotNull(List<Node> nodesToBeRedacted) {
+        Optional.ofNullable(nodesToBeRedacted)
+                .filter(Objects::nonNull)
+                .ifPresent(list -> list.forEach(this::redactNodeIfNotNull));
     }
 }
