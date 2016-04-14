@@ -39,7 +39,7 @@ import org.w3c.dom.Document;
 /**
  * The Class Section.
  */
-@Service
+//@Service // disabled
 public class Section extends
         AbstractObligationLevelRedactionHandler {
 
