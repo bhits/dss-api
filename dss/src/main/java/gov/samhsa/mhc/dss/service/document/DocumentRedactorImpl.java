@@ -34,12 +34,10 @@ import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
+import gov.samhsa.mhc.dss.config.RedactionHandlerIdentityConfig;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
-import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
-import gov.samhsa.mhc.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
-import gov.samhsa.mhc.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
-import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
+import gov.samhsa.mhc.dss.service.document.redact.base.*;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,8 +46,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.annotation.PostConstruct;
 import javax.xml.xpath.XPathExpressionException;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * The Class DocumentRedactorImpl.
@@ -138,6 +140,33 @@ public class DocumentRedactorImpl implements DocumentRedactor {
         this.postRedactionLevelRedactionHandlers = postRedactionLevelRedactionHandlers;
     }
 
+    @PostConstruct
+    public void afterPropertiesSet() {
+        logger.info(() -> "Loaded redaction handlers (excluding " + RedactionHandlerIdentityConfig.IDENTITY + "s): "
+                + (documentLevelRedactionHandlers.stream()
+                .map(AbstractRedactionHandler::toString)
+                .filter(this::isNotIdentity)
+                .count()
+                + obligationLevelRedactionHandlers.stream()
+                .map(AbstractRedactionHandler::toString)
+                .filter(this::isNotIdentity)
+                .count()
+                + clinicalFactLevelRedactionHandlers.stream()
+                .map(AbstractRedactionHandler::toString)
+                .filter(this::isNotIdentity)
+                .count()
+                + postRedactionLevelRedactionHandlers.stream()
+                .map(AbstractRedactionHandler::toString)
+                .filter(this::isNotIdentity)
+                .count())
+        );
+        logger.info(() -> "documentLevelRedactionHandlers: " + documentLevelRedactionHandlers.toString());
+        logger.info(() -> "obligationLevelRedactionHandlers: " + obligationLevelRedactionHandlers.toString());
+        logger.info(() -> "clinicalFactLevelRedactionHandlers: " + clinicalFactLevelRedactionHandlers.toString());
+        logger.info(() -> "postRedactionLevelRedactionHandlers: " + postRedactionLevelRedactionHandlers.toString());
+    }
+
+
     /*
      * (non-Javadoc)
      *
@@ -205,10 +234,7 @@ public class DocumentRedactorImpl implements DocumentRedactor {
                                            RuleExecutionContainer ruleExecutionContainer, FactModel factModel) {
 
         String tryPolicyDocument = null;
-        final List<Node> redactNodeList = new LinkedList<Node>();
-        final Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
-        final Set<String> redactSectionSet = new HashSet<String>();
-        final Set<String> redactCategorySet = new HashSet<String>();
+        RedactionHandlerResult combinedResults;
         final XacmlResult xacmlResult = factModel.getXacmlResult();
 
         try {
@@ -239,7 +265,7 @@ public class DocumentRedactorImpl implements DocumentRedactor {
                     .reduce(RedactionHandlerResult::concat)
                     .orElseGet(RedactionHandlerResult::new);
 
-            final RedactionHandlerResult combinedResults = RedactionHandlerResult.empty()
+            combinedResults = RedactionHandlerResult.empty()
                     .concat(documentLevelResults)
                     .concat(obligationLevelResults)
                     .concat(clinicalFactLevelResults);
@@ -263,7 +289,7 @@ public class DocumentRedactorImpl implements DocumentRedactor {
             throw new DocumentSegmentationException(e.toString(), e);
         }
         return new RedactedDocument(document, tryPolicyDocument,
-                redactSectionSet, redactCategorySet);
+                combinedResults.getRedactSectionSet(), combinedResults.getRedactCategorySet());
     }
 
     /**
@@ -298,6 +324,10 @@ public class DocumentRedactorImpl implements DocumentRedactor {
             throw new DocumentSegmentationException(e.toString(), e);
         }
         return document;
+    }
+
+    private boolean isNotIdentity(String name) {
+        return !RedactionHandlerIdentityConfig.IDENTITY.equals(name);
     }
 
     /**
