@@ -121,6 +121,14 @@ public abstract class AbstractRedactionHandler {
         return response;
     }
 
+    protected void nullSafeRemoveChildNodes(Node node) {
+        Optional.ofNullable(node)
+                .map(Node::getChildNodes)
+                .map(DocumentAccessor::toNodeStream)
+                .map(stream -> stream.collect(toList()))
+                .ifPresent(list -> list.forEach(this::nullSafeRemove));
+    }
+
     protected Node markRedactForTryPolicyIfElement(Node node) {
         if (Node.ELEMENT_NODE == node.getNodeType()) {
             Element element = (Element) node;
