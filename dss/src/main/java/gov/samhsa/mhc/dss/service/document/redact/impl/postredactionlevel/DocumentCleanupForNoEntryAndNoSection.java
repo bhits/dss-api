@@ -34,18 +34,26 @@ import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.mhc.dss.service.document.redact.RedactionHandlerException;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * The Class DocumentCleanupForNoEntryAndNoSection.
  */
 @Service
+@ConfigurationProperties(prefix = "mhc.dss.redact")
 public class DocumentCleanupForNoEntryAndNoSection extends
         AbstractPostRedactionLevelRedactionHandler {
 
@@ -53,26 +61,24 @@ public class DocumentCleanupForNoEntryAndNoSection extends
      * The Constant URN_HL7_V3.
      */
     public static final String URN_HL7_V3 = "urn:hl7-org:v3";
-
     /**
      * The Constant TAG_COMPONENT.
      */
     public static final String TAG_COMPONENT = "component";
-
     /**
      * The Constant TAG_SECTION.
      */
     public static final String TAG_SECTION = "section";
-
     /**
      * The Constant XPATH_NO_COMPONENT_IN_STRUCTURED_BODY.
      */
     public static final String XPATH_NO_COMPONENT_IN_STRUCTURED_BODY = "/hl7:ClinicalDocument/hl7:component/hl7:structuredBody[not(hl7:component)]";
-
     /**
      * The Constant XPATH_SECTION_COMPONENT_WITH_NO_ENTRY.
      */
     public static final String XPATH_SECTION_COMPONENT_WITH_NO_ENTRY = "/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component[hl7:section[not(hl7:entry)]]";
+
+    private List<String> sectionWhiteList = new ArrayList<>();
 
     /**
      * Instantiates a new document cleanup for no section.
@@ -100,6 +106,10 @@ public class DocumentCleanupForNoEntryAndNoSection extends
         } catch (DocumentAccessorException e) {
             throw new RedactionHandlerException(e);
         }
+    }
+
+    public List<String> getSectionWhiteList() {
+        return sectionWhiteList;
     }
 
     /**
@@ -130,8 +140,68 @@ public class DocumentCleanupForNoEntryAndNoSection extends
      */
     private void cleanUpSectionComponentsWithNoEntries(Document xmlDocument)
             throws DocumentAccessorException {
-        final Stream<Node> emptySectionComponents = documentAccessor.getNodeListAsStream(
-                xmlDocument, XPATH_SECTION_COMPONENT_WITH_NO_ENTRY);
-        emptySectionComponents.forEach(this::nullSafeRemove);
+        // Find all empty sections
+        final List<Node> emptySectionComponents = documentAccessor.getNodeListAsStream(
+                xmlDocument, XPATH_SECTION_COMPONENT_WITH_NO_ENTRY).collect(toList());
+        // Find the required sections out of the empty sections
+        final List<Node> requiredButEmptySectionComponents = emptySectionComponents.stream()
+                .filter(this::isRequired)
+                .collect(toList());
+        // Remove the empty sections that are not required
+        emptySectionComponents.stream()
+                .filter(section -> !requiredButEmptySectionComponents.contains(section))
+                .forEach(this::nullSafeRemove);
+        // Set @nullFlavor=NI and add "No information" text on required but empty sections
+        requiredButEmptySectionComponents.stream()
+                .flatMap(this::componentToSection)
+                .peek(section -> section.getAttributes().setNamedItem(createNullFlavorNIAttribute(xmlDocument)))
+                .flatMap(this::sectionToText)
+                .forEach(text -> {
+                    nullSafeRemoveChildNodes(text);
+                    Node textNode = createTextNode(xmlDocument, "No information");
+                    text.appendChild(textNode);
+                });
+    }
+
+    private Node createNullFlavorNIAttribute(Document xmlDocument) {
+        final Attr nullFlavor = xmlDocument.createAttributeNS(URN_HL7_V3, "nullFlavor");
+        nullFlavor.setValue("NI");
+        return nullFlavor;
+    }
+
+    private Node createTextNode(Document xmlDocument, String data) {
+        return xmlDocument.createTextNode(data);
+    }
+
+    private boolean isRequired(Node componentNode) {
+        return componentToSection(componentNode)
+                .flatMap(this::sectionToCode)
+                .map(code -> code.getAttributes().getNamedItem("code"))
+                .filter(Objects::nonNull)
+                .map(Node::getNodeValue)
+                .filter(Objects::nonNull)
+                .filter(sectionWhiteList::contains)
+                .findAny().isPresent();
+    }
+
+    private Stream<Node> componentToSection(Node componentNode) {
+        return getChildElementNodeWithName(componentNode, "section");
+    }
+
+    private Stream<Node> sectionToCode(Node sectionNode) {
+        return getChildElementNodeWithName(sectionNode, "code");
+    }
+
+    private Stream<Node> sectionToText(Node sectionNode) {
+        return getChildElementNodeWithName(sectionNode, "text");
+    }
+
+    private Stream<Node> getChildElementNodeWithName(Node node, String elementName) {
+        return Optional.ofNullable(node)
+                .map(Node::getChildNodes)
+                .map(DocumentAccessor::toNodeStream)
+                .orElseGet(Stream::empty)
+                .filter(child -> Node.ELEMENT_NODE == child.getNodeType())
+                .filter(child -> elementName.equals(child.getNodeName()));
     }
 }
