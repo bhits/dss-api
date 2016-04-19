@@ -52,10 +52,12 @@ mhc:
         - "componentOf"
         - "component"
       sectionWhiteList:
-        - "11450-4"
-        - "48765-2"
-        - "10160-0"
-        - "30954-2"
+        - "11450-4" # problems
+        - "48765-2" # allergies
+        - "10160-0" # medications
+        - "30954-2" # results
+        - "29762-2" # social history
+        - "8716-3" # vital signs
     DocumentTaggerImpl:
       disclaimerText: |
                     &lt;disclaimerText&gt;
