@@ -3,6 +3,8 @@ server:
 spring.profiles.active: eureka-ssl
 logging:
   file: /java/MHC_LOGS/dss/dss.log
+  level:
+    gov.samhsa.mhc.dss: warn
 info:
   component: DSS
 eureka:
@@ -26,6 +28,10 @@ mhc:
       serviceUsername: admin
       servicePassword: admin
   dss:
+    validator:
+      c-cda:
+        r1: http://localhost:8080/r1/validator
+        r2: http://localhost:8080/r2/validator
     redact:
       headersWhiteList:
         - "realmCode"

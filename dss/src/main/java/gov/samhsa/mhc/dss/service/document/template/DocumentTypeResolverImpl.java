@@ -3,6 +3,7 @@ package gov.samhsa.mhc.dss.service.document.template;
 
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
+import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class DocumentTypeResolverImpl implements DocumentTypeResolver {
     @Autowired
     private DocumentAccessor documentAccessor;
 
+    @Autowired
+    private DocumentXmlConverter documentXmlConverter;
+
     @Override
     public DocumentType resolve(Document document) {
         try {
@@ -33,6 +37,11 @@ public class DocumentTypeResolverImpl implements DocumentTypeResolver {
         } catch (DocumentAccessorException e) {
             throw new DocumentSegmentationException(e);
         }
+    }
+
+    @Override
+    public DocumentType resolve(String document) {
+        return resolve(documentXmlConverter.loadDocument(document));
     }
 
     private String toRoot(Node node) {

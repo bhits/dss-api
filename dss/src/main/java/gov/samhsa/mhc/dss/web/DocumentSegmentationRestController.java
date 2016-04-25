@@ -5,6 +5,7 @@ import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureExceptio
 import gov.samhsa.mhc.dss.service.DocumentSegmentation;
 import gov.samhsa.mhc.dss.service.dto.DSSRequest;
 import gov.samhsa.mhc.dss.service.dto.DSSResponse;
+import gov.samhsa.mhc.dss.service.exception.InvalidOriginalClinicalDocumentException;
 import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class DocumentSegmentationRestController {
     }
 
     @RequestMapping(value = "/segmentedDocument", method = RequestMethod.POST)
-    public DSSResponse segment(@Valid @RequestBody DSSRequest request) throws InvalidSegmentedClinicalDocumentException, AuditException, XmlDocumentReadFailureException {
+    public DSSResponse segment(@Valid @RequestBody DSSRequest request) throws InvalidSegmentedClinicalDocumentException, AuditException, XmlDocumentReadFailureException, InvalidOriginalClinicalDocumentException {
         return documentSegmentation.segmentDocument(request);
     }
 }
