@@ -43,7 +43,6 @@ import gov.samhsa.mhc.common.validation.XmlValidation;
 import gov.samhsa.mhc.common.validation.XmlValidationResult;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.mhc.dss.config.ApplicationContextConfig;
-import gov.samhsa.mhc.dss.infrastructure.dto.DiagnosticType;
 import gov.samhsa.mhc.dss.infrastructure.dto.ValidationResponseDto;
 import gov.samhsa.mhc.dss.infrastructure.validator.CCDAValidatorService;
 import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetService;
@@ -183,6 +182,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     @Autowired
     private DocumentTypeResolver documentTypeResolver;
 
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Value("${mhc.dss.documentSegmentationImpl.defaultIsAudited}")
@@ -589,7 +589,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     }
 
     private boolean isInvalid(ValidationResponseDto validationResponseDto) {
-        return validationResponseDto.getValidationSummary().get(DiagnosticType.CCDA_ERROR.getTypeName()).intValue() > 0;
+        return validationResponseDto.getValidationSummary().getError() > 0;
     }
 
     private boolean isValid(ValidationResponseDto validationResponseDto) {
