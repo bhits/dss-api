@@ -29,16 +29,18 @@ import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
+import gov.samhsa.mhc.common.log.Logger;
+import gov.samhsa.mhc.common.log.LoggerFactory;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
+import gov.samhsa.mhc.dss.service.document.redact.RedactionHandlerException;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPathExpressionException;
-import java.util.List;
-import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * The Class DocumentCleanupForDocumentationOfNoServiceEvent.
@@ -51,13 +53,13 @@ public class DocumentCleanupForDocumentationOfNoServiceEvent extends
      * The Constant XPATH_DOCUMENTATIONOF_WITH_NO_SERVICE_EVENT.
      */
     public static final String XPATH_DOCUMENTATIONOF_WITH_NO_SERVICE_EVENT = "/hl7:ClinicalDocument/hl7:documentationOf[not(hl7:serviceEvent)]";
+    private final Logger logger = LoggerFactory.getLogger(this);
 
     /**
      * Instantiates a new document cleanup for documentation of no service
      * event.
      *
-     * @param documentAccessor
-     *            the document accessor
+     * @param documentAccessor the document accessor
      */
     @Autowired
     public DocumentCleanupForDocumentationOfNoServiceEvent(
@@ -65,31 +67,17 @@ public class DocumentCleanupForDocumentationOfNoServiceEvent extends
         super(documentAccessor);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.mhc.dss.service.document.redact.base.
-     * AbstractPostRedactionLevelRedactionHandler#execute(org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.XacmlResult,
-     * gov.samhsa.mhc.brms.domain.FactModel, org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.RuleExecutionContainer, java.util.List,
-     * java.util.Set)
-     */
     @Override
     public void execute(Document xmlDocument, XacmlResult xacmlResult,
                         FactModel factModel, Document factModelDocument,
                         RuleExecutionContainer ruleExecutionContainer,
-                        List<Node> listOfNodes,
-                        Set<String> redactSectionCodesAndGeneratedEntryIds)
-            throws XPathExpressionException {
-        NodeList documentationOfElements = documentAccessor.getNodeList(
-                xmlDocument, XPATH_DOCUMENTATIONOF_WITH_NO_SERVICE_EVENT);
-        if (documentationOfElements != null) {
-            for (int i = 0; i < documentationOfElements.getLength(); i++) {
-                Node documentationOfElement = documentationOfElements.item(i);
-                documentationOfElement.getParentNode().removeChild(
-                        documentationOfElement);
-            }
+                        RedactionHandlerResult preRedactionResults) {
+        try {
+            Stream<Node> documentationOfElements = documentAccessor.getNodeListAsStream(
+                    xmlDocument, XPATH_DOCUMENTATIONOF_WITH_NO_SERVICE_EVENT);
+            documentationOfElements.forEach(this::nullSafeRemove);
+        } catch (DocumentAccessorException e) {
+            throw new RedactionHandlerException(e);
         }
     }
 }

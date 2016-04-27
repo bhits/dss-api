@@ -29,12 +29,8 @@ import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
-import javax.xml.xpath.XPathExpressionException;
-import java.util.List;
-import java.util.Set;
 
 /**
  * The Class AbstractPostRedactionLevelRedactionHandler.
@@ -45,8 +41,7 @@ public abstract class AbstractPostRedactionLevelRedactionHandler extends
     /**
      * Instantiates a new abstract post redaction level callback.
      *
-     * @param documentAccessor
-     *            the document accessor
+     * @param documentAccessor the document accessor
      */
     public AbstractPostRedactionLevelRedactionHandler(DocumentAccessor documentAccessor) {
         super(documentAccessor);
@@ -55,19 +50,15 @@ public abstract class AbstractPostRedactionLevelRedactionHandler extends
     /**
      * Execute.
      *
-     * @param xmlDocument                            the xml document
-     * @param xacmlResult                            the xacml result
-     * @param factModel                              the fact model
-     * @param factModelDocument                      the fact model document
-     * @param ruleExecutionContainer                 the rule execution container
-     * @param listOfNodes                            the list of nodes
-     * @param redactSectionCodesAndGeneratedEntryIds the redact section codes and generated entry ids
-     * @throws XPathExpressionException the x path expression exception
+     * @param xmlDocument            the xml document
+     * @param xacmlResult            the xacml result
+     * @param factModel              the fact model
+     * @param factModelDocument      the fact model document
+     * @param ruleExecutionContainer the rule execution container
+     * @param preRedactionResults    the pre-redaction results
      */
     public abstract void execute(Document xmlDocument, XacmlResult xacmlResult,
                                  FactModel factModel, Document factModelDocument,
                                  RuleExecutionContainer ruleExecutionContainer,
-                                 List<Node> listOfNodes,
-                                 Set<String> redactSectionCodesAndGeneratedEntryIds)
-            throws XPathExpressionException;
+                                 RedactionHandlerResult preRedactionResults);
 }

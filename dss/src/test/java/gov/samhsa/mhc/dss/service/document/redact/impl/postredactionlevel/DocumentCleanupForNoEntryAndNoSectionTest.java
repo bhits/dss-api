@@ -1,43 +1,20 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
-import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.mhc.common.filereader.FileReader;
 import gov.samhsa.mhc.common.filereader.FileReaderImpl;
+import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerException;
+import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractor;
 import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractorImpl;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Supplier;
-
-import javax.xml.xpath.XPathExpressionException;
-
-import net.sf.saxon.dom.DOMNodeList;
-
-import org.junit.After;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +22,18 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentCleanupForNoEntryAndNoSectionTest {
@@ -73,10 +61,6 @@ public class DocumentCleanupForNoEntryAndNoSectionTest {
         sut = new DocumentCleanupForNoEntryAndNoSection(documentAccessor);
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
-
     @Test
     public void testExecute_AddEmptySectionComponentIfNoneExists()
             throws IOException, SimpleMarshallerException,
@@ -97,13 +81,11 @@ public class DocumentCleanupForNoEntryAndNoSectionTest {
                 .loadDocument(factmodelXml);
         final FactModel factModel = marshaller.unmarshalFromXml(
                 FactModel.class, factmodelXml);
-        final List<Node> listOfNodes = new LinkedList<Node>();
-        final Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
+        RedactionHandlerResult preRedactionResults = new RedactionHandlerResult();
 
         // Act
         sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds);
+                factModelDocument, ruleExecutionContainer, preRedactionResults);
 
         // Assert
         assertEquals(1,
@@ -142,13 +124,11 @@ public class DocumentCleanupForNoEntryAndNoSectionTest {
                 .loadDocument(factmodelXml);
         final FactModel factModel = marshaller.unmarshalFromXml(
                 FactModel.class, factmodelXml);
-        final List<Node> listOfNodes = new LinkedList<Node>();
-        final Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
+        RedactionHandlerResult preRedactionResults = new RedactionHandlerResult();
 
         // Act
         sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds);
+                factModelDocument, ruleExecutionContainer, preRedactionResults);
 
         // Assert
         assertEquals(1,
@@ -189,22 +169,19 @@ public class DocumentCleanupForNoEntryAndNoSectionTest {
                 .loadDocument(factmodelXml);
         final FactModel factModel = marshaller.unmarshalFromXml(
                 FactModel.class, factmodelXml);
-        final List<Node> listOfNodes = new LinkedList<Node>();
-        final Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
-        final NodeList nodeListMock = mock(NodeList.class);
-        when(nodeListMock.getLength()).thenReturn(1);
         final Node nodeMock = mock(Node.class);
-        when(nodeListMock.item(0)).thenReturn(nodeMock);
-        when(nodeMock.getParentNode()).thenReturn(null);
-        when(documentAccessorMock.getNodeList(eq(c32Document), anyString()))
-                .thenReturn(nodeListMock);
+        final Node parentNodeMock = mock(Node.class);
+        when(nodeMock.getParentNode()).thenReturn(parentNodeMock);
+        doThrow(NullPointerException.class).when(parentNodeMock).removeChild(nodeMock);
+        when(documentAccessorMock.getNodeListAsStream(eq(c32Document), anyString()))
+                .thenReturn(Stream.of(nodeMock));
         when(documentAccessorMock.getNode(eq(c32Document), anyString()))
                 .thenReturn(Optional.empty());
+        RedactionHandlerResult preRedactionResults = new RedactionHandlerResult();
 
         // Act
         sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds);
+                factModelDocument, ruleExecutionContainer, preRedactionResults);
 
         // Assert
         assertEquals(2,
@@ -244,17 +221,15 @@ public class DocumentCleanupForNoEntryAndNoSectionTest {
                 .loadDocument(factmodelXml);
         final FactModel factModel = marshaller.unmarshalFromXml(
                 FactModel.class, factmodelXml);
-        final List<Node> listOfNodes = new LinkedList<Node>();
-        final Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
-        when(documentAccessorMock.getNodeList(eq(c32Document), anyString()))
-                .thenReturn(new DOMNodeList(Collections.emptyList()));
+        when(documentAccessorMock.getNodeListAsStream(eq(c32Document), anyString()))
+                .thenReturn(Stream.empty());
         when(documentAccessorMock.getNode(eq(c32Document), anyString()))
                 .thenReturn(Optional.empty());
+        RedactionHandlerResult preRedactionResults = new RedactionHandlerResult();
 
         // Act
         sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds);
+                factModelDocument, ruleExecutionContainer, preRedactionResults);
 
         // Assert
         assertEquals(2,

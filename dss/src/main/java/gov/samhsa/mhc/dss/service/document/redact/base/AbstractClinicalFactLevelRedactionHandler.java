@@ -31,13 +31,14 @@ import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
+import gov.samhsa.mhc.dss.service.document.redact.RedactionHandlerException;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPathExpressionException;
-import java.util.List;
-import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * The Class AbstractClinicalFactLevelRedactionHandler.
@@ -53,8 +54,7 @@ public abstract class AbstractClinicalFactLevelRedactionHandler extends
     /**
      * Instantiates a new abstract clinical fact level callback.
      *
-     * @param documentAccessor
-     *            the document accessor
+     * @param documentAccessor the document accessor
      */
     public AbstractClinicalFactLevelRedactionHandler(DocumentAccessor documentAccessor) {
         super(documentAccessor);
@@ -63,24 +63,17 @@ public abstract class AbstractClinicalFactLevelRedactionHandler extends
     /**
      * Execute.
      *
-     * @param xmlDocument                            the xml document
-     * @param xacmlResult                            the xacml result
-     * @param factModel                              the fact model
-     * @param factModelDocument                      the fact model document
-     * @param fact                                   the fact
-     * @param ruleExecutionContainer                 the rule execution container
-     * @param listOfNodes                            the list of nodes
-     * @param redactSectionCodesAndGeneratedEntryIds the redact section codes and generated entry ids
-     * @param redactSensitiveCategoryCodes           the redact sensitive category codes
-     * @throws XPathExpressionException the x path expression exception
+     * @param xmlDocument            the xml document
+     * @param xacmlResult            the xacml result
+     * @param factModel              the fact model
+     * @param factModelDocument      the fact model document
+     * @param fact                   the fact
+     * @param ruleExecutionContainer the rule execution container
+     * @return RedactionHandlerResult
      */
-    public abstract void execute(Document xmlDocument, XacmlResult xacmlResult,
-                                 FactModel factModel, Document factModelDocument, ClinicalFact fact,
-                                 RuleExecutionContainer ruleExecutionContainer,
-                                 List<Node> listOfNodes,
-                                 Set<String> redactSectionCodesAndGeneratedEntryIds,
-                                 Set<String> redactSensitiveCategoryCodes)
-            throws XPathExpressionException;
+    public abstract RedactionHandlerResult execute(Document xmlDocument, XacmlResult xacmlResult,
+                                                   FactModel factModel, Document factModelDocument, ClinicalFact fact,
+                                                   RuleExecutionContainer ruleExecutionContainer);
 
     /**
      * Gets the entry reference id node list.
@@ -88,13 +81,37 @@ public abstract class AbstractClinicalFactLevelRedactionHandler extends
      * @param factModelDocument the fact model document
      * @param fact              the fact
      * @return the entry reference id node list
-     * @throws DocumentAccessorException the document accessor exception
      */
     protected final NodeList getEntryReferenceIdNodeList(
-            Document factModelDocument, ClinicalFact fact)
-            throws DocumentAccessorException {
-        NodeList references = documentAccessor.getNodeList(factModelDocument,
-                XPATH_REFERENCES_BY_ENTRY, fact.getEntry());
-        return references;
+            Document factModelDocument, ClinicalFact fact) {
+        try {
+            NodeList references = documentAccessor.getNodeList(factModelDocument,
+                    XPATH_REFERENCES_BY_ENTRY, fact.getEntry());
+            return references;
+        } catch (DocumentAccessorException e) {
+            throw new RedactionHandlerException(e);
+        }
+    }
+
+    protected final Stream<Node> getEntryReferenceIdNodeListAsStream(
+            Document factModelDocument, ClinicalFact fact) {
+        try {
+            Stream<Node> references = documentAccessor.getNodeListAsStream(factModelDocument,
+                    XPATH_REFERENCES_BY_ENTRY, fact.getEntry());
+            return references;
+        } catch (DocumentAccessorException e) {
+            throw new RedactionHandlerException(e);
+        }
+    }
+
+    protected RedactionHandlerResult addNodesToListForSensitiveCategory(String foundCategory,
+                                                                        Document xmlDocument,
+                                                                        String xPathExpr,
+                                                                        String... values) {
+        final RedactionHandlerResult redactionHandlerResult = addNodesToList(xmlDocument, xPathExpr, values);
+        if (StringUtils.hasText(foundCategory)) {
+            redactionHandlerResult.getRedactCategorySet().add(foundCategory);
+        }
+        return redactionHandlerResult;
     }
 }

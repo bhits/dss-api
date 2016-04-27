@@ -3,6 +3,8 @@ server:
 spring.profiles.active: eureka-ssl
 logging:
   file: /java/MHC_LOGS/dss/dss.log
+  level:
+    gov.samhsa.mhc.dss: warn
 info:
   component: DSS
 eureka:
@@ -15,6 +17,10 @@ eureka:
       enabled: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+# TODO: until finding a better solution, disable hystrix command timeout. See https://github.com/spring-cloud/spring-cloud-netflix/issues/321#issuecomment-97727313
+hystrix.command.default.execution.timeout.enabled: false
+ribbon:
+  ReadTimeout: 50000
 mhc:
   brms:
     guvnor:
@@ -22,6 +28,10 @@ mhc:
       serviceUsername: admin
       servicePassword: admin
   dss:
+    validator:
+      c-cda:
+        r1: http://localhost:8080/r1/validator
+        r2: http://localhost:8080/r2/validator
     redact:
       headersWhiteList:
         - "realmCode"
@@ -48,43 +58,21 @@ mhc:
         - "componentOf"
         - "component"
       sectionWhiteList:
-        - "11450-4"
-        - "48765-2"
-        - "10160-0"
-        - "30954-2"
+        - "11450-4" # problems
+        - "48765-2" # allergies
+        - "10160-0" # medications
+        - "30954-2" # results
+        - "29762-2" # social history
+        - "8716-3" # vital signs
     DocumentTaggerImpl:
       disclaimerText: |
                     &lt;disclaimerText&gt;
-                    &lt;title&gt;***PLEASE READ THE
-                    DISCLAIMER***&lt;/title&gt;
-                    &lt;text&gt;The patient has authorized
-                    the sharing of their continuity of care
-                    document in a C32 summary
-                    format that has been provided by Prince
-                    George&amp;apos;s County
-                    Health Department and its affiliates as a
-                    partial
-                    reference service;
-                    it is not to be used as a substitute for a medical intake
-                    process
-                    and/or diagnosis, which must be provided by the
-                    patient&amp;apos;s
-                    own
-                    physician or reviewing practitioner.
-                    &lt;br/&gt;&lt;br/&gt;CAUTION:&lt;br/&gt;The following
-                    history may
-                    not be complete&lt;br/&gt;
+                    &lt;title&gt;***PLEASE READ THE DISCLAIMER***&lt;/title&gt;
+                    &lt;text&gt;The patient has authorized the sharing of their continuity of care document in a C32 summary format that has been provided by Prince George&amp;apos;s County Health Department and its affiliates as a partial reference service; it is not to be used as a substitute for a medical intake process and/or diagnosis, which must be provided by the patient&amp;apos;s own physician or reviewing practitioner.
+                    &lt;br/&gt;&lt;br/&gt;CAUTION:&lt;br/&gt;The following history may not be complete&lt;br/&gt;
                     &lt;list&gt;
-                    &lt;item&gt;Patients may have
-                    purchased or obtained care through sources which
-                    bypass Prince
-                    George&amp;apos;s County Health Department supplying the
-                    history.&lt;/item&gt;
-                    &lt;item&gt;Electronic Medical Record (EMR)
-                    systems may have their own unique
-                    method for accepting and/or
-                    formatting data sent by the system of
-                    origin.&lt;/item&gt;
+                    &lt;item&gt;Patients may have purchased or obtained care through sources which bypass Prince George&amp;apos;s County Health Department supplying the history.&lt;/item&gt;
+                    &lt;item&gt;Electronic Medical Record (EMR) systems may have their own unique method for accepting and/or formatting data sent by the system of origin.&lt;/item&gt;
                     &lt;/list&gt;
                     &lt;/text&gt;
                     &lt;/disclaimerText&gt;

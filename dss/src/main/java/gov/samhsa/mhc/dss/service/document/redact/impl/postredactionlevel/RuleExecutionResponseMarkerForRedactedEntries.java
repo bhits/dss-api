@@ -30,15 +30,14 @@ import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.RuleExecutionResponse;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
-import javax.xml.xpath.XPathExpressionException;
-import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * The Class RuleExecutionResponseMarkerForRedactedEntries.
@@ -50,8 +49,7 @@ public class RuleExecutionResponseMarkerForRedactedEntries extends
     /**
      * Instantiates a new rule execution response marker for redacted entries.
      *
-     * @param documentAccessor
-     *            the document accessor
+     * @param documentAccessor the document accessor
      */
     @Autowired
     public RuleExecutionResponseMarkerForRedactedEntries(
@@ -59,33 +57,20 @@ public class RuleExecutionResponseMarkerForRedactedEntries extends
         super(documentAccessor);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.mhc.dss.service.document.redact.
-     * AbstractPostRedactionLevelCallback#execute(org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.XacmlResult,
-     * gov.samhsa.mhc.brms.domain.FactModel, org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.RuleExecutionContainer, java.util.List,
-     * java.util.Set)
-     */
     @Override
     public void execute(Document xmlDocument, XacmlResult xacmlResult,
                         FactModel factModel, Document factModelDocument,
                         RuleExecutionContainer ruleExecutionContainer,
-                        List<Node> listOfNodes,
-                        Set<String> redactSectionCodesAndGeneratedEntryIds)
-            throws XPathExpressionException {
+                        RedactionHandlerResult preRedactionResults) {
         // Mark redacted sections and entries in ruleExecutionContainer,
         // so they can be ignored during tagging
-        for (RuleExecutionResponse response : ruleExecutionContainer
-                .getExecutionResponseList()) {
-            if (redactSectionCodesAndGeneratedEntryIds.contains(response
-                    .getC32SectionLoincCode())
-                    || redactSectionCodesAndGeneratedEntryIds.contains(response
-                    .getEntry())) {
-                response.setItemAction(RuleExecutionResponse.ITEM_ACTION_REDACT);
-            }
-        }
+        final Set<String> redactSectionCodesAndGeneratedEntryIds = preRedactionResults.getRedactSectionCodesAndGeneratedEntryIds();
+        final Predicate<RuleExecutionResponse> sectionOrEntryWillBeRedacted = response ->
+                redactSectionCodesAndGeneratedEntryIds.contains(response.getC32SectionLoincCode())
+                        || redactSectionCodesAndGeneratedEntryIds.contains(response.getEntry());
+        ruleExecutionContainer.getExecutionResponseList()
+                .stream()
+                .filter(sectionOrEntryWillBeRedacted)
+                .forEach(response -> response.setItemAction(RuleExecutionResponse.ITEM_ACTION_REDACT));
     }
 }

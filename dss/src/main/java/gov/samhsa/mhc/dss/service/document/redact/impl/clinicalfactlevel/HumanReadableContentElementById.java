@@ -30,16 +30,16 @@ import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.mhc.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPathExpressionException;
-import java.util.List;
-import java.util.Set;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The Class HumanReadableContentElementById.
@@ -62,8 +62,7 @@ public class HumanReadableContentElementById extends
      * Instantiates a new document node collector for human readable content
      * element by id.
      *
-     * @param documentAccessor
-     *            the document accessor
+     * @param documentAccessor the document accessor
      */
     @Autowired
     public HumanReadableContentElementById(
@@ -71,43 +70,28 @@ public class HumanReadableContentElementById extends
         super(documentAccessor);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.mhc.dss.service.document.redact.
-     * AbstractClinicalFactLevelCallback#execute(org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.XacmlResult,
-     * gov.samhsa.mhc.brms.domain.FactModel, org.w3c.dom.Document,
-     * gov.samhsa.mhc.brms.domain.ClinicalFact,
-     * gov.samhsa.mhc.brms.domain.RuleExecutionContainer, java.util.List,
-     * java.util.Set, java.util.Set)
-     */
     @Override
-    public void execute(Document xmlDocument, XacmlResult xacmlResult,
-                        FactModel factModel, Document factModelDocument, ClinicalFact fact,
-                        RuleExecutionContainer ruleExecutionContainer,
-                        List<Node> listOfNodes,
-                        Set<String> redactSectionCodesAndGeneratedEntryIds,
-                        Set<String> redactSensitiveCategoryCodes)
-            throws XPathExpressionException {
-        String foundCategory = findMatchingCategory(xacmlResult, fact);
-        if (foundCategory != null) {
-            NodeList references = getEntryReferenceIdNodeList(
-                    factModelDocument, fact);
-            for (int i = 0; i < references.getLength(); i++) {
-                // Collect the content element
-                addNodesToList(xmlDocument, listOfNodes,
-                        redactSectionCodesAndGeneratedEntryIds,
+    public RedactionHandlerResult execute(Document xmlDocument, XacmlResult xacmlResult,
+                                          FactModel factModel, Document factModelDocument, ClinicalFact fact,
+                                          RuleExecutionContainer ruleExecutionContainer) {
+        return findMatchingCategoryAsOptional(xacmlResult, fact)
+                .flatMap(foundCategory -> collectingContentRedactionResults(foundCategory, xmlDocument, factModelDocument, fact))
+                .orElseGet(RedactionHandlerResult::new);
+    }
+
+    private Optional<RedactionHandlerResult> collectingContentRedactionResults(String foundCategory, Document xmlDocument, Document factModelDocument, ClinicalFact fact) {
+        return getEntryReferenceIdNodeListAsStream(factModelDocument, fact)
+                .filter(Objects::nonNull)
+                .map(Node::getNodeValue)
+                .filter(StringUtils::hasText)
+                .map(nodeValue -> addNodesToListForSensitiveCategory(
+                        foundCategory, xmlDocument,
                         XPATH_HUMAN_READABLE_CONTENT_ELEMENT_BY_REFERENCE,
-                        fact.getEntry(), references.item(i).getNodeValue());
-                // Collect the text that follows the content element
-                // (if exists)
-                addNodesToList(xmlDocument, listOfNodes,
-                        redactSectionCodesAndGeneratedEntryIds,
-                        XPATH_HUMAN_READABLE_CONTENT_ELEMENT_NEXT_TEXT_NODE,
-                        fact.getEntry(), references.item(i).getNodeValue());
-            }
-            redactSensitiveCategoryCodes.add(foundCategory);
-        }
+                        fact.getEntry(), nodeValue)
+                        .concat(addNodesToListForSensitiveCategory(
+                                foundCategory, xmlDocument,
+                                XPATH_HUMAN_READABLE_CONTENT_ELEMENT_NEXT_TEXT_NODE,
+                                fact.getEntry(), nodeValue)))
+                .reduce(RedactionHandlerResult::concat);
     }
 }

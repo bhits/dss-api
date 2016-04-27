@@ -31,6 +31,7 @@ import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureExceptio
 import gov.samhsa.mhc.dss.service.dto.DSSRequest;
 import gov.samhsa.mhc.dss.service.dto.DSSResponse;
 import gov.samhsa.mhc.dss.service.dto.SegmentDocumentResponse;
+import gov.samhsa.mhc.dss.service.exception.InvalidOriginalClinicalDocumentException;
 import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ public interface DocumentSegmentation {
     /**
      * Segment document.
      *
-     * @param dssRequest                the document
+     * @param dssRequest the document
      * @return the segment document response
      * @throws XmlDocumentReadFailureException           the xml document read failure exception
      * @throws InvalidSegmentedClinicalDocumentException the invalid segmented clinical document exception
@@ -51,7 +52,7 @@ public interface DocumentSegmentation {
      */
     public DSSResponse segmentDocument(DSSRequest dssRequest)
             throws XmlDocumentReadFailureException,
-            InvalidSegmentedClinicalDocumentException, AuditException;
+            InvalidSegmentedClinicalDocumentException, AuditException, InvalidOriginalClinicalDocumentException;
 
     /**
      * Sets the additional metadata for segmented clinical document.

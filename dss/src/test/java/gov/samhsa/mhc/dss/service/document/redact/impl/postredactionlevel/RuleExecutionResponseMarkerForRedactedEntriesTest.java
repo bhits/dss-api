@@ -1,7 +1,5 @@
 package gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel;
 
-import static org.junit.Assert.assertEquals;
-
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
@@ -11,26 +9,21 @@ import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.mhc.common.filereader.FileReader;
 import gov.samhsa.mhc.common.filereader.FileReaderImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerException;
+import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractor;
 import gov.samhsa.mhc.dss.service.document.EmbeddedClinicalDocumentExtractorImpl;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
-
-import org.junit.After;
+import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RuleExecutionResponseMarkerForRedactedEntriesTest {
@@ -57,10 +50,6 @@ public class RuleExecutionResponseMarkerForRedactedEntriesTest {
         sut = new RuleExecutionResponseMarkerForRedactedEntries(documentAccessor);
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
-
     @Test
     public void testExecute_By_Entry_Match() throws IOException, SimpleMarshallerException, XPathExpressionException {
         // Arrange
@@ -72,14 +61,12 @@ public class RuleExecutionResponseMarkerForRedactedEntriesTest {
         Document c32Document = documentXmlConverter.loadDocument(c32);
         Document factModelDocument = documentXmlConverter.loadDocument(factmodelXml);
         FactModel factModel = marshaller.unmarshalFromXml(FactModel.class, factmodelXml);
-        List<Node> listOfNodes = new LinkedList<Node>();
-        Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
-        redactSectionCodesAndGeneratedEntryIds.add("d1e1406");
+        RedactionHandlerResult preRedactionResults = new RedactionHandlerResult();
+        preRedactionResults.getRedactSectionCodesAndGeneratedEntryIds().add("d1e1406");
 
         // Act
         sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds);
+                factModelDocument, ruleExecutionContainer, preRedactionResults);
 
         // Assert
         assertEquals(2, ruleExecutionContainer.getSize());
@@ -98,14 +85,12 @@ public class RuleExecutionResponseMarkerForRedactedEntriesTest {
         Document c32Document = documentXmlConverter.loadDocument(c32);
         Document factModelDocument = documentXmlConverter.loadDocument(factmodelXml);
         FactModel factModel = marshaller.unmarshalFromXml(FactModel.class, factmodelXml);
-        List<Node> listOfNodes = new LinkedList<Node>();
-        Set<String> redactSectionCodesAndGeneratedEntryIds = new HashSet<String>();
-        redactSectionCodesAndGeneratedEntryIds.add("10160-0");
+        RedactionHandlerResult preRedactionResults = new RedactionHandlerResult();
+        preRedactionResults.getRedactSectionCodesAndGeneratedEntryIds().add("10160-0");
 
         // Act
         sut.execute(c32Document, factModel.getXacmlResult(), factModel,
-                factModelDocument, ruleExecutionContainer, listOfNodes,
-                redactSectionCodesAndGeneratedEntryIds);
+                factModelDocument, ruleExecutionContainer, preRedactionResults);
 
         // Assert
         assertEquals(2, ruleExecutionContainer.getSize());
