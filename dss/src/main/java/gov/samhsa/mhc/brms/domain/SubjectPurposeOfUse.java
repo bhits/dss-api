@@ -37,8 +37,6 @@ public enum SubjectPurposeOfUse {
     HEALTHCARE_TREATMENT("TREATMENT"),
     @XmlEnumValue("PAYMENT")
     PAYMENT("PAYMENT"),
-    @XmlEnumValue("EMERGENCY")
-    EMERGENCY_TREATMENT("EMERGENCY"),
     @XmlEnumValue("RESEARCH")
     RESEARCH("RESEARCH");
 
