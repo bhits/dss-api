@@ -394,6 +394,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         DSSResponse dssResponse = new DSSResponse();
         dssResponse.setSegmentedDocument(segmentDocumentResponse.getSegmentedDocumentXml().getBytes(DEFAULT_ENCODING));
         dssResponse.setEncoding(DEFAULT_ENCODING.toString());
+        dssResponse.setCCDADocument(isCCDADocument(documentType));
         if (dssRequest.getEnableTryPolicyResponse().orElse(Boolean.FALSE)) {
             dssResponse.setTryPolicyDocument(segmentDocumentResponse.getTryPolicyDocumentXml().getBytes(DEFAULT_ENCODING));
         }
@@ -532,5 +533,9 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
 
     private boolean isValid(ValidationResponseDto validationResponseDto) {
         return !originalDocumentValidation.isInvalid(validationResponseDto);
+    }
+
+    private boolean isCCDADocument(DocumentType documentType) {
+        return documentType.isCCDA(R1) || documentType.isCCDA(R2);
     }
 }
