@@ -3,9 +3,9 @@
  */
 package gov.samhsa.mhc.dss.service;
 
-import gov.samhsa.mhc.common.validation.XmlValidationResult;
 import gov.samhsa.mhc.dss.infrastructure.dto.ValidationResponseDto;
 import gov.samhsa.mhc.dss.service.document.template.DocumentType;
+import gov.samhsa.mhc.dss.service.dto.OriginalDocumentValidationResult;
 import gov.samhsa.mhc.dss.service.exception.InvalidOriginalClinicalDocumentException;
 
 import java.nio.charset.Charset;
@@ -16,22 +16,7 @@ public interface OriginalDocumentValidation {
      * @param document
      * @throws InvalidOriginalClinicalDocumentException
      */
-    void validateOriginalClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException;
-
-    /**
-     * @return
-     */
-    DocumentType getDocumentType();
-
-    /**
-     * @return
-     */
-    ValidationResponseDto getOriginalCCDADocumentValidationResult();
-
-    /**
-     * @return
-     */
-    XmlValidationResult getOriginalClinicalDocumentValidationResult();
+    OriginalDocumentValidationResult validateOriginalClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException;
 
     /**
      * @param documentType

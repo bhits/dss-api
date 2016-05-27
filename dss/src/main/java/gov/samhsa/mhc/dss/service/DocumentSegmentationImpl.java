@@ -49,6 +49,7 @@ import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 import gov.samhsa.mhc.dss.service.document.template.DocumentType;
 import gov.samhsa.mhc.dss.service.dto.DSSRequest;
 import gov.samhsa.mhc.dss.service.dto.DSSResponse;
+import gov.samhsa.mhc.dss.service.dto.OriginalDocumentValidationResult;
 import gov.samhsa.mhc.dss.service.dto.SegmentDocumentResponse;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.dss.service.exception.InvalidOriginalClinicalDocumentException;
@@ -235,7 +236,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         final String originalDocument = document;
 
         //Validate Original Document
-        originalDocumentValidation.validateOriginalClinicalDocument(charset, document);
+        OriginalDocumentValidationResult originalDocumentValidationResult = originalDocumentValidation.validateOriginalClinicalDocument(charset, document);
 
         Assert.notNull(dssRequest.getXacmlResult());
         final String enforcementPolicies = marshal(dssRequest.getXacmlResult());
@@ -346,9 +347,9 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         XmlValidationResult segmentedClinicalDocumentValidationResult = null;
         ValidationResponseDto segmentedCCDADocumentValidationResult;
 
-        DocumentType documentType = originalDocumentValidation.getDocumentType();
-        XmlValidationResult originalClinicalDocumentValidationResult = originalDocumentValidation.getOriginalClinicalDocumentValidationResult();
-        ValidationResponseDto originalCCDADocumentValidationResult = originalDocumentValidation.getOriginalCCDADocumentValidationResult();
+        DocumentType documentType = originalDocumentValidationResult.getDocumentType();
+        XmlValidationResult originalClinicalDocumentValidationResult = originalDocumentValidationResult.getOriginalClinicalDocumentValidationResult();
+        ValidationResponseDto originalCCDADocumentValidationResult = originalDocumentValidationResult.getOriginalCCDADocumentValidationResult();
 
         if (DocumentType.HITSP_C32.equals(documentType)) {
             try {

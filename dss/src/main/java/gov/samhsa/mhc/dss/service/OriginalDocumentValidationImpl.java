@@ -12,6 +12,7 @@ import gov.samhsa.mhc.dss.infrastructure.dto.ValidationResponseDto;
 import gov.samhsa.mhc.dss.infrastructure.validator.CCDAValidatorService;
 import gov.samhsa.mhc.dss.service.document.template.DocumentType;
 import gov.samhsa.mhc.dss.service.document.template.DocumentTypeResolver;
+import gov.samhsa.mhc.dss.service.dto.OriginalDocumentValidationResult;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.dss.service.exception.InvalidOriginalClinicalDocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,15 +61,11 @@ public class OriginalDocumentValidationImpl implements OriginalDocumentValidatio
      */
     private XmlValidation xmlValidator;
 
-    private DocumentType documentType;
-    private XmlValidationResult originalClinicalDocumentValidationResult;
-    private ValidationResponseDto originalCCDADocumentValidationResult;
-
     @Override
-    public void validateOriginalClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException {
-        originalClinicalDocumentValidationResult = null;
-        originalCCDADocumentValidationResult = null;
-        documentType = documentTypeResolver.resolve(document);
+    public OriginalDocumentValidationResult validateOriginalClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException {
+        XmlValidationResult originalClinicalDocumentValidationResult = null;
+        ValidationResponseDto originalCCDADocumentValidationResult = null;
+        DocumentType documentType = documentTypeResolver.resolve(document);
         logger.info(() -> "identified document as " + documentType);
         if (DocumentType.HITSP_C32.equals(documentType)) {
             logger.info("running only schema validation for " + documentType);
@@ -97,6 +94,7 @@ public class OriginalDocumentValidationImpl implements OriginalDocumentValidatio
         } else {
             throw new InvalidOriginalClinicalDocumentException("Invalid or Unsupported document type");
         }
+        return new OriginalDocumentValidationResult(originalClinicalDocumentValidationResult, originalCCDADocumentValidationResult, documentType);
     }
 
     @Override
@@ -113,21 +111,6 @@ public class OriginalDocumentValidationImpl implements OriginalDocumentValidatio
     @Override
     public boolean isInvalid(ValidationResponseDto validationResponseDto) {
         return validationResponseDto.getValidationSummary().getError() > 0;
-    }
-
-    @Override
-    public XmlValidationResult getOriginalClinicalDocumentValidationResult() {
-        return originalClinicalDocumentValidationResult;
-    }
-
-    @Override
-    public ValidationResponseDto getOriginalCCDADocumentValidationResult() {
-        return originalCCDADocumentValidationResult;
-    }
-
-    @Override
-    public DocumentType getDocumentType() {
-        return documentType;
     }
 
     @PostConstruct
