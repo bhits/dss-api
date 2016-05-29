@@ -31,25 +31,21 @@ import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
 import gov.samhsa.mhc.brms.domain.XacmlResult;
 import gov.samhsa.mhc.brms.service.RuleExecutionService;
 import gov.samhsa.mhc.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
-import gov.samhsa.mhc.common.audit.AuditService;
-import gov.samhsa.mhc.common.audit.PredicateKey;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerException;
 import gov.samhsa.mhc.common.validation.XmlValidation;
-import gov.samhsa.mhc.common.validation.XmlValidationResult;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
-import gov.samhsa.mhc.dss.infrastructure.dto.ValidationResponseDto;
 import gov.samhsa.mhc.dss.infrastructure.valueset.ValueSetService;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;
 import gov.samhsa.mhc.dss.infrastructure.valueset.dto.ValueSetQueryDto;
 import gov.samhsa.mhc.dss.service.document.*;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 import gov.samhsa.mhc.dss.service.document.template.DocumentType;
+import gov.samhsa.mhc.dss.service.dto.ClinicalDocumentValidationResult;
 import gov.samhsa.mhc.dss.service.dto.DSSRequest;
 import gov.samhsa.mhc.dss.service.dto.DSSResponse;
-import gov.samhsa.mhc.dss.service.dto.OriginalDocumentValidationResult;
 import gov.samhsa.mhc.dss.service.dto.SegmentDocumentResponse;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.mhc.dss.service.exception.InvalidOriginalClinicalDocumentException;
@@ -57,10 +53,8 @@ import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentExce
 import gov.samhsa.mhc.dss.service.metadata.AdditionalMetadataGeneratorForSegmentedClinicalDocument;
 import org.apache.axiom.attachments.ByteArrayDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.xml.sax.SAXParseException;
 
 import javax.activation.DataHandler;
 import javax.xml.bind.JAXBException;
@@ -68,13 +62,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static gov.samhsa.mhc.dss.service.audit.DssAuditVerb.SEGMENT_DOCUMENT;
-import static gov.samhsa.mhc.dss.service.audit.DssPredicateKey.*;
 import static gov.samhsa.mhc.dss.service.document.template.CCDAVersion.R1;
 import static gov.samhsa.mhc.dss.service.document.template.CCDAVersion.R2;
 
@@ -106,12 +97,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      */
     @Autowired
     private RuleExecutionService ruleExecutionService;
-
-    /**
-     * The audit service.
-     */
-    @Autowired
-    private AuditService auditService;
 
     /**
      * The document editor.
@@ -166,14 +151,8 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      */
     private XmlValidation xmlValidator;
 
-    @Value("${mhc.dss.documentSegmentationImpl.defaultIsAudited}")
-    private boolean defaultIsAudited;
-
-    @Value("${mhc.dss.documentSegmentationImpl.defaultIsAuditFailureByPass}")
-    private boolean defaultIsAuditFailureByPass;
-
     @Autowired
-    private OriginalDocumentValidation originalDocumentValidation;
+    private ClinicalDocumentValidation clinicalDocumentValidation;
 
     public DocumentSegmentationImpl() {
     }
@@ -182,7 +161,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
      * Instantiates a new document processor impl.
      *
      * @param ruleExecutionService                                    the rule execution service
-     * @param auditService                                            the audit service
      * @param documentEditor                                          the document editor
      * @param marshaller                                              the marshaller
      * @param documentRedactor                                        the document redactor
@@ -196,7 +174,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     @Autowired
     public DocumentSegmentationImpl(
             RuleExecutionService ruleExecutionService,
-            AuditService auditService,
             DocumentEditor documentEditor,
             SimpleMarshaller marshaller,
             DocumentRedactor documentRedactor,
@@ -206,7 +183,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             ValueSetService valueSetService,
             AdditionalMetadataGeneratorForSegmentedClinicalDocument additionalMetadataGeneratorForSegmentedClinicalDocument) {
         this.ruleExecutionService = ruleExecutionService;
-        this.auditService = auditService;
         this.documentEditor = documentEditor;
         this.marshaller = marshaller;
         this.documentRedactor = documentRedactor;
@@ -233,10 +209,9 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         final Charset charset = getCharset(dssRequest.getDocumentEncoding());
         String document = new String(dssRequest.getDocument(), charset);
         Assert.hasText(document);
-        final String originalDocument = document;
 
         //Validate Original Document
-        OriginalDocumentValidationResult originalDocumentValidationResult = originalDocumentValidation.validateOriginalClinicalDocument(charset, document);
+        ClinicalDocumentValidationResult clinicalDocumentValidationResult = clinicalDocumentValidation.validateClinicalDocument(charset, document);
 
         Assert.notNull(dssRequest.getXacmlResult());
         final String enforcementPolicies = marshal(dssRequest.getXacmlResult());
@@ -344,58 +319,14 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             throw new DocumentSegmentationException(e.toString(), e);
         }
 
-        XmlValidationResult segmentedClinicalDocumentValidationResult = null;
-        ValidationResponseDto segmentedCCDADocumentValidationResult;
-
-        DocumentType documentType = originalDocumentValidationResult.getDocumentType();
-        XmlValidationResult originalClinicalDocumentValidationResult = originalDocumentValidationResult.getOriginalClinicalDocumentValidationResult();
-        ValidationResponseDto originalCCDADocumentValidationResult = originalDocumentValidationResult.getOriginalCCDADocumentValidationResult();
-
-        if (DocumentType.HITSP_C32.equals(documentType)) {
-            try {
-                segmentedClinicalDocumentValidationResult = xmlValidator
-                        .validateWithAllErrors(document);
-                Assert.notNull(segmentedClinicalDocumentValidationResult);
-                if (dssRequest.getAudited().orElse(defaultIsAudited)) {
-                    auditSegmentation(originalDocument, document,
-                            factModel.getXacmlResult(), redactedDocument,
-                            rulesFired, originalClinicalDocumentValidationResult.isValid(),
-                            segmentedClinicalDocumentValidationResult.isValid(),
-                            dssRequest.getAuditFailureByPass().orElse(defaultIsAuditFailureByPass));
-                }
-            } catch (final XmlDocumentReadFailureException e) {
-                logger.error(e.getMessage(), e);
-                throw e;
-            }
-
-            if (!segmentedClinicalDocumentValidationResult.isValid()) {
-                final String segmentationErr = "Schema validation is failed for segmented clinical document.";
-                logger.error(segmentationErr);
-                final String err = "InvalidSegmentedClinicalDocumentException: ";
-                for (final SAXParseException e : segmentedClinicalDocumentValidationResult
-                        .getExceptions()) {
-                    logger.error(err + e.getMessage());
-                }
-                throw new InvalidSegmentedClinicalDocumentException(segmentationErr);
-            }
-        } else if (documentType.isCCDA(R1) || documentType.isCCDA(R2)) {
-            segmentedCCDADocumentValidationResult = originalDocumentValidation.validate(documentType, document, charset);
-            if (dssRequest.getAudited().orElse(defaultIsAudited)) {
-                auditSegmentation(originalDocument, document,
-                        factModel.getXacmlResult(), redactedDocument,
-                        rulesFired, isValid(originalCCDADocumentValidationResult),
-                        isValid(segmentedCCDADocumentValidationResult),
-                        dssRequest.getAuditFailureByPass().orElse(defaultIsAuditFailureByPass));
-            }
-            if (originalDocumentValidation.isInvalid(segmentedCCDADocumentValidationResult)) {
-                throw new InvalidSegmentedClinicalDocumentException("C-CDA validation failed for document type " + documentType);
-            }
-        }
+        //Validate Segmented Document
+        clinicalDocumentValidation.validateClinicalDocumentAddAudited(charset, document, dssRequest,
+                factModel, redactedDocument, rulesFired);
 
         DSSResponse dssResponse = new DSSResponse();
         dssResponse.setSegmentedDocument(segmentDocumentResponse.getSegmentedDocumentXml().getBytes(DEFAULT_ENCODING));
         dssResponse.setEncoding(DEFAULT_ENCODING.toString());
-        dssResponse.setCCDADocument(isCCDADocument(documentType));
+        dssResponse.setCCDADocument(isCCDADocument(clinicalDocumentValidationResult.getDocumentType()));
         if (dssRequest.getEnableTryPolicyResponse().orElse(Boolean.FALSE)) {
             dssResponse.setTryPolicyDocument(segmentDocumentResponse.getTryPolicyDocumentXml().getBytes(DEFAULT_ENCODING));
         }
@@ -466,74 +397,12 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         return documentEncoding.map(Charset::forName).orElse(DEFAULT_ENCODING);
     }
 
-    /**
-     * Audit segmentation.
-     *
-     * @param originalDocument       the original document
-     * @param segmentedDocument      the segmented document
-     * @param xacmlResult            the xacml result
-     * @param redactedDocument       the redacted document
-     * @param rulesFired             the rules fired
-     * @param originalDocumentValid  the original clinical document validation result
-     * @param segmentedDocumentValid the segmented clinical document validation result
-     * @param isAuditFailureByPass   the is audit failure by pass
-     * @throws AuditException the audit exception
-     */
-    private void auditSegmentation(String originalDocument,
-                                   String segmentedDocument, XacmlResult xacmlResult,
-                                   RedactedDocument redactedDocument, String rulesFired,
-                                   boolean originalDocumentValid,
-                                   boolean segmentedDocumentValid,
-                                   boolean isAuditFailureByPass) throws AuditException {
-        final Map<PredicateKey, String> predicateMap = auditService
-                .createPredicateMap();
-        if (redactedDocument.getRedactedSectionSet().size() > 0) {
-            predicateMap.put(SECTION_OBLIGATIONS_APPLIED, redactedDocument
-                    .getRedactedSectionSet().toString());
-        }
-        if (redactedDocument.getRedactedCategorySet().size() > 0) {
-            predicateMap.put(CATEGORY_OBLIGATIONS_APPLIED, redactedDocument
-                    .getRedactedCategorySet().toString());
-        }
-        if (rulesFired != null) {
-            predicateMap.put(RULES_FIRED, rulesFired);
-        }
-        predicateMap.put(ORIGINAL_DOCUMENT, originalDocument);
-        predicateMap.put(SEGMENTED_DOCUMENT, segmentedDocument);
-        predicateMap.put(ORIGINAL_DOCUMENT_VALID, Boolean
-                .toString(originalDocumentValid));
-        predicateMap.put(SEGMENTED_DOCUMENT_VALID, Boolean
-                .toString(segmentedDocumentValid));
-        try {
-            auditService.audit(this, xacmlResult.getMessageId(),
-                    SEGMENT_DOCUMENT, xacmlResult.getPatientId(), predicateMap);
-        } catch (final AuditException e) {
-            if (isAuditFailureByPass) {
-                // main flow should work though the audit service has some
-                // issues
-                logger.error("Audit Service is Down");
-                logger.debug(() -> "patient id" + xacmlResult.getPatientId());
-                logger.debug(() -> "original document" + originalDocument);
-                logger.debug(() -> "segmented document" + segmentedDocument);
-                // TODO send the email notification to core team
-                // Or send a notification using rabbitmq
-            } else {
-                // main flow shouldn't work if audit service has some issues
-                throw e;
-            }
-        }
-    }
-
     private String marshal(Object o) {
         try {
             return marshaller.marshal(o);
         } catch (SimpleMarshallerException e) {
             throw new DocumentSegmentationException(e);
         }
-    }
-
-    private boolean isValid(ValidationResponseDto validationResponseDto) {
-        return !originalDocumentValidation.isInvalid(validationResponseDto);
     }
 
     private boolean isCCDADocument(DocumentType documentType) {
