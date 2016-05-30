@@ -7,9 +7,11 @@ import gov.samhsa.mhc.dss.service.document.template.DocumentType;
  */
 public class ClinicalDocumentValidationResult {
     private DocumentType documentType;
+    private boolean isValidDocument;
 
-    public ClinicalDocumentValidationResult(DocumentType documentType) {
+    public ClinicalDocumentValidationResult(DocumentType documentType, boolean isValidDocument) {
         this.documentType = documentType;
+        this.isValidDocument = isValidDocument;
     }
 
     public DocumentType getDocumentType() {
@@ -18,5 +20,13 @@ public class ClinicalDocumentValidationResult {
 
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
+    }
+
+    public boolean isValidDocument() {
+        return isValidDocument;
+    }
+
+    public void setValidDocument(boolean validDocument) {
+        isValidDocument = validDocument;
     }
 }

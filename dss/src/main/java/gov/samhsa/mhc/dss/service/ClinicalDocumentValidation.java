@@ -20,7 +20,7 @@ public interface ClinicalDocumentValidation {
      * @param document
      * @throws InvalidOriginalClinicalDocumentException
      */
-    ClinicalDocumentValidationResult validateClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException;
+    ClinicalDocumentValidationResult validateClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException, XmlDocumentReadFailureException;
 
     /**
      * @param charset

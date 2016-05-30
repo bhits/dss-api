@@ -91,7 +91,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
     private XmlValidation xmlValidator;
 
     @Override
-    public ClinicalDocumentValidationResult validateClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException {
+    public ClinicalDocumentValidationResult validateClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException, XmlDocumentReadFailureException {
         originalDocument = document;
         originalClinicalDocumentValidationResult = null;
         originalCCDADocumentValidationResult = null;
@@ -105,6 +105,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                 Assert.notNull(originalClinicalDocumentValidationResult);
             } catch (final XmlDocumentReadFailureException e) {
                 logger.error(e.getMessage(), e);
+                throw e;
             }
 
             if (!originalClinicalDocumentValidationResult.isValid()) {
@@ -124,7 +125,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
         } else {
             throw new InvalidOriginalClinicalDocumentException("Invalid or Unsupported document type");
         }
-        return new ClinicalDocumentValidationResult(documentType);
+        return new ClinicalDocumentValidationResult(documentType, true);
     }
 
     @Override
