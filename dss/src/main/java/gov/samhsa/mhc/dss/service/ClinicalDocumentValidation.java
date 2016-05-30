@@ -7,8 +7,9 @@ import ch.qos.logback.audit.AuditException;
 import gov.samhsa.mhc.brms.domain.FactModel;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
-import gov.samhsa.mhc.dss.service.dto.DSSRequest;
+import gov.samhsa.mhc.dss.service.dto.ClinicalDocumentValidationRequest;
 import gov.samhsa.mhc.dss.service.dto.ClinicalDocumentValidationResult;
+import gov.samhsa.mhc.dss.service.dto.DSSRequest;
 import gov.samhsa.mhc.dss.service.exception.InvalidOriginalClinicalDocumentException;
 import gov.samhsa.mhc.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 
@@ -21,6 +22,14 @@ public interface ClinicalDocumentValidation {
      * @throws InvalidOriginalClinicalDocumentException
      */
     ClinicalDocumentValidationResult validateClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException, XmlDocumentReadFailureException;
+
+    /**
+     * @param validationRequest
+     * @return
+     * @throws InvalidOriginalClinicalDocumentException
+     * @throws XmlDocumentReadFailureException
+     */
+    ClinicalDocumentValidationResult validateClinicalDocument(ClinicalDocumentValidationRequest validationRequest) throws InvalidOriginalClinicalDocumentException, XmlDocumentReadFailureException;
 
     /**
      * @param charset

@@ -18,12 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 @RestController
 public class DocumentSegmentationRestController {
-    private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
 
     @Autowired
     private DocumentSegmentation documentSegmentation;
@@ -44,8 +41,6 @@ public class DocumentSegmentationRestController {
     @RequestMapping(value = "/validateDocument", method = RequestMethod.POST)
     public ClinicalDocumentValidationResult validateClinicalDocument(
             @Valid @RequestBody ClinicalDocumentValidationRequest validationRequest) throws InvalidSegmentedClinicalDocumentException, AuditException, IOException, InvalidOriginalClinicalDocumentException {
-
-        String document = new String(validationRequest.getDocument(), DEFAULT_ENCODING);
-        return clinicalDocumentValidation.validateClinicalDocument(DEFAULT_ENCODING, document);
+        return clinicalDocumentValidation.validateClinicalDocument(validationRequest);
     }
 }

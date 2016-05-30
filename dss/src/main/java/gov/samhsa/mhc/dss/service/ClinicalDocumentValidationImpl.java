@@ -18,6 +18,7 @@ import gov.samhsa.mhc.dss.infrastructure.validator.CCDAValidatorService;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
 import gov.samhsa.mhc.dss.service.document.template.DocumentType;
 import gov.samhsa.mhc.dss.service.document.template.DocumentTypeResolver;
+import gov.samhsa.mhc.dss.service.dto.ClinicalDocumentValidationRequest;
 import gov.samhsa.mhc.dss.service.dto.DSSRequest;
 import gov.samhsa.mhc.dss.service.dto.ClinicalDocumentValidationResult;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
@@ -32,7 +33,9 @@ import org.xml.sax.SAXParseException;
 
 import javax.annotation.PostConstruct;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 
 import static gov.samhsa.mhc.dss.service.DocumentSegmentationImpl.C32_CDA_XSD_NAME;
 import static gov.samhsa.mhc.dss.service.DocumentSegmentationImpl.C32_CDA_XSD_PATH;
@@ -48,6 +51,7 @@ import static gov.samhsa.mhc.dss.service.document.template.CCDAVersion.R2;
 @Service
 public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidation {
 
+    private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
     private XmlValidationResult originalClinicalDocumentValidationResult;
     private ValidationResponseDto originalCCDADocumentValidationResult;
     private DocumentType documentType;
@@ -126,6 +130,14 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
             throw new InvalidOriginalClinicalDocumentException("Invalid or Unsupported document type");
         }
         return new ClinicalDocumentValidationResult(documentType, true);
+    }
+
+    @Override
+    public ClinicalDocumentValidationResult validateClinicalDocument(ClinicalDocumentValidationRequest validationRequest) throws InvalidOriginalClinicalDocumentException, XmlDocumentReadFailureException {
+        Optional<String> documentEncoding = validationRequest.getDocumentEncoding();
+        Charset charset = getCharset(documentEncoding);
+        String document = new String(validationRequest.getDocument(), charset);
+        return this.validateClinicalDocument(charset, document);
     }
 
     @Override
@@ -266,5 +278,9 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
         this.xmlValidator = new XmlValidation(this.getClass().getClassLoader()
                 .getResourceAsStream(C32_CDA_XSD_PATH + C32_CDA_XSD_NAME),
                 C32_CDA_XSD_PATH);
+    }
+
+    private Charset getCharset(Optional<String> documentEncoding) {
+        return documentEncoding.map(Charset::forName).orElse(DEFAULT_ENCODING);
     }
 }
