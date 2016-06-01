@@ -13,6 +13,7 @@ import gov.samhsa.mhc.common.validation.XmlValidation;
 import gov.samhsa.mhc.common.validation.XmlValidationResult;
 import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.mhc.dss.config.ApplicationContextConfig;
+import gov.samhsa.mhc.dss.infrastructure.dto.DiagnosticType;
 import gov.samhsa.mhc.dss.infrastructure.dto.ValidationResponseDto;
 import gov.samhsa.mhc.dss.infrastructure.validator.CCDAValidatorService;
 import gov.samhsa.mhc.dss.service.document.dto.RedactedDocument;
@@ -124,6 +125,10 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
         } else if (documentType.isCCDA(R1) || documentType.isCCDA(R2)) {
             originalCCDADocumentValidationResult = validate(documentType, document, charset);
             if (isInvalid(originalCCDADocumentValidationResult)) {
+                originalCCDADocumentValidationResult.getValidationDetails()
+                        .stream()
+                        .filter(type -> type.getType().getTypeName().contains(DiagnosticType.CCDA_ERROR.getTypeName()))
+                        .forEach(detail -> logger.error("Validation Error -- xPath: " + detail.getxPath() + ", Message: " + detail.getMessage()));
                 throw new InvalidOriginalClinicalDocumentException("C-CDA validation failed for document type " + documentType);
             }
         } else {
@@ -184,6 +189,10 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                         dssRequest.getAuditFailureByPass().orElse(defaultIsAuditFailureByPass));
             }
             if (isInvalid(segmentedCCDADocumentValidationResult)) {
+                segmentedCCDADocumentValidationResult.getValidationDetails()
+                        .stream()
+                        .filter(errorType -> errorType.getType().getTypeName().contains(DiagnosticType.CCDA_ERROR.getTypeName()))
+                        .forEach(detail -> logger.error("Validation Error -- xPath: " + detail.getxPath() + ", Message: " + detail.getMessage()));
                 throw new InvalidSegmentedClinicalDocumentException("C-CDA validation failed for document type " + documentType);
             }
         }
