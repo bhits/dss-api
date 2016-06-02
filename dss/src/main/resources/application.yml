@@ -30,8 +30,8 @@ mhc:
   dss:
     validator:
       c-cda:
-        r1: https://localhost:8443/r1/validator
-        r2: https://localhost:8443/r2/validator
+        r1: https://localhost:8443/documentValidator/r1/validator
+        r2: https://localhost:8443/documentValidator/r2/validator
     redact:
       headersWhiteList:
         - "realmCode"
