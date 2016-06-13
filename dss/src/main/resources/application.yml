@@ -112,3 +112,7 @@ eureka:
       defaultZone: https://discovery-server.mhc.com:8761/eureka/
   instance:
     prefer-ip-address: true
+mhc.dss:
+  validator:
+    c-cda:
+      r2: https://document-validator.mhc.com:8443/documentValidator/validator
