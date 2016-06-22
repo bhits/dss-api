@@ -286,6 +286,7 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
                 segmentDocumentResponse
                         .setTryPolicyDocumentXml(redactedDocument
                                 .getTryPolicyDocument());
+                logger.debug(() -> "Try Policy Document: " + segmentDocumentResponse.getTryPolicyDocumentXml());
             }
 
             // to get the itemActions from documentRedactor
