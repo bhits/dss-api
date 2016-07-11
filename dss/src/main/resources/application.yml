@@ -115,4 +115,5 @@ eureka:
 mhc.dss:
   validator:
     c-cda:
+      r1: https://document-validator-r1.mhc.com:8443/documentValidator/validator
       r2: https://document-validator.mhc.com:8443/documentValidator/validator
