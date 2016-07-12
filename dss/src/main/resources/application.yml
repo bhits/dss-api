@@ -64,6 +64,7 @@ mhc:
         - "30954-2" # results
         - "29762-2" # social history
         - "8716-3" # vital signs
+        - "47519-4" # procedures
     DocumentTaggerImpl:
       disclaimerText: |
                     &lt;disclaimerText&gt;
