@@ -75,10 +75,8 @@
     <xsl:function name="ds4p:mapDocRefrainPolicyFromCodetoText" as="xs:string">
         <xsl:param name="docRefrainPolicyFromCode"/>
         <xsl:choose>
-            <xsl:when test="$docRefrainPolicyFromCode = 'NORDSLCD'">Prohibition on redisclosure
-                without patient consent directive</xsl:when>
-            <xsl:when test="$docRefrainPolicyFromCode = 'NODSCLCD'">Prohibition on disclosure
-                without patient consent directive</xsl:when>
+            <xsl:when test="$docRefrainPolicyFromCode = 'NORDSLCD'">Prohibition on redisclosure without patient consent directive</xsl:when>
+            <xsl:when test="$docRefrainPolicyFromCode = 'NODSCLCD'">Prohibition on disclosure without patient consent directive</xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$docRefrainPolicyFromCode"/>
             </xsl:otherwise>
