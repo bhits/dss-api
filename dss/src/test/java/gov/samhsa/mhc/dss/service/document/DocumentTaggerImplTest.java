@@ -10,12 +10,15 @@ import gov.samhsa.mhc.common.document.transformer.XmlTransformerImpl;
 import gov.samhsa.mhc.common.filereader.FileReaderImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.mhc.common.namespace.DefaultNamespaceContext;
+import gov.samhsa.mhc.dss.config.DocumentTaggerConfig;
+import gov.samhsa.mhc.dss.config.CustomSection;
 import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -37,21 +40,30 @@ import static org.mockito.Mockito.when;
 
 public class DocumentTaggerImplTest {
 
+    public static final String ADDITIONAL_SECTION_TEXT_1 = "              The patient has authorized the sharing of their continuity of care document in a C32 summary format that has been provided by Prince George's County Health Department and its affiliates as a partial reference service; it is not to be used as a substitute for a medical intake process and/or diagnosis, which must be provided by the patient's own physician or reviewing practitioner.<br/>\n" +
+            "              <br/>CAUTION:<br/>The following history may not be complete<br/>\n" +
+            "              <list>\n" +
+            "                  <item>Patients may have purchased or obtained care through sources which bypass Prince George's County Health Department supplying the history.</item>\n" +
+            "                  <item>Electronic Medical Record (EMR) systems may have their own unique method for accepting and/or formatting data sent by the system of origin.</item>\n" +
+            "              </list>";
+    public static final String ADDITIONAL_SECTION_TEXT_2 = "              \"This information has been disclosed to you from records protected by\n" +
+            "              Federal confidentiality rules (42 CFR part 2). The Federal rules prohibit\n" +
+            "              you from making any further disclosure of this information unless further\n" +
+            "              disclosure is expressly permitted by the written consent of the person to\n" +
+            "              whom it pertains or as otherwise permitted by 42 CFR part 2. A general\n" +
+            "              authorization for the release of medical or other information is NOT\n" +
+            "              sufficient for this purpose. The Federal rules restrict any use of the\n" +
+            "              information to criminally investigate or prosecute any alcohol or drug abuse\n" +
+            "              patient.\"<br/>(42 C.F.R. - 2.32)";
     private static final String N = "N";
-
     private static final String R = "R";
     private static final String V = "V";
     private static final String PROBLEMS_SECTION = "11450-4";
-
     private static final String ALLERGIES_SECTION = "48765-2";
     private static final String MEDICATIONS_SECTION = "10160-0";
     private static final String RESULTS_SECTION = "30954-2";
     private static final String REDACT = "REDACT";
-
     private static final String NO_ACTION = "NO_ACTION";
-    private final static String DISCLAIMER_DOCUMENT = "<disclaimerText><text>This is a disclaimer text</text></disclaimerText>";
-
-    private final static String DISCLAIMER_TEXT = "<text>This is a disclaimer text</text>";
     private static FileReaderImpl fileReader;
 
     private static SimpleMarshallerImpl marshaller;
@@ -106,8 +118,26 @@ public class DocumentTaggerImplTest {
         messageId = UUID.randomUUID().toString();
         documentXmlConverter = new DocumentXmlConverterImpl();
 
-        documentTagger = new DocumentTaggerImpl(DISCLAIMER_DOCUMENT,
-                xmlTransformer);
+        documentTagger = new DocumentTaggerImpl();
+        ReflectionTestUtils.setField(documentTagger, "xmlTransformer", xmlTransformer);
+        CustomSection customSection1 = new CustomSection();
+        customSection1.setCode("DISCLAIMER");
+        customSection1.setCodeSystem("2.25.85119437033116720353817881047915448747");
+        customSection1.setCodeSystemName("Consent2Share Disclaimer Codes");
+        customSection1.setDisplayName("DISCLAIMER");
+        customSection1.setTitle("***PLEASE READ THE DISCLAIMER***");
+        customSection1.setText(ADDITIONAL_SECTION_TEXT_1);
+        CustomSection customSection2 = new CustomSection();
+        customSection2.setCode("PROHIBITION_ON_REDISCLOSURE");
+        customSection2.setCodeSystem("2.25.85119437033116720353817881047915448747");
+        customSection2.setCodeSystemName("Consent2Share Disclaimer Codes");
+        customSection2.setDisplayName("PROHIBITION ON RE-DISCLOSURE");
+        customSection2.setTitle("***PLEASE READ PROHIBITION ON RE-DISCLOSURE***");
+        customSection2.setText(ADDITIONAL_SECTION_TEXT_2);
+        DocumentTaggerConfig documentTaggerConfig = new DocumentTaggerConfig();
+        documentTaggerConfig.getAdditionalSections().addAll(Arrays.asList(customSection1, customSection2));
+        ReflectionTestUtils.setField(documentTagger, "documentTaggerConfig", documentTaggerConfig);
+        ReflectionTestUtils.setField(documentTagger, "marshaller", new SimpleMarshallerImpl());
     }
 
     @Test
@@ -125,7 +155,8 @@ public class DocumentTaggerImplTest {
         assertTrue(!taggedDocument.contains("<confidentialityCode/>"));
         assertTrue(taggedDocument
                 .contains("<confidentialityCode xmlns:ds4p=\"http://www.siframework.org/ds4p\""));
-        assertTrue(taggedDocument.contains(DISCLAIMER_TEXT));
+        assertTrue(taggedDocument.contains(ADDITIONAL_SECTION_TEXT_1));
+        assertTrue(taggedDocument.contains(ADDITIONAL_SECTION_TEXT_2));
         assertTrue(taggedDocument.contains("code=\"R\""));
         assertTrue(taggedDocument
                 .contains("codeSystem=\"2.16.840.1.113883.5.25\""));
@@ -930,7 +961,8 @@ public class DocumentTaggerImplTest {
         assertTrue(taggedDocument
                 .contains("<confidentialityCode xmlns:ds4p=\"http://www.siframework.org/ds4p\""));
         assertTrue(taggedDocument.contains("code=\"R\""));
-        assertTrue(taggedDocument.contains(DISCLAIMER_TEXT));
+        assertTrue(taggedDocument.contains(ADDITIONAL_SECTION_TEXT_1));
+        assertTrue(taggedDocument.contains(ADDITIONAL_SECTION_TEXT_2));
         assertTrue(taggedDocument
                 .contains("codeSystem=\"2.16.840.1.113883.5.25\""));
 

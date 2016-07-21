@@ -25,20 +25,18 @@
  ******************************************************************************/
 package gov.samhsa.mhc.dss.service.document;
 
+import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
+import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
 import gov.samhsa.mhc.common.util.StringURIResolver;
-
-import java.util.Optional;
+import gov.samhsa.mhc.dss.config.DocumentTaggerConfig;
+import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.xml.transform.URIResolver;
-
-import gov.samhsa.mhc.dss.service.exception.DocumentSegmentationException;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 /**
  * The Class DocumentTaggerImpl.
@@ -52,11 +50,6 @@ public class DocumentTaggerImpl implements DocumentTagger {
     private static final String URI_RESOLVER_HREF_RULE_EXECUTION_RESPONSE_CONTAINER = "ruleExecutionResponseContainer";
 
     /**
-     * The Constant URI_RESOLVER_HREF_DISCLAMER.
-     */
-    private static final String URI_RESOLVER_HREF_DISCLAMER = "disclaimer";
-
-    /**
      * The Constant TAG_XSL.
      */
     private static final String TAG_XSL = "tag.xsl";
@@ -68,43 +61,17 @@ public class DocumentTaggerImpl implements DocumentTagger {
             .getLogger(this.getClass());
 
     /**
-     * The disclaimer text.
-     */
-    private String disclaimerText;
-
-    /**
      * The xml transformer.
      */
     @Autowired
     private XmlTransformer xmlTransformer;
 
-    public DocumentTaggerImpl() {
-    }
-
-    /**
-     * Instantiates a new document tagger impl.
-     *
-     * @param disclaimerText
-     *            the disclaimer text
-     * @param xmlTransformer
-     *            the xml transformer
-     */
     @Autowired
-    public DocumentTaggerImpl(@Value("${mhc.dss.DocumentTaggerImpl.disclaimerText}") String disclaimerText,
-                              XmlTransformer xmlTransformer) {
-        super();
-        this.disclaimerText = StringEscapeUtils.unescapeXml(disclaimerText).replace("<disclaimerText>",
-                "<disclaimerText xmlns=\"urn:hl7-org:v3\">");
-        this.xmlTransformer = xmlTransformer;
-    }
+    private SimpleMarshaller marshaller;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.mhc.documentsegmentation.util
-     * .DocumentTagger#tagDocument(java.lang.String, java.lang.String,
-     * java.lang.String)
-     */
+    @Autowired
+    private DocumentTaggerConfig documentTaggerConfig;
+
     @Override
     public String tagDocument(String document, String executionResponseContainer) {
         try {
@@ -117,7 +84,8 @@ public class DocumentTaggerImpl implements DocumentTagger {
             stringURIResolver.put(
                     URI_RESOLVER_HREF_RULE_EXECUTION_RESPONSE_CONTAINER,
                     executionResponseContainer);
-            stringURIResolver.put(URI_RESOLVER_HREF_DISCLAMER, disclaimerText);
+            final String additionalCustomSections = marshaller.marshal(documentTaggerConfig.getAdditionalSectionsAsCustomSectionList());
+            stringURIResolver.put("customSectionList", additionalCustomSections);
             final Optional<URIResolver> uriResolver = Optional
                     .of(stringURIResolver);
             final String taggedDocument = xmlTransformer.transform(document,

@@ -21,8 +21,7 @@
     <xsl:variable name="documentConfidentialityCode"
         select="ds4p:mapConfCodeFromNumtoChar($documentConfidentialityCodeNumeric)"/>
 
-    <xsl:variable name="disclaimer"
-        select="document('disclaimer')"/>
+    <xsl:variable name="customSectionList" select="document('customSectionList')"/>
 
     <!-- FUNCTIONS -->
     <!-- This function maps a numeric confidentiality code to V, N, or R. -->
@@ -150,6 +149,29 @@
             codeSystem="2.16.840.1.113883.5.25" xmlns="urn:hl7-org:v3"/>
     </xsl:template>
 
+    <xsl:template name="customSectionTemplate" exclude-result-prefixes="#all">
+        <xsl:variable name="id" select="id"/>
+        <xsl:variable name="code" select="code"/>
+        <xsl:variable name="codeSystem" select="codeSystem"/>
+        <xsl:variable name="codeSystemName" select="codeSystemName"/>
+        <xsl:variable name="displayName" select="displayName"/>
+        <xsl:variable name="title" select="title"/>
+        <xsl:variable name="text" select="text"/>
+        <component xmlns="urn:hl7-org:v3">
+            <section>
+                <id root="{$id}"/>
+                <code code="{$code}"
+                      codeSystem="{$codeSystem}"
+                      codeSystemName="{$codeSystemName}"
+                      displayName="{$displayName}"/>
+                <title><xsl:value-of select="$title"/></title>
+                <text>
+                    <xsl:value-of select="$text" disable-output-escaping="yes"/>
+                </text>
+            </section>
+        </component>
+    </xsl:template>
+
     <xsl:template match="structuredBody" exclude-result-prefixes="#all">
         <xsl:copy>
             <xsl:apply-templates select="@*"/>
@@ -158,36 +180,10 @@
             <xsl:apply-templates select="templateId"/>
             <xsl:apply-templates select="confidentialityCode"/>
             <xsl:apply-templates select="languageCode"/>
-            <!-- DISCLAIMER -->
-            <component xmlns="urn:hl7-org:v3">
-                <section>
-                    <id root="971d6e27-9dae-451d-8d8f-a9923d4ec416"/>
-                    <code code="DISCLAIMER" codeSystem="2.25.85119437033116720353817881047915448747"
-                        codeSystemName="OBHITA Consent2Share Disclaimer Codes"
-                        displayName="DISCLAIMER"/>
-                    <xsl:sequence select="$disclaimer/disclaimerText/*"/>
-                </section>
-            </component>
-            <!-- PROHIBITION ON RE-DISCLOSURE -->
-            <component xmlns="urn:hl7-org:v3">
-                <section>
-                    <id root="06c23f3e-b0de-44d1-9bd6-769e82a891c6"/>
-                    <code code="PROHIBITION_ON_REDISCLOSURE"
-                        codeSystem="2.25.85119437033116720353817881047915448747"
-                        codeSystemName="OBHITA Consent2Share Disclaimer Codes"
-                        displayName="PROHIBITION ON RE-DISCLOSURE "/>
-                    <title>***PLEASE READ PROHIBITION ON RE-DISCLOSURE***</title>
-                    <text>&quot;This information has been disclosed to you from records protected by
-                        Federal confidentiality rules (42 CFR part 2). The Federal rules prohibit
-                        you from making any further disclosure of this information unless further
-                        disclosure is expressly permitted by the written consent of the person to
-                        whom it pertains or as otherwise permitted by 42 CFR part 2. A general
-                        authorization for the release of medical or other information is NOT
-                        sufficient for this purpose. The Federal rules restrict any use of the
-                        information to criminally investigate or prosecute any alcohol or drug abuse
-                        patient.&quot;<br/>(42 C.F.R. § 2.32)</text>
-                </section>
-            </component>
+            <!-- CUSTOM SECTIONS FOR TAGGING -->
+            <xsl:for-each select="$customSectionList//customSection">
+                <xsl:call-template name="customSectionTemplate"/>
+            </xsl:for-each>
             <xsl:apply-templates select="component"/>
         </xsl:copy>
     </xsl:template>

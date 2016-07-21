@@ -66,17 +66,22 @@ mhc:
         - "8716-3" # vital signs
         - "47519-4" # procedures
     DocumentTaggerImpl:
-      disclaimerText: |
-                    &lt;disclaimerText&gt;
-                    &lt;title&gt;***PLEASE READ THE DISCLAIMER***&lt;/title&gt;
-                    &lt;text&gt;The patient has authorized the sharing of their continuity of care document in a C32 summary format that has been provided by Prince George&amp;apos;s County Health Department and its affiliates as a partial reference service; it is not to be used as a substitute for a medical intake process and/or diagnosis, which must be provided by the patient&amp;apos;s own physician or reviewing practitioner.
-                    &lt;br/&gt;&lt;br/&gt;CAUTION:&lt;br/&gt;The following history may not be complete&lt;br/&gt;
-                    &lt;list&gt;
-                    &lt;item&gt;Patients may have purchased or obtained care through sources which bypass Prince George&amp;apos;s County Health Department supplying the history.&lt;/item&gt;
-                    &lt;item&gt;Electronic Medical Record (EMR) systems may have their own unique method for accepting and/or formatting data sent by the system of origin.&lt;/item&gt;
-                    &lt;/list&gt;
-                    &lt;/text&gt;
-                    &lt;/disclaimerText&gt;
+      additionalSections:
+        - code: PROHIBITION_ON_REDISCLOSURE
+          codeSystem: 2.25.85119437033116720353817881047915448747
+          codeSystemName: Consent2Share Disclaimer Codes
+          displayName: PROHIBITION ON RE-DISCLOSURE
+          title: "***PLEASE READ PROHIBITION ON RE-DISCLOSURE***"
+          text: >
+              "This information has been disclosed to you from records protected by
+              Federal confidentiality rules (42 CFR part 2). The Federal rules prohibit
+              you from making any further disclosure of this information unless further
+              disclosure is expressly permitted by the written consent of the person to
+              whom it pertains or as otherwise permitted by 42 CFR part 2. A general
+              authorization for the release of medical or other information is NOT
+              sufficient for this purpose. The Federal rules restrict any use of the
+              information to criminally investigate or prosecute any alcohol or drug abuse
+              patient."<br/>(42 C.F.R. § 2.32)
     documentSegmentationImpl:
       defaultIsAudited: true
       defaultIsAuditFailureByPass: true
@@ -105,6 +110,39 @@ eureka:
   client:
     service-url:
       defaultZone: https://localhost:8761/eureka/
+---
+spring.profiles: pgchd
+mhc:
+  dss:
+    DocumentTaggerImpl:
+      additionalSections:
+        - code: DISCLAIMER
+          codeSystem: 2.25.85119437033116720353817881047915448747
+          codeSystemName: Consent2Share Disclaimer Codes
+          displayName: DISCLAIMER
+          title: "***PLEASE READ THE DISCLAIMER***"
+          text: >
+              The patient has authorized the sharing of their continuity of care document in a C32 summary format that has been provided by Prince George's County Health Department and its affiliates as a partial reference service; it is not to be used as a substitute for a medical intake process and/or diagnosis, which must be provided by the patient's own physician or reviewing practitioner.<br/>
+              <br/>CAUTION:<br/>The following history may not be complete<br/>
+              <list>
+                  <item>Patients may have purchased or obtained care through sources which bypass Prince George's County Health Department supplying the history.</item>
+                  <item>Electronic Medical Record (EMR) systems may have their own unique method for accepting and/or formatting data sent by the system of origin.</item>
+              </list>
+        - code: PROHIBITION_ON_REDISCLOSURE
+          codeSystem: 2.25.85119437033116720353817881047915448747
+          codeSystemName: Consent2Share Disclaimer Codes
+          displayName: PROHIBITION ON RE-DISCLOSURE
+          title: "***PLEASE READ PROHIBITION ON RE-DISCLOSURE***"
+          text: >
+              "This information has been disclosed to you from records protected by
+              Federal confidentiality rules (42 CFR part 2). The Federal rules prohibit
+              you from making any further disclosure of this information unless further
+              disclosure is expressly permitted by the written consent of the person to
+              whom it pertains or as otherwise permitted by 42 CFR part 2. A general
+              authorization for the release of medical or other information is NOT
+              sufficient for this purpose. The Federal rules restrict any use of the
+              information to criminally investigate or prosecute any alcohol or drug abuse
+              patient."<br/>(42 C.F.R. § 2.32)
 ---
 spring.profiles: docker
 eureka:
