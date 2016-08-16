@@ -1,0 +1,1944 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="http://obhita.org/CDA.xsl" type="text/xsl"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="urn:hl7-org:v3 http://hit-testing.nist.gov:11080/hitspValidation/schema/cdar2c32/infrastructure/cda/C32_CDA.xsd">
+    <realmCode code="US"/>
+    <typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+    <templateId root="2.16.840.1.113883.3.88.11.32.1"/>
+    <templateId root="2.16.840.1.113883.10.20.1"/>
+    <templateId root="2.16.840.1.113883.10.20.3"/>
+    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.1"/>
+    <id extension="TvIyzFTdgEewjyMt" root="2.16.840.1.113883.3.1970.9101112"/>
+    <code code="34133-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+          displayName="Patient Summary"/>
+    <title>Patient Summary</title>
+    <effectiveTime value="201608161318"/>
+    <confidentialityCode xmlns:ds4p="http://www.siframework.org/ds4p" xmlns:sdtc="urn:hl7-org:sdtc"
+                         code="N" codeSystem="2.16.840.1.113883.5.25"/>
+    <languageCode code="en-US"/>
+    <setId nullFlavor="NA"/>
+    <versionNumber nullFlavor="NA"/>
+    <recordTarget>
+        <patientRole>
+            <id extension="2956698" root="2.16.840.1.113883.3.1970.9101112"/>
+            <addr>
+                <streetAddressLine>999 NINELIVES AVE</streetAddressLine>
+                <city>LONG BEACH</city>
+                <state>CA</state>
+                <postalCode>90745</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="HP" value="tel:(562)555-0001"/>
+            <patient>
+                <name>
+                    <family>PATIENT0000</family>
+                    <given>TEST0</given>
+                </name>
+                <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.11"
+                                          codeSystemName="HL7 v2.6" displayName="Female">
+                    <originalText>Female</originalText>
+                    <translation code="F" codeSystem="2.16.840.1.113883.5.1"
+                                 codeSystemName="AdministrativeGenderCode" displayName="F"/>
+                </administrativeGenderCode>
+                <birthTime value="19680118000000-0700"/>
+                <maritalStatusCode nullFlavor="UNK"/>
+                <religiousAffiliationCode nullFlavor="UNK"/>
+                <raceCode nullFlavor="UNK"/>
+                <ethnicGroupCode nullFlavor="UNK"/>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    <author>
+        <time value="20160812143502-0700"/>
+        <assignedAuthor>
+            <id extension="OTP_C2S" root="2.16.840.1.113883.3.1970.9101112"/>
+            <addr nullFlavor="UNK"/>
+            <telecom nullFlavor="UNK"/>
+            <assignedPerson>
+                <name nullFlavor="NA"/>
+            </assignedPerson>
+            <representedOrganization>
+                <id extension="OTP_C2S" root="2.16.840.1.113883.3.1970.9101112"/>
+                <name>Opioid Treatment Consent 2 Share Test Patients</name>
+                <telecom nullFlavor="UNK"/>
+                <addr nullFlavor="UNK"/>
+            </representedOrganization>
+        </assignedAuthor>
+    </author>
+    <dataEnterer>
+        <time value="20160812143502-0700"/>
+        <assignedEntity>
+            <id extension="OTP_C2S" root="2.16.840.1.113883.3.1970.9101112"/>
+            <addr nullFlavor="UNK"/>
+            <telecom nullFlavor="UNK"/>
+            <assignedPerson>
+                <name nullFlavor="NA"/>
+            </assignedPerson>
+            <representedOrganization>
+                <id extension="OTP_C2S" root="2.16.840.1.113883.3.1970.9101112"/>
+                <name>Opioid Treatment Consent 2 Share Test Patients</name>
+                <telecom nullFlavor="UNK"/>
+                <addr nullFlavor="UNK"/>
+            </representedOrganization>
+        </assignedEntity>
+    </dataEnterer>
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <id extension="OTP_C2S" root="2.16.840.1.113883.3.1970.9101112"/>
+                <name>Opioid Treatment Consent 2 Share Test Patients</name>
+                <telecom nullFlavor="UNK"/>
+                <addr nullFlavor="UNK"/>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    <documentationOf typeCode="DOC">
+        <serviceEvent classCode="PCPR">
+            <effectiveTime>
+                <low value="20160811153000-0700"/>
+                <high value="20160812083000-0700"/>
+            </effectiveTime>
+            <performer typeCode="PRF">
+                <templateId root="2.16.840.1.113883.3.88.11.83.4"/>
+                <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.3"/>
+                <time>
+                    <low value="20160811153000-0700"/>
+                    <high value="20160812083000-0700"/>
+                </time>
+                <assignedEntity>
+                    <id assigningAuthorityName="National Plan and Provider Enumeration System"
+                        extension="0123456789" root="2.16.840.1.113883.4.6"/>
+                    <id extension="0123456789" root="2.16.920.1.223883"/>
+                    <id extension="0123456789" root="2.16.840.1.113883.3.1970.9101112"/>
+                    <addr nullFlavor="UNK"/>
+                    <telecom nullFlavor="UNK"/>
+                    <assignedPerson>
+                        <name>
+                            <family>MARY</family>
+                            <given>WILLIAMS</given>
+                        </name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <id extension="VDS" root="2.16.920.1.223883"/>
+                        <name>Valle Del Sol</name>
+                        <telecom nullFlavor="UNK"/>
+                        <addr nullFlavor="UNK"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </performer>
+        </serviceEvent>
+    </documentationOf>
+    <component>
+        <structuredBody>
+            <component>
+                <section>
+                    <id root="7b83fd2f-ae5f-4017-ba77-fceff365f1c4"/>
+                    <code code="PROHIBITION_ON_REDISCLOSURE"
+                          codeSystem="2.25.85119437033116720353817881047915448747"
+                          codeSystemName="Consent2Share Disclaimer Codes"
+                          displayName="PROHIBITION ON RE-DISCLOSURE"/>
+                    <title>***PLEASE READ PROHIBITION ON RE-DISCLOSURE***</title>
+                    <text>"This information has been disclosed to you from records protected by
+                        Federal confidentiality rules (42 CFR part 2). The Federal rules prohibit
+                        you from making any further disclosure of this information unless further
+                        disclosure is expressly permitted by the written consent of the person to
+                        whom it pertains or as otherwise permitted by 42 CFR part 2. A general
+                        authorization for the release of medical or other information is NOT
+                        sufficient for this purpose. The Federal rules restrict any use of the
+                        information to criminally investigate or prosecute any alcohol or drug abuse
+                        patient."<br/>(42 C.F.R. § 2.32)</text>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.3.88.11.83.112"/>
+                    <templateId root="2.16.840.1.113883.10.20.1.8"/>
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.19"/>
+                    <code code="10160-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                          displayName="History of medication use"/>
+                    <title>Medications</title>
+                    <text>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Medication</th>
+                                    <th>Brand Name</th>
+                                    <th>Start Date</th>
+                                    <th>Product Form</th>
+                                    <th>Dose</th>
+                                    <th>Route</th>
+                                    <th>Administrative Instructions</th>
+                                    <th>Pharmacy Instructions</th>
+                                    <th>Status</th>
+                                    <th>Indications</th>
+                                    <th>Reaction</th>
+                                    <th>Data Source(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <content ID="Medication-3">7 Select Adult Chewable
+                                            Aspirin</content>
+                                    </td>
+                                    <td/>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td>
+                                        <content>mg</content>
+                                    </td>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td>
+                                        <content>Valle Del Sol</content>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <content ID="Medication-4">Witch Hazel</content>
+                                    </td>
+                                    <td/>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td>
+                                        <content>mg/ml</content>
+                                    </td>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td>
+                                        <content>Valle Del Sol</content>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <confidentialityCode xmlns:ds4p="http://www.siframework.org/ds4p"
+                                         xmlns:sdtc="urn:hl7-org:sdtc" code="N" codeSystem="2.16.840.1.113883.5.25"/>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="INT">
+                            <templateId root="2.16.840.1.113883.3.88.11.83.8"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.24"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.1"/>
+                            <id extension="ZEN00003" root="2.16.920.1.223883"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <low nullFlavor="UNK"/>
+                                <high nullFlavor="UNK"/>
+                            </effectiveTime>
+                            <effectiveTime institutionSpecified="false" operator="A"
+                                           xsi:type="PIVL_TS">
+                                <period>
+                                    <translation nullFlavor="UNK">
+                                        <originalText>take 2 pills every morning</originalText>
+                                    </translation>
+                                </period>
+                            </effectiveTime>
+                            <doseQuantity/>
+                            <administrationUnitCode code="81" displayName="mg"/>
+                            <consumable>
+                                <manufacturedProduct classCode="MANU">
+                                    <templateId root="2.16.840.1.113883.3.88.11.32.9"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.53"/>
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.8.2"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2"/>
+                                    <manufacturedMaterial>
+                                        <code code="123456-89" codeSystem="NCD"
+                                              displayName="7 Select Adult Chewable Aspirin">
+                                            <originalText>7 Select Adult Chewable Aspirin<reference
+                                                    value="#Medication-3"/>
+                                            </originalText>
+                                        </code>
+                                    </manufacturedMaterial>
+                                </manufacturedProduct>
+                            </consumable>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <entryRelationship inversionInd="true" typeCode="SUBJ">
+                                <supply classCode="SPLY" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.1.34"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.3"/>
+                                    <id root="2.16.840.1.113883.3.1970.9101112"/>
+                                    <effectiveTime nullFlavor="UNK"/>
+                                    <quantity/>
+                                    <author>
+                                        <time value="20160811223306-0700"/>
+                                        <assignedAuthor>
+                                            <id extension="0123456789" root="VDS"/>
+                                            <id
+                                                    assigningAuthorityName="National Plan and Provider Enumeration System"
+                                                    extension="0123456789" root="2.16.840.1.113883.4.6"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name>
+                                                    <family>MARY</family>
+                                                    <given>WILLIAMS</given>
+                                                </name>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedAuthor>
+                                    </author>
+                                </supply>
+                            </entryRelationship>
+                            <entryRelationship inversionInd="true" typeCode="COMP">
+                                <encounter classCode="ENC" moodCode="EVN">
+                                    <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                </encounter>
+                            </entryRelationship>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="INT">
+                            <templateId root="2.16.840.1.113883.3.88.11.83.8"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.24"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.1"/>
+                            <id extension="ZEN00004" root="2.16.920.1.223883"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <low nullFlavor="UNK"/>
+                                <high nullFlavor="UNK"/>
+                            </effectiveTime>
+                            <effectiveTime institutionSpecified="false" operator="A"
+                                           xsi:type="PIVL_TS">
+                                <period>
+                                    <translation nullFlavor="UNK">
+                                        <originalText>apply when needed</originalText>
+                                    </translation>
+                                </period>
+                            </effectiveTime>
+                            <doseQuantity/>
+                            <administrationUnitCode code="979" displayName="mg/ml"/>
+                            <consumable>
+                                <manufacturedProduct classCode="MANU">
+                                    <templateId root="2.16.840.1.113883.3.88.11.32.9"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.53"/>
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.8.2"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2"/>
+                                    <manufacturedMaterial>
+                                        <code code="41163-822" codeSystem="NCD"
+                                              displayName="Witch Hazel">
+                                            <originalText>Witch Hazel<reference
+                                                    value="#Medication-4"/>
+                                            </originalText>
+                                        </code>
+                                    </manufacturedMaterial>
+                                </manufacturedProduct>
+                            </consumable>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <entryRelationship inversionInd="true" typeCode="SUBJ">
+                                <supply classCode="SPLY" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.1.34"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.3"/>
+                                    <id root="2.16.840.1.113883.3.1970.9101112"/>
+                                    <effectiveTime nullFlavor="UNK"/>
+                                    <quantity/>
+                                    <author>
+                                        <time value="20160811223306-0700"/>
+                                        <assignedAuthor>
+                                            <id extension="0123456789" root="VDS"/>
+                                            <id
+                                                    assigningAuthorityName="National Plan and Provider Enumeration System"
+                                                    extension="0123456789" root="2.16.840.1.113883.4.6"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name>
+                                                    <family>MARY</family>
+                                                    <given>WILLIAMS</given>
+                                                </name>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedAuthor>
+                                    </author>
+                                </supply>
+                            </entryRelationship>
+                            <entryRelationship inversionInd="true" typeCode="COMP">
+                                <encounter classCode="ENC" moodCode="EVN">
+                                    <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                </encounter>
+                            </entryRelationship>
+                        </substanceAdministration>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.3.88.11.83.103"/>
+                    <templateId root="2.16.840.1.113883.10.20.1.11"/>
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.6"/>
+                    <code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                          displayName="Problem list"/>
+                    <title>Problems, Conditions, and Diagnoses</title>
+                    <text>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Display Name</th>
+                                    <th>Description</th>
+                                    <th>Problem Type</th>
+                                    <th>Effective Dates</th>
+                                    <th>Data Source(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <content>G47.00</content>
+                                    </td>
+                                    <td>
+                                        <content>Insomnia, unspecified</content>
+                                    </td>
+                                    <td>
+                                        <content ID="Condition-Diagnosis-Description-1">Insomnia,
+                                            unspecified</content>
+                                    </td>
+                                    <td>
+                                        <content>Diagnosis</content>
+                                    </td>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td>
+                                        <content>Valle Del Sol</content>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <content>F11.20</content>
+                                    </td>
+                                    <td>
+                                        <content>Opioid dependence, uncomplicated</content>
+                                    </td>
+                                    <td>
+                                        <content ID="Condition-Diagnosis-Description-2">Opioid
+                                            dependence, uncomplicated</content>
+                                    </td>
+                                    <td>
+                                        <content>Diagnosis</content>
+                                    </td>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td>
+                                        <content>Valle Del Sol</content>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <content>F60.6</content>
+                                    </td>
+                                    <td>
+                                        <content>Avoidant personality disorder</content>
+                                    </td>
+                                    <td>
+                                        <content ID="Condition-Diagnosis-Description-3">Bilateral
+                                            inguinal hernia, with obstruction, without
+                                            gangrene</content>
+                                    </td>
+                                    <td>
+                                        <content>Diagnosis</content>
+                                    </td>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td>
+                                        <content>Valle Del Sol</content>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <content>F17.20</content>
+                                    </td>
+                                    <td>
+                                        <content>Nicotine dependence, unspecified</content>
+                                    </td>
+                                    <td>
+                                        <content ID="Condition-Diagnosis-Description-4">Nicotine
+                                            dependence, unspecified</content>
+                                    </td>
+                                    <td>
+                                        <content>Diagnosis</content>
+                                    </td>
+                                    <td>
+                                        <content/>
+                                    </td>
+                                    <td>
+                                        <content>Valle Del Sol</content>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <confidentialityCode xmlns:ds4p="http://www.siframework.org/ds4p"
+                                         xmlns:sdtc="urn:hl7-org:sdtc" code="N" codeSystem="2.16.840.1.113883.5.25"/>
+                    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.3.88.11.83.7"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.27"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+                            <id nullFlavor="UNK"/>
+                            <code nullFlavor="NA"/>
+                            <text/>
+                            <statusCode nullFlavor="UNK"/>
+                            <effectiveTime>
+                                <low nullFlavor="NA"/>
+                            </effectiveTime>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <entryRelationship inversionInd="false" typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.28"/>
+                                    <id extension="G47.00" root="2.16.920.1.223883"/>
+                                    <code code="282291009" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED CT" displayName="Diagnosis"/>
+                                    <text>Insomnia, unspecified<reference
+                                            value="#Condition-Diagnosis-Description-1"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime>
+                                        <low nullFlavor="UNK"/>
+                                        <high nullFlavor="UNK"/>
+                                    </effectiveTime>
+                                    <value code="G47.00" codeSystem="2.16.840.1.113883.6.3"
+                                           codeSystemName="ICD-10" displayName="Insomnia, unspecified"
+                                           xsi:type="CD">
+                                        <originalText>Insomnia, unspecified</originalText>
+                                        <translation code="G47.00" displayName="G47.00"/>
+                                    </value>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship inversionInd="true" typeCode="COMP">
+                                <encounter classCode="ENC" moodCode="EVN">
+                                    <id extension="ZEN00000" root="2.16.920.1.223883"/>
+                                </encounter>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.3.88.11.83.7"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.27"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+                            <id nullFlavor="UNK"/>
+                            <code nullFlavor="NA"/>
+                            <text/>
+                            <statusCode nullFlavor="UNK"/>
+                            <effectiveTime>
+                                <low nullFlavor="NA"/>
+                            </effectiveTime>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <entryRelationship inversionInd="false" typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.28"/>
+                                    <id extension="F11.20" root="2.16.920.1.223883"/>
+                                    <code code="282291009" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED CT" displayName="Diagnosis"/>
+                                    <text>Opioid dependence, uncomplicated<reference
+                                            value="#Condition-Diagnosis-Description-2"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime>
+                                        <low nullFlavor="UNK"/>
+                                        <high nullFlavor="UNK"/>
+                                    </effectiveTime>
+                                    <value code="F11.20" codeSystem="2.16.840.1.113883.6.3"
+                                           codeSystemName="ICD-10"
+                                           displayName="Opioid dependence, uncomplicated" xsi:type="CD">
+                                        <originalText>Opioid dependence,
+                                            uncomplicated</originalText>
+                                        <translation code="F11.20" displayName="F11.20"/>
+                                    </value>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship inversionInd="true" typeCode="COMP">
+                                <encounter classCode="ENC" moodCode="EVN">
+                                    <id extension="ZEN00000" root="2.16.920.1.223883"/>
+                                </encounter>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.3.88.11.83.7"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.27"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+                            <id nullFlavor="UNK"/>
+                            <code nullFlavor="NA"/>
+                            <text/>
+                            <statusCode nullFlavor="UNK"/>
+                            <effectiveTime>
+                                <low nullFlavor="NA"/>
+                            </effectiveTime>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <entryRelationship inversionInd="false" typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.28"/>
+                                    <id extension="F60.6" root="2.16.920.1.223883"/>
+                                    <code code="282291009" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED CT" displayName="Diagnosis"/>
+                                    <text>Bilateral inguinal hernia, with obstruction, without
+                                        gangrene<reference
+                                                value="#Condition-Diagnosis-Description-3"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime>
+                                        <low nullFlavor="UNK"/>
+                                        <high nullFlavor="UNK"/>
+                                    </effectiveTime>
+                                    <value code="F60.6" codeSystem="2.16.840.1.113883.6.3"
+                                           codeSystemName="ICD-10"
+                                           displayName="Avoidant personality disorder" xsi:type="CD">
+                                        <originalText>Avoidant personality disorder</originalText>
+                                        <translation code="F60.6" displayName="F60.6"/>
+                                    </value>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship inversionInd="true" typeCode="COMP">
+                                <encounter classCode="ENC" moodCode="EVN">
+                                    <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                </encounter>
+                            </entryRelationship>
+                            <entryRelationship inversionInd="true" typeCode="COMP">
+                                <encounter classCode="ENC" moodCode="EVN">
+                                    <id extension="ZEN00000" root="2.16.920.1.223883"/>
+                                </encounter>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.3.88.11.83.7"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.27"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+                            <id nullFlavor="UNK"/>
+                            <code nullFlavor="NA"/>
+                            <text/>
+                            <statusCode nullFlavor="UNK"/>
+                            <effectiveTime>
+                                <low nullFlavor="NA"/>
+                            </effectiveTime>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <entryRelationship inversionInd="false" typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.28"/>
+                                    <id extension="F17.20" root="2.16.920.1.223883"/>
+                                    <code code="282291009" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED CT" displayName="Diagnosis"/>
+                                    <text>Nicotine dependence, unspecified<reference
+                                            value="#Condition-Diagnosis-Description-4"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime>
+                                        <low nullFlavor="UNK"/>
+                                        <high nullFlavor="UNK"/>
+                                    </effectiveTime>
+                                    <value code="F17.20" codeSystem="2.16.840.1.113883.6.3"
+                                           codeSystemName="ICD-10"
+                                           displayName="Nicotine dependence, unspecified" xsi:type="CD">
+                                        <originalText>Nicotine dependence,
+                                            unspecified</originalText>
+                                        <translation code="F17.20" displayName="F17.20"/>
+                                    </value>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship inversionInd="true" typeCode="COMP">
+                                <encounter classCode="ENC" moodCode="EVN">
+                                    <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                </encounter>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.3.88.11.83.108"/>
+                    <templateId root="2.16.840.1.113883.10.20.1.12"/>
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.11"/>
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.12"/>
+                    <code code="47519-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                          displayName="History of procedures"/>
+                    <title>Surgeries/Procedures</title>
+                    <text>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Procedure</th>
+                                    <th>Date</th>
+                                    <th>Indications</th>
+                                    <th>Data Source(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <content ID="Procedure1">Us exam, abdom, limited</content>
+                                    </td>
+                                    <td>
+                                        <content>08/12/2016 08:30:00 AM MST</content>
+                                    </td>
+                                    <td/>
+                                    <td>
+                                        <content>Valle Del Sol</content>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <confidentialityCode xmlns:ds4p="http://www.siframework.org/ds4p"
+                                         xmlns:sdtc="urn:hl7-org:sdtc" code="N" codeSystem="2.16.840.1.113883.5.25"/>
+                    <entry typeCode="DRIV">
+                        <procedure classCode="PROC" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.3.88.11.83.17"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.29"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.19"/>
+                            <id extension="76705" root="2.16.920.1.223883"/>
+                            <code code="76705" codeSystem="2.16.840.1.113883.6.12"
+                                  codeSystemName="Current Procedural Terminology"
+                                  displayName="Us exam, abdom, limited">
+                                <originalText>Us exam, abdom, limited<reference value="#Procedure1"
+                                />
+                                </originalText>
+                                <translation code="76705" codeSystem="2.16.840.1.113883.6.12"
+                                             displayName="Echo exam of abdomen"/>
+                            </code>
+                            <text>
+                                <reference value="#Procedure1"/>
+                            </text>
+                            <statusCode nullFlavor="UNK"/>
+                            <effectiveTime>
+                                <low value="20160812083000-0700"/>
+                                <high nullFlavor="UNK"/>
+                            </effectiveTime>
+                            <priorityCode nullFlavor="UNK"/>
+                            <performer typeCode="PRF">
+                                <time>
+                                    <low nullFlavor="UNK"/>
+                                    <high nullFlavor="UNK"/>
+                                </time>
+                                <assignedEntity>
+                                    <id assigningAuthorityName="Valle Del Sol"
+                                        extension="0123456789" root="2.16.920.1.223883"/>
+                                    <id
+                                            assigningAuthorityName="National Plan and Provider Enumeration System"
+                                            extension="0123456789" root="2.16.840.1.113883.4.6"/>
+                                    <code nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name>
+                                            <family>MARY</family>
+                                            <given>WILLIAMS</given>
+                                        </name>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </performer>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <entryRelationship inversionInd="true" typeCode="COMP">
+                                <encounter classCode="ENC" moodCode="EVN">
+                                    <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                </encounter>
+                            </entryRelationship>
+                        </procedure>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.3.88.11.83.122"/>
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.28"/>
+                    <templateId root="2.16.840.1.113883.10.20.1.14"/>
+                    <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                          displayName="STUDIES SUMMARY"/>
+                    <title>Results</title>
+                    <text>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Data Source</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>LAB00000</td>
+                                    <td>08/11/2016 03:30:00 PM MST</td>
+                                    <td>Valle Del Sol</td>
+                                    <td/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th>Range</th>
+                                    <th>Interpretation Code</th>
+                                    <th>Data Source(s)</th>
+                                    <th>Supporting Document(s)</th>
+                                </tr>
+                            </thead>
+                            <!-- <tbody> </tbody> -->
+                        </table>
+                        <br/>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Procedure</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <content ID="lab-procedure-for-validator"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <confidentialityCode xmlns:ds4p="http://www.siframework.org/ds4p"
+                                         xmlns:sdtc="urn:hl7-org:sdtc" code="N" codeSystem="2.16.840.1.113883.5.25"/>
+                    <entry>
+                        <procedure classCode="PROC" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.3.88.11.83.17"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.29"/>
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.19"/>
+                            <id root="lab-procedure-id-for-validator"/>
+                            <code nullFlavor="UNK">
+                                <originalText>
+                                    <reference value=""/>
+                                </originalText>
+                            </code>
+                            <text>
+                                <reference value="lab-procedure-for-validator"/>
+                            </text>
+                            <statusCode code="completed"/>
+                        </procedure>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.3.88.11.83.119"/>
+                    <templateId root="2.16.840.1.113883.10.20.1.16"/>
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.25"/>
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.5.3.2"/>
+                    <code code="8716-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                          displayName="Vital signs"/>
+                    <title>Vital Signs</title>
+                    <text>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Data Source</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ZEN00001</td>
+                                    <td>08/11/2016 10:33:06 PM MST</td>
+                                    <td>Valle Del Sol</td>
+                                    <td/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th>Range</th>
+                                    <th>Interpretation Code</th>
+                                    <th>Data Source(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Standing height (observable entity)</th>
+                                    <td>
+                                        <content ID="entry-1-vitalsign-1">59 in</content>
+                                    </td>
+                                    <td>59</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                                <tr>
+                                    <th>Weight finding (finding)</th>
+                                    <td>
+                                        <content ID="entry-1-vitalsign-2">133 lbs</content>
+                                    </td>
+                                    <td>135</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                                <tr>
+                                    <th>Body mass index (observable entity)</th>
+                                    <td>
+                                        <content ID="entry-1-vitalsign-3">20.0 %</content>
+                                    </td>
+                                    <td>20.1</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                                <tr>
+                                    <th>Standing height (observable entity)</th>
+                                    <td>
+                                        <content ID="entry-1-vitalsign-4">59 in</content>
+                                    </td>
+                                    <td>59</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                                <tr>
+                                    <th>Weight finding (finding)</th>
+                                    <td>
+                                        <content ID="entry-1-vitalsign-5">135 lbs</content>
+                                    </td>
+                                    <td>135</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                                <tr>
+                                    <th>Body mass index (observable entity)</th>
+                                    <td>
+                                        <content ID="entry-1-vitalsign-6">20.1 %</content>
+                                    </td>
+                                    <td>20.1</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Data Source</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ZEN00000</td>
+                                    <td>08/11/2016 10:33:06 PM MST</td>
+                                    <td>Valle Del Sol</td>
+                                    <td/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th>Range</th>
+                                    <th>Interpretation Code</th>
+                                    <th>Data Source(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Standing height (observable entity)</th>
+                                    <td>
+                                        <content ID="entry-2-vitalsign-1">59 in</content>
+                                    </td>
+                                    <td>59</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                                <tr>
+                                    <th>Weight finding (finding)</th>
+                                    <td>
+                                        <content ID="entry-2-vitalsign-2">135 lbs</content>
+                                    </td>
+                                    <td>135</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                                <tr>
+                                    <th>Body mass index (observable entity)</th>
+                                    <td>
+                                        <content ID="entry-2-vitalsign-3">20.1 %</content>
+                                    </td>
+                                    <td>20.1</td>
+                                    <td>Not asked; used to affirmatively document that the
+                                        observation identified in the OBX was not sought when the
+                                        universal service ID in OBR-4 implies that it would be
+                                        sought.</td>
+                                    <td>Valle Del Sol</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <confidentialityCode xmlns:ds4p="http://www.siframework.org/ds4p"
+                                         xmlns:sdtc="urn:hl7-org:sdtc" code="N" codeSystem="2.16.840.1.113883.5.25"/>
+                    <entry>
+                        <organizer classCode="CLUSTER" moodCode="EVN">
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.1"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.32"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.35"/>
+                            <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                            <code code="46680005" codeSystem="2.16.840.1.113883.6.96"
+                                  codeSystemName="SNOMED CT" displayName="Vital signs"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="20160811223306-0700"/>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="248333004" root="2.16.920.1.223883"/>
+                                    <code code="248333004" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Standing height (observable entity)">
+                                        <translation code="248333004"
+                                                     codeSystem="2.16.840.1.113883.6.96" displayName="Height"
+                                        />
+                                    </code>
+                                    <text>59 in<reference value="#entry-1-vitalsign-1"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160812083000-0700"/>
+                                    <value unit="in" value="59" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>59</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="107647005" root="2.16.920.1.223883"/>
+                                    <code code="107647005" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Weight finding (finding)">
+                                        <translation code="107647005"
+                                                     codeSystem="2.16.840.1.113883.6.96" displayName="Weight"
+                                        />
+                                    </code>
+                                    <text>133 lbs<reference value="#entry-1-vitalsign-2"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160812083000-0700"/>
+                                    <value unit="lbs" value="133" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>135</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="60621009" root="2.16.920.1.223883"/>
+                                    <code code="60621009" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Body mass index (observable entity)">
+                                        <translation code="60621009"
+                                                     codeSystem="2.16.840.1.113883.6.96"
+                                                     displayName="BMI Calc"/>
+                                    </code>
+                                    <text>20.0 %<reference value="#entry-1-vitalsign-3"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160812083000-0700"/>
+                                    <value unit="%" value="20.0" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>20.1</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="248333004" root="2.16.920.1.223883"/>
+                                    <code code="248333004" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Standing height (observable entity)">
+                                        <translation code="248333004"
+                                                     codeSystem="2.16.840.1.113883.6.96" displayName="Height"
+                                        />
+                                    </code>
+                                    <text>59 in<reference value="#entry-1-vitalsign-4"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160811153000-0700"/>
+                                    <value unit="in" value="59" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>59</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="107647005" root="2.16.920.1.223883"/>
+                                    <code code="107647005" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Weight finding (finding)">
+                                        <translation code="107647005"
+                                                     codeSystem="2.16.840.1.113883.6.96" displayName="Weight"
+                                        />
+                                    </code>
+                                    <text>135 lbs<reference value="#entry-1-vitalsign-5"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160811153000-0700"/>
+                                    <value unit="lbs" value="135" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>135</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="60621009" root="2.16.920.1.223883"/>
+                                    <code code="60621009" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Body mass index (observable entity)">
+                                        <translation code="60621009"
+                                                     codeSystem="2.16.840.1.113883.6.96"
+                                                     displayName="BMI Calc"/>
+                                    </code>
+                                    <text>20.1 %<reference value="#entry-1-vitalsign-6"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160811153000-0700"/>
+                                    <value unit="%" value="20.1" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00001" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>20.1</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry>
+                        <organizer classCode="CLUSTER" moodCode="EVN">
+                            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.1"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.32"/>
+                            <templateId root="2.16.840.1.113883.10.20.1.35"/>
+                            <id extension="ZEN00000" root="2.16.920.1.223883"/>
+                            <code code="46680005" codeSystem="2.16.840.1.113883.6.96"
+                                  codeSystemName="SNOMED CT" displayName="Vital signs"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="20160811223306-0700"/>
+                            <author>
+                                <time nullFlavor="UNK"/>
+                                <assignedAuthor>
+                                    <id nullFlavor="UNK"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="NA"/>
+                                    </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            <informant>
+                                <assignedEntity>
+                                    <id extension="2.16.920.1.223883" root="2.16.920.1.223883"/>
+                                    <addr nullFlavor="UNK"/>
+                                    <telecom nullFlavor="UNK"/>
+                                    <assignedPerson>
+                                        <name nullFlavor="UNK"/>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <id extension="VDS" root="2.16.920.1.223883"/>
+                                        <name>Valle Del Sol</name>
+                                        <telecom nullFlavor="UNK"/>
+                                        <addr nullFlavor="UNK"/>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </informant>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="248333004" root="2.16.920.1.223883"/>
+                                    <code code="248333004" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Standing height (observable entity)">
+                                        <translation code="248333004"
+                                                     codeSystem="2.16.840.1.113883.6.96" displayName="Height"
+                                        />
+                                    </code>
+                                    <text>59 in<reference value="#entry-2-vitalsign-1"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160811153000-0700"/>
+                                    <value unit="in" value="59" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00000" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>59</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="107647005" root="2.16.920.1.223883"/>
+                                    <code code="107647005" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Weight finding (finding)">
+                                        <translation code="107647005"
+                                                     codeSystem="2.16.840.1.113883.6.96" displayName="Weight"
+                                        />
+                                    </code>
+                                    <text>135 lbs<reference value="#entry-2-vitalsign-2"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160811153000-0700"/>
+                                    <value unit="lbs" value="135" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00000" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>135</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.3.88.11.83.14"/>
+                                    <templateId root="2.16.840.1.113883.10.20.1.31"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2"/>
+                                    <id extension="60621009" root="2.16.920.1.223883"/>
+                                    <code code="60621009" codeSystem="2.16.840.1.113883.6.96"
+                                          codeSystemName="SNOMED"
+                                          displayName="Body mass index (observable entity)">
+                                        <translation code="60621009"
+                                                     codeSystem="2.16.840.1.113883.6.96"
+                                                     displayName="BMI Calc"/>
+                                    </code>
+                                    <text>20.1 %<reference value="#entry-2-vitalsign-3"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="20160811153000-0700"/>
+                                    <value unit="%" value="20.1" xsi:type="PQ"/>
+                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.11"
+                                                        codeSystemName="HL7 v2.6"
+                                                        displayName="Not asked; used to affirmatively document that the observation identified in the OBX was not sought when the universal service ID in OBR-4 implies that it would be sought.">
+                                        <originalText>Not asked; used to affirmatively document that
+                                            the observation identified in the OBX was not sought
+                                            when the universal service ID in OBR-4 implies that it
+                                            would be sought.</originalText>
+                                        <translation code="N" displayName="N"/>
+                                    </interpretationCode>
+                                    <author>
+                                        <time nullFlavor="UNK"/>
+                                        <assignedAuthor>
+                                            <id nullFlavor="UNK"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="NA"/>
+                                            </assignedPerson>
+                                        </assignedAuthor>
+                                    </author>
+                                    <informant>
+                                        <assignedEntity>
+                                            <id extension="2.16.920.1.223883"
+                                                root="2.16.920.1.223883"/>
+                                            <addr nullFlavor="UNK"/>
+                                            <telecom nullFlavor="UNK"/>
+                                            <assignedPerson>
+                                                <name nullFlavor="UNK"/>
+                                            </assignedPerson>
+                                            <representedOrganization>
+                                                <id extension="VDS" root="2.16.920.1.223883"/>
+                                                <name>Valle Del Sol</name>
+                                                <telecom nullFlavor="UNK"/>
+                                                <addr nullFlavor="UNK"/>
+                                            </representedOrganization>
+                                        </assignedEntity>
+                                    </informant>
+                                    <entryRelationship inversionInd="true" typeCode="COMP">
+                                        <encounter classCode="ENC" moodCode="EVN">
+                                            <id extension="ZEN00000" root="2.16.920.1.223883"/>
+                                        </encounter>
+                                    </entryRelationship>
+                                    <referenceRange typeCode="REFV">
+                                        <observationRange classCode="OBS" moodCode="EVN.CRT">
+                                            <text>20.1</text>
+                                        </observationRange>
+                                    </referenceRange>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section nullFlavor="NI">
+                    <templateId root="2.16.840.1.113883.10.20.1.2"/>
+                    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+                    <templateId root="2.16.840.1.113883.3.88.11.83.6"/>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.6.1"/>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.6"/>
+                    <code code="48765-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <title> Allergies </title>
+                    <text>No information</text>
+                    <confidentialityCode xmlns:ds4p="http://www.siframework.org/ds4p"
+                                         xmlns:sdtc="urn:hl7-org:sdtc" code="N" codeSystem="2.16.840.1.113883.5.25"/>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>
