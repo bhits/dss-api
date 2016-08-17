@@ -2,9 +2,9 @@ server:
   port: 8450
 spring.profiles.active: eureka-ssl
 logging:
-  file: /java/MHC_LOGS/dss/dss.log
+  file: /java/C2S_LOGS/dss/dss.log
   level:
-    gov.samhsa.mhc.dss: warn
+    gov.samhsa.c2s.dss: warn
 info:
   component: DSS
 eureka:
@@ -21,7 +21,7 @@ eureka:
 hystrix.command.default.execution.timeout.enabled: false
 ribbon:
   ReadTimeout: 50000
-mhc:
+c2s:
   brms:
     guvnor:
       endpointAddress: http://BHITSDEVHIE01/guvnor-5.5.0.Final-tomcat-6.0/rest/packages/AnnotationRules/source
@@ -112,7 +112,7 @@ eureka:
       defaultZone: https://localhost:8761/eureka/
 ---
 spring.profiles: pgchd
-mhc:
+c2s:
   dss:
     DocumentTaggerImpl:
       additionalSections:
@@ -148,11 +148,11 @@ spring.profiles: docker
 eureka:
   client:
     service-url:
-      defaultZone: https://discovery-server.mhc.com:8761/eureka/
+      defaultZone: https://discovery-server.c2s.com:8761/eureka/
   instance:
     prefer-ip-address: true
-mhc.dss:
+c2s.dss:
   validator:
     c-cda:
-      r1: https://document-validator-r1.mhc.com:8443/documentValidator/validator
-      r2: https://document-validator.mhc.com:8443/documentValidator/validator
+      r1: https://document-validator-r1.c2s.com:8443/documentValidator/validator
+      r2: https://document-validator.c2s.com:8443/documentValidator/validator
