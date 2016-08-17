@@ -85,6 +85,9 @@ mhc:
     documentSegmentationImpl:
       defaultIsAudited: true
       defaultIsAuditFailureByPass: true
+    audit-service:
+      host: BHITSDEVACS01
+      port: 9630
 ---
 spring.profiles: ssl
 server:
@@ -156,3 +159,5 @@ mhc.dss:
     c-cda:
       r1: https://document-validator-r1.mhc.com:8443/documentValidator/validator
       r2: https://document-validator.mhc.com:8443/documentValidator/validator
+  audit-service:
+    host: audit-service.mhc.com

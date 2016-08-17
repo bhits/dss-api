@@ -29,8 +29,10 @@ public class ApplicationContextConfig {
     public static final String CCDA_R2_VALIDATOR_SERVICE = "ccdaR2ValidatorService";
 
     @Bean
-    public AuditService auditService() throws AuditException {
-        return new AuditServiceImpl("DSSAuditService");
+    public AuditService auditService(
+            @Value("${mhc.dss.audit-service.host}") String host,
+            @Value("${mhc.dss.audit-service.port}") int port) throws AuditException {
+        return new AuditServiceImpl("DSSAuditService", host, port);
     }
 
     @Bean
