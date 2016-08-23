@@ -1,6 +1,6 @@
 package gov.samhsa.c2s.dss.infrastructure.valueset;
 
-import gov.samhsa.mhc.common.filereader.FileReader;
+import gov.samhsa.c2s.common.filereader.FileReader;
 import gov.samhsa.c2s.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;
 import gov.samhsa.c2s.dss.infrastructure.valueset.dto.ValueSetQueryDto;
 import org.springframework.web.bind.annotation.RequestBody;

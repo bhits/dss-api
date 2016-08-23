@@ -25,7 +25,7 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.exception;
 
-import gov.samhsa.mhc.common.validation.exception.InvalidXmlDocumentException;
+import gov.samhsa.c2s.common.validation.exception.InvalidXmlDocumentException;
 
 public class InvalidOriginalClinicalDocumentException extends
 		InvalidXmlDocumentException {

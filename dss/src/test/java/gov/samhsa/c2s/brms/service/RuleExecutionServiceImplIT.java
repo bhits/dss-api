@@ -2,7 +2,7 @@ package gov.samhsa.c2s.brms.service;
 
 import gov.samhsa.c2s.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
 import gov.samhsa.c2s.brms.service.guvnor.GuvnorServiceImpl;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
+import gov.samhsa.c2s.common.marshaller.SimpleMarshallerImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

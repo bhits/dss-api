@@ -1,9 +1,9 @@
 package gov.samhsa.c2s.dss.service.metadata;
 
 import gov.samhsa.c2s.dss.service.metadata.AdditionalMetadataGeneratorForSegmentedClinicalDocumentImpl;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformerImpl;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
+import gov.samhsa.c2s.common.document.transformer.XmlTransformer;
+import gov.samhsa.c2s.common.document.transformer.XmlTransformerImpl;
+import gov.samhsa.c2s.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.c2s.dss.service.exception.AdditionalMetadataGeneratorException;
 import org.junit.After;
 import org.junit.Assert;

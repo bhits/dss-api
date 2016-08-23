@@ -1,13 +1,13 @@
 package gov.samhsa.c2s.dss.service.document;
 
 import gov.samhsa.c2s.brms.domain.*;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformerImpl;
-import gov.samhsa.mhc.common.filereader.FileReaderImpl;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
+import gov.samhsa.c2s.common.document.transformer.XmlTransformer;
+import gov.samhsa.c2s.common.document.transformer.XmlTransformerImpl;
+import gov.samhsa.c2s.common.filereader.FileReaderImpl;
+import gov.samhsa.c2s.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.c2s.dss.infrastructure.valueset.ValueSetService;
 import gov.samhsa.c2s.dss.infrastructure.valueset.ValueSetServiceImplMock;
 import gov.samhsa.c2s.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;

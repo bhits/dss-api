@@ -2,7 +2,7 @@ package gov.samhsa.c2s.dss.web;
 
 import ch.qos.logback.audit.AuditException;
 import gov.samhsa.c2s.dss.service.DocumentSegmentation;
-import gov.samhsa.mhc.common.validation.exception.XmlDocumentReadFailureException;
+import gov.samhsa.c2s.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.c2s.dss.service.ClinicalDocumentValidation;
 import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationRequest;
 import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationResult;

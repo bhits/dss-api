@@ -26,10 +26,10 @@
 package gov.samhsa.c2s.dss.service.document;
 
 import gov.samhsa.c2s.brms.domain.XacmlResult;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
-import gov.samhsa.mhc.common.filereader.FileReader;
-import gov.samhsa.mhc.common.xdm.XdmZipUtils;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
+import gov.samhsa.c2s.common.filereader.FileReader;
+import gov.samhsa.c2s.common.xdm.XdmZipUtils;
 import gov.samhsa.c2s.dss.service.metadata.MetadataGenerator;
 import org.apache.axiom.attachments.ByteArrayDataSource;
 import org.apache.xml.security.encryption.XMLEncryptionException;

@@ -2,10 +2,10 @@ package gov.samhsa.c2s.dss.service.document.template;
 
 import gov.samhsa.c2s.dss.service.document.template.DocumentType;
 import gov.samhsa.c2s.dss.service.document.template.DocumentTypeResolverImpl;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

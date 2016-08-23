@@ -25,7 +25,7 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.audit;
 
-import gov.samhsa.mhc.common.audit.PredicateKey;
+import gov.samhsa.c2s.common.audit.PredicateKey;
 
 public enum DssPredicateKey implements PredicateKey {
 	PATIENT_UNIQUE_ID,

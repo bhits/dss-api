@@ -1,13 +1,13 @@
 package gov.samhsa.c2s.dss.service.document.redact.impl.documentlevel;
 
 import gov.samhsa.c2s.dss.service.document.redact.impl.documentlevel.UnsupportedHeaderElementHandler;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
-import gov.samhsa.mhc.common.filereader.FileReader;
-import gov.samhsa.mhc.common.filereader.FileReaderImpl;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerException;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
+import gov.samhsa.c2s.common.filereader.FileReader;
+import gov.samhsa.c2s.common.filereader.FileReaderImpl;
+import gov.samhsa.c2s.common.marshaller.SimpleMarshallerException;
 import gov.samhsa.c2s.dss.service.document.dto.RedactionHandlerResult;
 import org.junit.Before;
 import org.junit.Test;

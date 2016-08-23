@@ -10,7 +10,7 @@ import gov.samhsa.c2s.dss.service.document.redact.base.AbstractClinicalFactLevel
 import gov.samhsa.c2s.dss.service.document.redact.base.AbstractDocumentLevelRedactionHandler;
 import gov.samhsa.c2s.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
 import gov.samhsa.c2s.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

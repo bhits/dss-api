@@ -1,11 +1,11 @@
 package gov.samhsa.c2s.dss.service.metadata;
 
 import gov.samhsa.c2s.dss.service.metadata.MetadataGeneratorImpl;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformerImpl;
-import gov.samhsa.mhc.common.filereader.FileReaderImpl;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
-import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
+import gov.samhsa.c2s.common.document.transformer.XmlTransformer;
+import gov.samhsa.c2s.common.document.transformer.XmlTransformerImpl;
+import gov.samhsa.c2s.common.filereader.FileReaderImpl;
+import gov.samhsa.c2s.common.marshaller.SimpleMarshaller;
+import gov.samhsa.c2s.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.c2s.dss.service.exception.MetadataGeneratorException;
 import org.junit.BeforeClass;
 import org.junit.Test;

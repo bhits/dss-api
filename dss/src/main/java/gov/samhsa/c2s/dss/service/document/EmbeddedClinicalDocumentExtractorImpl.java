@@ -25,9 +25,9 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.document;
 
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterException;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterException;
 import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

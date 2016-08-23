@@ -25,7 +25,7 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.audit;
 
-import gov.samhsa.mhc.common.audit.AuditVerb;
+import gov.samhsa.c2s.common.audit.AuditVerb;
 
 public enum DssAuditVerb implements AuditVerb {
 	// PEP-registryStoredQuery (ITI-18)

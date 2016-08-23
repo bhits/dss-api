@@ -28,7 +28,7 @@ package gov.samhsa.c2s.dss.service.document.redact.impl.obligationlevel;
 import gov.samhsa.c2s.brms.domain.XacmlResult;
 import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import gov.samhsa.c2s.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.c2s.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;

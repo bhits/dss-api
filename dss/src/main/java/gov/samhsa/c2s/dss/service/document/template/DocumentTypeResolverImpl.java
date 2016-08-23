@@ -2,9 +2,9 @@ package gov.samhsa.c2s.dss.service.document.template;
 
 
 import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessorException;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

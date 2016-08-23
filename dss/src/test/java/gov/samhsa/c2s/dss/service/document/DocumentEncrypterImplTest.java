@@ -14,10 +14,10 @@ import gov.samhsa.c2s.brms.domain.Sensitivity;
 import gov.samhsa.c2s.brms.domain.UsPrivacyLaw;
 import gov.samhsa.c2s.dss.service.document.DocumentEncrypterImpl;
 import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
-import gov.samhsa.mhc.common.filereader.FileReaderImpl;
-import gov.samhsa.mhc.common.util.EncryptTool;
-import gov.samhsa.mhc.common.unit.xml.XmlComparator;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
+import gov.samhsa.c2s.common.filereader.FileReaderImpl;
+import gov.samhsa.c2s.common.util.EncryptTool;
+import gov.samhsa.c2s.common.unit.xml.XmlComparator;
 
 import java.io.IOException;
 import java.security.Key;

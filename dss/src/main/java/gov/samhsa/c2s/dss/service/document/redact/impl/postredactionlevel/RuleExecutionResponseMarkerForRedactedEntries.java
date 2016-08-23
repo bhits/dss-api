@@ -31,7 +31,7 @@ import gov.samhsa.c2s.brms.domain.RuleExecutionResponse;
 import gov.samhsa.c2s.brms.domain.XacmlResult;
 import gov.samhsa.c2s.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.c2s.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;

@@ -2,10 +2,10 @@ package gov.samhsa.c2s.dss.service.document;
 
 import gov.samhsa.c2s.brms.domain.XacmlResult;
 import gov.samhsa.c2s.dss.service.document.DocumentEditorImpl;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessorImpl;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverterImpl;
-import gov.samhsa.mhc.common.filereader.FileReaderImpl;
-import gov.samhsa.mhc.common.util.EncryptTool;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
+import gov.samhsa.c2s.common.filereader.FileReaderImpl;
+import gov.samhsa.c2s.common.util.EncryptTool;
 import gov.samhsa.c2s.dss.service.metadata.MetadataGeneratorImpl;
 import org.apache.axiom.attachments.ByteArrayDataSource;
 import org.junit.BeforeClass;

@@ -2,7 +2,7 @@ package gov.samhsa.c2s.dss.service.document.template;
 
 import gov.samhsa.c2s.dss.service.document.template.DocumentType;
 import gov.samhsa.c2s.dss.service.document.template.DocumentTypeResolverImpl;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

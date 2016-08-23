@@ -28,9 +28,9 @@ package gov.samhsa.c2s.dss.service.document;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
 import gov.samhsa.c2s.brms.domain.XacmlResult;
 import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
-import gov.samhsa.mhc.common.log.Logger;
-import gov.samhsa.mhc.common.log.LoggerFactory;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
+import gov.samhsa.c2s.common.log.Logger;
+import gov.samhsa.c2s.common.log.LoggerFactory;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
 
 import java.security.Key;
 
