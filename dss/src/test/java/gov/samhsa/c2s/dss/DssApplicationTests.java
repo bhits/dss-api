@@ -1,6 +1,5 @@
 package gov.samhsa.c2s.dss;
 
-import gov.samhsa.c2s.dss.DssApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;

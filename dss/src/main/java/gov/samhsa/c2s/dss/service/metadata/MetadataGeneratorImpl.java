@@ -99,7 +99,7 @@ public class MetadataGeneratorImpl implements MetadataGenerator {
     /*
      * (non-Javadoc)
      *
-     * @see gov.samhsa.mhc.dss.service.metadata
+     * @see gov.samhsa.c2s.dss.service.metadata
      * .MetadataGenerator#generateMetadataXml(java.lang.String,
      * java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */

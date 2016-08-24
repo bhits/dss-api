@@ -1,9 +1,9 @@
 // TODO: 2/18/2016 Fix unit Test
 /*
-package gov.samhsa.mhc.dss.service;
+package gov.samhsa.c2s.dss.service;
 
 import ch.qos.logback.audit.AuditException;
-import gov.samhsa.mhc.brms.domain.*;
+import gov.samhsa.c2s.brms.domain.*;
 import RuleExecutionService;
 import AssertAndExecuteClinicalFactsResponse;
 import gov.samhsa.c2s.common.audit.AuditServiceImpl;
@@ -21,7 +21,7 @@ import gov.samhsa.c2s.common.validation.exception.InvalidXmlDocumentException;
 import gov.samhsa.c2s.common.validation.exception.XmlDocumentReadFailureException;
 import ValueSetServiceImplMock;
 import DssAuditVerb;
-import gov.samhsa.mhc.dss.service.document.*;
+import gov.samhsa.c2s.dss.service.document.*;
 import RedactedDocument;
 import SegmentDocumentResponse;
 import DocumentSegmentationException;

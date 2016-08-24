@@ -1,6 +1,6 @@
 // TODO: 2/12/2016 Fix unit test
 /*
-package gov.samhsa.mhc.dss.service;
+package gov.samhsa.c2s.dss.service;
 
 import RuleExecutionContainer;
 import FactModel;

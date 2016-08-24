@@ -30,8 +30,8 @@ public class ApplicationContextConfig {
 
     @Bean
     public AuditService auditService(
-            @Value("${mhc.dss.audit-service.host}") String host,
-            @Value("${mhc.dss.audit-service.port}") int port) throws AuditException {
+            @Value("${c2s.dss.audit-service.host}") String host,
+            @Value("${c2s.dss.audit-service.port}") int port) throws AuditException {
         return new AuditServiceImpl("DSSAuditService", host, port);
     }
 

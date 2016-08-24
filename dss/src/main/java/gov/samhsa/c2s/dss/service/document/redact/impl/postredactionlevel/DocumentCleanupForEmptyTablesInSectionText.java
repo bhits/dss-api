@@ -1,13 +1,13 @@
-package gov.samhsa.mhc.dss.service.document.redact.impl.postredactionlevel;
+package gov.samhsa.c2s.dss.service.document.redact.impl.postredactionlevel;
 
-import gov.samhsa.mhc.brms.domain.FactModel;
-import gov.samhsa.mhc.brms.domain.RuleExecutionContainer;
-import gov.samhsa.mhc.brms.domain.XacmlResult;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessor;
-import gov.samhsa.mhc.common.document.accessor.DocumentAccessorException;
-import gov.samhsa.mhc.dss.service.document.dto.RedactionHandlerResult;
-import gov.samhsa.mhc.dss.service.document.redact.RedactionHandlerException;
-import gov.samhsa.mhc.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
+import gov.samhsa.c2s.brms.domain.FactModel;
+import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
+import gov.samhsa.c2s.brms.domain.XacmlResult;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessorException;
+import gov.samhsa.c2s.dss.service.document.dto.RedactionHandlerResult;
+import gov.samhsa.c2s.dss.service.document.redact.RedactionHandlerException;
+import gov.samhsa.c2s.dss.service.document.redact.base.AbstractPostRedactionLevelRedactionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
