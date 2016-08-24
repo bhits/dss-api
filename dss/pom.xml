@@ -61,8 +61,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <spring.cloud.version>Brixton.M4</spring.cloud.version>
-        <!-- MHC Common Libraries' version -->
-        <mhc.common-libraries.version>1.4.0</mhc.common-libraries.version>
+        <!-- C2S Common Libraries' version -->
+        <c2s.common-libraries.version>1.5.0</c2s.common-libraries.version>
         <!-- Third-party library versions -->
         <saxon-HE.version>9.6.0-3</saxon-HE.version>
         <axiom-api.version>1.2.17</axiom-api.version>
@@ -102,71 +102,71 @@
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-starter-feign</artifactId>
                 </dependency>
-                <!-- MHC Common Libraries -->
+                <!-- C2S Common Libraries -->
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>logger-wrapper</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>marshaller</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>common-unit</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>file-reader</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>xml-validation</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>param</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>common-util</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>document-transformer</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>document-accessor</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>document-converter</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>xdm</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>namespace</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>gov.samhsa.mhc</groupId>
+                    <groupId>gov.samhsa.c2s</groupId>
                     <artifactId>audit-service</artifactId>
-                    <version>${mhc.common-libraries.version}</version>
+                    <version>${c2s.common-libraries.version}</version>
                 </dependency>
                 <!-- BRMS dependencies -->
                 <dependency>
@@ -278,11 +278,11 @@
                             <source>${java.version}</source>
                             <target>${java.version}</target>
                             <includes>
-                                <include>gov/samhsa/mhc/brms/domain/*.java</include>
+                                <include>gov/samhsa/c2s/brms/domain/*.java</include>
                             </includes>
                             <excludes>
-                                <exclude>gov/samhsa/mhc/brms/service/*.java</exclude>
-                                <exclude>gov/samhsa/mhc/dss/**/*.java</exclude>
+                                <exclude>gov/samhsa/c2s/brms/service/*.java</exclude>
+                                <exclude>gov/samhsa/c2s/dss/**/*.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
