@@ -157,7 +157,7 @@ eureka:
 c2s.dss:
   validator:
     c-cda:
-      r1: https://document-validator-r1.c2s.com:8443/documentValidator/validator
-      r2: https://document-validator.c2s.com:8443/documentValidator/validator
+      r1: http://document-validator-ccda-r1.c2s.com:8080/documentValidator/validator
+      r2: http://document-validator-ccda-r2.c2s.com:8080/documentValidator/validator
     audit-service:
       host: audit-service.c2s.com
