@@ -1,6 +1,3 @@
-/**
- * Created by Jiahao.Li on 5/20/2016.
- */
 package gov.samhsa.c2s.dss.service;
 
 import ch.qos.logback.audit.AuditException;
@@ -32,7 +29,9 @@ public interface ClinicalDocumentValidation {
     ClinicalDocumentValidationResult validateClinicalDocument(ClinicalDocumentValidationRequest validationRequest) throws InvalidOriginalClinicalDocumentException, XmlDocumentReadFailureException;
 
     /**
+     * @param originalClinicalDocumentValidationResult
      * @param charset
+     * @param originalDocument
      * @param document
      * @param dssRequest
      * @param factModel
@@ -42,7 +41,8 @@ public interface ClinicalDocumentValidation {
      * @throws AuditException
      * @throws XmlDocumentReadFailureException
      */
-    void validateClinicalDocumentAddAudited(Charset charset, String document, DSSRequest dssRequest,
+    void validateClinicalDocumentAddAudited(ClinicalDocumentValidationResult originalClinicalDocumentValidationResult,
+                                            Charset charset, String originalDocument, String document, DSSRequest dssRequest,
                                             FactModel factModel, RedactedDocument redactedDocument,
                                             String rulesFired) throws InvalidSegmentedClinicalDocumentException, AuditException, XmlDocumentReadFailureException;
 }

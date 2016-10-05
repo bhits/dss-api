@@ -3,20 +3,8 @@ package gov.samhsa.c2s.dss.service;
 import ch.qos.logback.audit.AuditException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.samhsa.c2s.brms.domain.XacmlResult;
-import gov.samhsa.c2s.dss.config.ApplicationContextConfig;
-import gov.samhsa.c2s.dss.infrastructure.dto.DiagnosticType;
-import gov.samhsa.c2s.dss.infrastructure.dto.ValidationResponseDto;
-import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorService;
-import gov.samhsa.c2s.dss.service.audit.DssAuditVerb;
-import gov.samhsa.c2s.dss.service.document.template.CCDAVersion;
-import gov.samhsa.c2s.dss.service.document.template.DocumentType;
-import gov.samhsa.c2s.dss.service.document.template.DocumentTypeResolver;
-import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationResult;
-import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
-import gov.samhsa.c2s.dss.service.exception.InvalidOriginalClinicalDocumentException;
-import gov.samhsa.c2s.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 import gov.samhsa.c2s.brms.domain.FactModel;
+import gov.samhsa.c2s.brms.domain.XacmlResult;
 import gov.samhsa.c2s.common.audit.AuditService;
 import gov.samhsa.c2s.common.audit.PredicateKey;
 import gov.samhsa.c2s.common.log.Logger;
@@ -24,9 +12,21 @@ import gov.samhsa.c2s.common.log.LoggerFactory;
 import gov.samhsa.c2s.common.validation.XmlValidation;
 import gov.samhsa.c2s.common.validation.XmlValidationResult;
 import gov.samhsa.c2s.common.validation.exception.XmlDocumentReadFailureException;
+import gov.samhsa.c2s.dss.config.ApplicationContextConfig;
+import gov.samhsa.c2s.dss.infrastructure.dto.DiagnosticType;
+import gov.samhsa.c2s.dss.infrastructure.dto.ValidationResponseDto;
+import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorService;
+import gov.samhsa.c2s.dss.service.audit.DssAuditVerb;
 import gov.samhsa.c2s.dss.service.document.dto.RedactedDocument;
+import gov.samhsa.c2s.dss.service.document.template.CCDAVersion;
+import gov.samhsa.c2s.dss.service.document.template.DocumentType;
+import gov.samhsa.c2s.dss.service.document.template.DocumentTypeResolver;
 import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationRequest;
+import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationResult;
 import gov.samhsa.c2s.dss.service.dto.DSSRequest;
+import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.c2s.dss.service.exception.InvalidOriginalClinicalDocumentException;
+import gov.samhsa.c2s.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,18 +42,10 @@ import java.util.Optional;
 
 import static gov.samhsa.c2s.dss.service.audit.DssPredicateKey.*;
 
-/**
- * Created by Jiahao.Li on 5/20/2016.
- */
-
 @Service
 public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidation {
 
     private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
-    private XmlValidationResult originalClinicalDocumentValidationResult;
-    private ValidationResponseDto originalCCDADocumentValidationResult;
-    private DocumentType documentType;
-    private String originalDocument;
 
     /**
      * The logger.
@@ -93,11 +85,9 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
     private XmlValidation xmlValidator;
 
     @Override
-    public ClinicalDocumentValidationResult validateClinicalDocument(Charset charset, String document) throws InvalidOriginalClinicalDocumentException, XmlDocumentReadFailureException {
-        originalDocument = document;
-        originalClinicalDocumentValidationResult = null;
-        originalCCDADocumentValidationResult = null;
-        documentType = documentTypeResolver.resolve(document);
+    public ClinicalDocumentValidationResult validateClinicalDocument(final Charset charset, final String document) throws InvalidOriginalClinicalDocumentException, XmlDocumentReadFailureException {
+        XmlValidationResult originalClinicalDocumentValidationResult = null;
+        final DocumentType documentType = documentTypeResolver.resolve(document);
         logger.info(() -> "identified document as " + documentType);
         if (DocumentType.HITSP_C32.equals(documentType)) {
             logger.info("running only schema validation for " + documentType);
@@ -120,7 +110,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                 throw new InvalidOriginalClinicalDocumentException("C32 validation failed for document type " + documentType);
             }
         } else if (documentType.isCCDA(CCDAVersion.R1) || documentType.isCCDA(CCDAVersion.R2)) {
-            originalCCDADocumentValidationResult = validate(documentType, document, charset);
+            final ValidationResponseDto originalCCDADocumentValidationResult = validate(documentType, document, charset);
             if (isInvalid(originalCCDADocumentValidationResult)) {
                 originalCCDADocumentValidationResult.getValidationDetails()
                         .stream()
@@ -143,9 +133,11 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
     }
 
     @Override
-    public void validateClinicalDocumentAddAudited(Charset charset, String document, DSSRequest dssRequest,
+    public void validateClinicalDocumentAddAudited(ClinicalDocumentValidationResult originalClinicalDocumentValidationResult,
+                                                   Charset charset, String originalDocument, String document, DSSRequest dssRequest,
                                                    FactModel factModel, RedactedDocument redactedDocument,
                                                    String rulesFired) throws InvalidSegmentedClinicalDocumentException, AuditException, XmlDocumentReadFailureException {
+        final DocumentType documentType = originalClinicalDocumentValidationResult.getDocumentType();
         XmlValidationResult segmentedClinicalDocumentValidationResult = null;
         ValidationResponseDto segmentedCCDADocumentValidationResult;
 
@@ -157,7 +149,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                 if (dssRequest.getAudited().orElse(defaultIsAudited)) {
                     auditSegmentation(originalDocument, document,
                             factModel.getXacmlResult(), redactedDocument,
-                            rulesFired, originalClinicalDocumentValidationResult.isValid(),
+                            rulesFired, originalClinicalDocumentValidationResult.isValidDocument(),
                             segmentedClinicalDocumentValidationResult.isValid(),
                             dssRequest.getAuditFailureByPass().orElse(defaultIsAuditFailureByPass));
                 }
@@ -181,7 +173,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
             if (dssRequest.getAudited().orElse(defaultIsAudited)) {
                 auditSegmentation(originalDocument, document,
                         factModel.getXacmlResult(), redactedDocument,
-                        rulesFired, isValid(originalCCDADocumentValidationResult),
+                        rulesFired, originalClinicalDocumentValidationResult.isValidDocument(),
                         isValid(segmentedCCDADocumentValidationResult),
                         dssRequest.getAuditFailureByPass().orElse(defaultIsAuditFailureByPass));
             }

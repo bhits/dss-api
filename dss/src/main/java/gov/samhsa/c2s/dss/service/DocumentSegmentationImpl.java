@@ -26,32 +26,32 @@
 package gov.samhsa.c2s.dss.service;
 
 import ch.qos.logback.audit.AuditException;
+import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
 import gov.samhsa.c2s.brms.domain.XacmlResult;
-import gov.samhsa.c2s.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
-import gov.samhsa.c2s.dss.infrastructure.valueset.ValueSetService;
-import gov.samhsa.c2s.dss.infrastructure.valueset.dto.ValueSetQueryDto;
-import gov.samhsa.c2s.dss.service.document.*;
-import gov.samhsa.c2s.dss.service.document.template.CCDAVersion;
-import gov.samhsa.c2s.dss.service.document.template.DocumentType;
-import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationResult;
-import gov.samhsa.c2s.dss.service.dto.SegmentDocumentResponse;
-import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
-import gov.samhsa.c2s.dss.service.exception.InvalidOriginalClinicalDocumentException;
-import gov.samhsa.c2s.dss.service.exception.InvalidSegmentedClinicalDocumentException;
-import gov.samhsa.c2s.dss.service.metadata.AdditionalMetadataGeneratorForSegmentedClinicalDocument;
-import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.service.RuleExecutionService;
+import gov.samhsa.c2s.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
 import gov.samhsa.c2s.common.log.Logger;
 import gov.samhsa.c2s.common.log.LoggerFactory;
 import gov.samhsa.c2s.common.marshaller.SimpleMarshaller;
 import gov.samhsa.c2s.common.marshaller.SimpleMarshallerException;
 import gov.samhsa.c2s.common.validation.XmlValidation;
 import gov.samhsa.c2s.common.validation.exception.XmlDocumentReadFailureException;
+import gov.samhsa.c2s.dss.infrastructure.valueset.ValueSetService;
 import gov.samhsa.c2s.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;
+import gov.samhsa.c2s.dss.infrastructure.valueset.dto.ValueSetQueryDto;
+import gov.samhsa.c2s.dss.service.document.*;
 import gov.samhsa.c2s.dss.service.document.dto.RedactedDocument;
+import gov.samhsa.c2s.dss.service.document.template.CCDAVersion;
+import gov.samhsa.c2s.dss.service.document.template.DocumentType;
+import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationResult;
 import gov.samhsa.c2s.dss.service.dto.DSSRequest;
 import gov.samhsa.c2s.dss.service.dto.DSSResponse;
+import gov.samhsa.c2s.dss.service.dto.SegmentDocumentResponse;
+import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.c2s.dss.service.exception.InvalidOriginalClinicalDocumentException;
+import gov.samhsa.c2s.dss.service.exception.InvalidSegmentedClinicalDocumentException;
+import gov.samhsa.c2s.dss.service.metadata.AdditionalMetadataGeneratorForSegmentedClinicalDocument;
 import org.apache.axiom.attachments.ByteArrayDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +59,6 @@ import org.springframework.util.Assert;
 
 import javax.activation.DataHandler;
 import javax.xml.bind.JAXBException;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -192,13 +191,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         this.xmlValidator = createXmlValidator();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * gov.samhsa.c2s.documentsegmentation.DocumentSegmentation#segmentDocument
-     * (java.lang.String, java.lang.String, boolean, boolean, boolean)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public DSSResponse segmentDocument(DSSRequest dssRequest)
@@ -206,10 +198,11 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             InvalidSegmentedClinicalDocumentException, AuditException, InvalidOriginalClinicalDocumentException {
         final Charset charset = getCharset(dssRequest.getDocumentEncoding());
         String document = new String(dssRequest.getDocument(), charset);
+        final String originalDocument = document;
         Assert.hasText(document);
 
         //Validate Original Document
-        ClinicalDocumentValidationResult clinicalDocumentValidationResult = clinicalDocumentValidation.validateClinicalDocument(charset, document);
+        final ClinicalDocumentValidationResult originalClinicalDocumentValidationResult = clinicalDocumentValidation.validateClinicalDocument(charset, document);
 
         Assert.notNull(dssRequest.getXacmlResult());
         final String enforcementPolicies = marshal(dssRequest.getXacmlResult());
@@ -224,8 +217,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         try {
 
             document = documentEditor.setDocumentCreationDate(document);
-
-            // FileHelper.writeStringToFile(document, "Original_C32.xml");
 
             // extract factModel
             String factModelXml = documentFactModelExtractor.extractFactModel(
@@ -267,9 +258,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             ruleExecutionContainer = marshaller.unmarshalFromXml(
                     RuleExecutionContainer.class, executionResponseContainer);
 
-            // FileHelper.writeStringToFile(executionResponseContainer,
-            // "ExecutionResponseContainer.xml");
-
             logger.info("Fact model: " + factModelXml);
             logger.info("Rule Execution Container size: "
                     + ruleExecutionContainer.getExecutionResponseList().size());
@@ -302,8 +290,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
             document = documentRedactor
                     .cleanUpGeneratedServiceEventIds(document);
 
-            // FileHelper.writeStringToFile(document, "Tagged_C32.xml");
-
             // Set segmented document in response
             segmentDocumentResponse.setSegmentedDocumentXml(document);
             // Set execution response container in response
@@ -319,29 +305,19 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
         }
 
         //Validate Segmented Document
-        clinicalDocumentValidation.validateClinicalDocumentAddAudited(charset, document, dssRequest,
+        clinicalDocumentValidation.validateClinicalDocumentAddAudited(originalClinicalDocumentValidationResult, charset, originalDocument, document, dssRequest,
                 factModel, redactedDocument, rulesFired);
 
         DSSResponse dssResponse = new DSSResponse();
         dssResponse.setSegmentedDocument(segmentDocumentResponse.getSegmentedDocumentXml().getBytes(DEFAULT_ENCODING));
         dssResponse.setEncoding(DEFAULT_ENCODING.toString());
-        dssResponse.setCCDADocument(isCCDADocument(clinicalDocumentValidationResult.getDocumentType()));
+        dssResponse.setCCDADocument(isCCDADocument(originalClinicalDocumentValidationResult.getDocumentType()));
         if (dssRequest.getEnableTryPolicyResponse().orElse(Boolean.FALSE)) {
             dssResponse.setTryPolicyDocument(segmentDocumentResponse.getTryPolicyDocumentXml().getBytes(DEFAULT_ENCODING));
         }
         return dssResponse;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.c2s.documentsegmentation.DocumentSegmentation#
-     * setAdditionalMetadataForSegmentedClinicalDocument
-     * (gov.samhsa.consent2share
-     * .schema.documentsegmentation.SegmentDocumentResponse, java.lang.String,
-     * java.lang.String, java.lang.String,
-     * XacmlResult)
-     */
     @Override
     public void setAdditionalMetadataForSegmentedClinicalDocument(
             SegmentDocumentResponse segmentDocumentResponse,
@@ -355,27 +331,17 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
                         senderEmailAddress, recipientEmailAddress, xacmlResult
                                 .getSubjectPurposeOfUse().getPurpose(),
                         xdsDocumentEntryUniqueId);
-        // FileHelper.writeStringToFile(additionalMetadataForSegmentedClinicalDocument,"additional_metadata.xml");
 
         segmentDocumentResponse
                 .setPostSegmentationMetadataXml(additionalMetadataForSegmentedClinicalDocument);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see gov.samhsa.c2s.documentsegmentation.DocumentSegmentation#
-     * setDocumentPayloadRawData
-     * (gov.samhsa.consent2share.schema.documentsegmentation
-     * .SegmentDocumentResponse, boolean, java.lang.String, java.lang.String,
-     * XacmlResult)
-     */
     @Override
     public void setDocumentPayloadRawData(
             SegmentDocumentResponse segmentDocumentResponse,
             boolean packageAsXdm, String senderEmailAddress,
             String recipientEmailAddress, XacmlResult xacmlResult)
-            throws Exception, IOException {
+            throws Exception {
         final ByteArrayDataSource rawData = documentEditor
                 .setDocumentPayloadRawData(segmentDocumentResponse
                                 .getSegmentedDocumentXml(), packageAsXdm,
