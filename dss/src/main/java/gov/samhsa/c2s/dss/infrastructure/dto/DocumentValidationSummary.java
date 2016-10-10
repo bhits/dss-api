@@ -1,5 +1,8 @@
 package gov.samhsa.c2s.dss.infrastructure.dto;
 
+import lombok.Data;
+
+@Data
 public class DocumentValidationSummary {
     private String validatorType;
     private String documentType;
@@ -18,43 +21,4 @@ public class DocumentValidationSummary {
         this.info = info;
     }
 
-    public String getValidatorType() {
-        return validatorType;
-    }
-
-    public void setValidatorType(String validatorType) {
-        this.validatorType = validatorType;
-    }
-
-    public String getDocumentType() {
-        return documentType;
-    }
-
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
-    }
-
-    public int getError() {
-        return error;
-    }
-
-    public void setError(int error) {
-        this.error = error;
-    }
-
-    public int getWarning() {
-        return warning;
-    }
-
-    public void setWarning(int warning) {
-        this.warning = warning;
-    }
-
-    public int getInfo() {
-        return info;
-    }
-
-    public void setInfo(int info) {
-        this.info = info;
-    }
 }
