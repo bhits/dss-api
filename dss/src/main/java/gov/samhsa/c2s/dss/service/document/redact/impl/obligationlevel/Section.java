@@ -25,9 +25,9 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.document.redact.impl.obligationlevel;
 
-import gov.samhsa.c2s.brms.domain.XacmlResult;
 import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
+import gov.samhsa.c2s.brms.domain.XacmlResult;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import gov.samhsa.c2s.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.c2s.dss.service.document.redact.base.AbstractObligationLevelRedactionHandler;
@@ -35,10 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 
-/**
- * The Class Section.
- */
-//@Service // disabled
 public class Section extends
         AbstractObligationLevelRedactionHandler {
 
