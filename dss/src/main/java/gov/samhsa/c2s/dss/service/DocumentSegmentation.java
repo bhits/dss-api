@@ -27,10 +27,10 @@ package gov.samhsa.c2s.dss.service;
 
 import ch.qos.logback.audit.AuditException;
 import gov.samhsa.c2s.brms.domain.XacmlResult;
-import gov.samhsa.c2s.dss.service.dto.SegmentDocumentResponse;
 import gov.samhsa.c2s.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.c2s.dss.service.dto.DSSRequest;
 import gov.samhsa.c2s.dss.service.dto.DSSResponse;
+import gov.samhsa.c2s.dss.service.dto.SegmentDocumentResponse;
 import gov.samhsa.c2s.dss.service.exception.InvalidOriginalClinicalDocumentException;
 import gov.samhsa.c2s.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 
@@ -50,7 +50,7 @@ public interface DocumentSegmentation {
      * @throws InvalidSegmentedClinicalDocumentException the invalid segmented clinical document exception
      * @throws AuditException                            the audit exception
      */
-    public DSSResponse segmentDocument(DSSRequest dssRequest)
+    DSSResponse segmentDocument(DSSRequest dssRequest)
             throws XmlDocumentReadFailureException,
             InvalidSegmentedClinicalDocumentException, AuditException, InvalidOriginalClinicalDocumentException;
 
@@ -63,7 +63,7 @@ public interface DocumentSegmentation {
      * @param xdsDocumentEntryUniqueId the xds document entry unique id
      * @param xacmlResult              the xacml result
      */
-    public void setAdditionalMetadataForSegmentedClinicalDocument(
+    void setAdditionalMetadataForSegmentedClinicalDocument(
             SegmentDocumentResponse segmentDocumentResponse,
             String senderEmailAddress, String recipientEmailAddress,
             String xdsDocumentEntryUniqueId, XacmlResult xacmlResult);
@@ -79,9 +79,9 @@ public interface DocumentSegmentation {
      * @throws Exception   the exception
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    public void setDocumentPayloadRawData(
+    void setDocumentPayloadRawData(
             SegmentDocumentResponse segmentDocumentResponse,
             boolean packageAsXdm, String senderEmailAddress,
             String recipientEmailAddress, XacmlResult xacmlResult)
-            throws Exception, IOException;
+            throws Exception;
 }

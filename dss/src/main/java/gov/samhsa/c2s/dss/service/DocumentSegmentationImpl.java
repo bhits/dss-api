@@ -66,9 +66,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * The Class DocumentSegmentationImpl.
- */
 @Service
 public class DocumentSegmentationImpl implements DocumentSegmentation {
 
@@ -83,9 +80,6 @@ public class DocumentSegmentationImpl implements DocumentSegmentation {
     public static final String C32_CDA_XSD_NAME = "C32_CDA.xsd";
     public static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
 
-    /**
-     * The logger.
-     */
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
