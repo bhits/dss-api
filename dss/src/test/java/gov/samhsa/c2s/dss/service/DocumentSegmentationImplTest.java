@@ -263,7 +263,7 @@ public class DocumentSegmentationImplTest {
         // Document masker
         */
 /*
-		 * documentMaskerMock = mock(DocumentMaskerImpl.class); when(
+         * documentMaskerMock = mock(DocumentMaskerImpl.class); when(
 		 * documentMaskerMock.maskDocument(eq(testTagged_C32_xml),
 		 * any(Key.class), eq(ruleExecutionContainerObj),
 		 * eq(xacmlResultObj))).thenReturn(testMasked_C32_xml);
@@ -364,8 +364,10 @@ public class DocumentSegmentationImplTest {
 
             */
 /*************************************************
-             * DECRYPT DOCUMENT
-             *************************************************//*
+ * DECRYPT DOCUMENT
+ * <p>
+ * DECRYPT ELEMENTS
+ *************************************************//*
 
             final Element encryptedDataElement = (Element) processedDoc
                     .getElementsByTagNameNS(
@@ -394,8 +396,8 @@ public class DocumentSegmentationImplTest {
 
             */
 /*************************************************
-             * DECRYPT ELEMENTS
-             *************************************************//*
+ * DECRYPT ELEMENTS
+ *************************************************//*
 
             NodeList encryptedDataElements = processedDoc
                     .getElementsByTagNameNS(

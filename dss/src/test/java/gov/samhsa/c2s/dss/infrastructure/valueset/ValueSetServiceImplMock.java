@@ -24,7 +24,6 @@ public class ValueSetServiceImplMock implements ValueSetService {
         try {
             init();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -36,11 +35,8 @@ public class ValueSetServiceImplMock implements ValueSetService {
     }
 
     private void init() throws IOException {
-        conceptCodeList = new LinkedList<ConceptCode>();
-        // FileInputStream fis = new FileInputStream(VALUE_SET_MOCK_DATA_PATH);
-        // File file = new File(fis);
+        conceptCodeList = new LinkedList<>();
         String file = fileReader.readFile(VALUE_SET_MOCK_DATA_PATH);
-        // System.out.println(file);
         Scanner scanFile = new Scanner(file);
         while (scanFile.hasNextLine()) {
             String line = scanFile.nextLine();
@@ -50,14 +46,12 @@ public class ValueSetServiceImplMock implements ValueSetService {
             while (scanLine.hasNext()) {
                 String next = scanLine.next();
                 if ("304.31".equals(next)) {
-                    // System.out.println(line);
                 }
                 code.setVariable(next);
             }
             conceptCodeList.add(code);
         }
-        // System.out.println("Initialized Value Set Servise with size:"+conceptCodeList.size());
-    }
+     }
 
     private boolean isEqual(ConceptCode c1, String code, String codeSystem) {
         return c1.getCode().equals(code)

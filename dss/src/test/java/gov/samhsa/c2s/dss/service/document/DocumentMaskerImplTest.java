@@ -1,43 +1,30 @@
 package gov.samhsa.c2s.dss.service.document;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import gov.samhsa.c2s.brms.domain.Confidentiality;
-import gov.samhsa.c2s.brms.domain.ObligationPolicyDocument;
-import gov.samhsa.c2s.brms.domain.RefrainPolicy;
-import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
-import gov.samhsa.c2s.brms.domain.RuleExecutionResponse;
-import gov.samhsa.c2s.brms.domain.Sensitivity;
-import gov.samhsa.c2s.brms.domain.UsPrivacyLaw;
-import gov.samhsa.c2s.brms.domain.XacmlResult;
-import gov.samhsa.c2s.dss.service.document.DocumentMaskerImpl;
-import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.c2s.brms.domain.*;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.c2s.common.filereader.FileReaderImpl;
 import gov.samhsa.c2s.common.util.EncryptTool;
-
-import java.util.LinkedList;
-import java.util.List;
-
+import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DocumentMaskerImplTest {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+import java.util.LinkedList;
+import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class DocumentMaskerImplTest {
     private static FileReaderImpl fileReader;
     private static DocumentXmlConverterImpl documentXmlConverter;
-
     private static XacmlResult xacmlResultMock;
-
     private static RuleExecutionContainer ruleExecutionContainer;
     private static String c32;
-
     private static DocumentMaskerImpl documentMasker;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -49,33 +36,6 @@ public class DocumentMaskerImplTest {
         c32 = fileReader.readFile("sampleC32/c32.xml");
         ruleExecutionContainer = setRuleExecutionContainer();
         xacmlResultMock = setMockXacmlResult();
-    }
-
-    @Test
-    public void testMaskElement() {
-        logger.debug(c32);
-        String s = null;
-        try {
-            // Act
-            s = documentMasker.maskDocument(c32,
-                    EncryptTool.generateKeyEncryptionKey(),
-                    ruleExecutionContainer, xacmlResultMock);
-            logger.debug(s);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        assertNotNull(s);
-        // TODO might need better assertion for masking if the masking code is
-        // activated (disabling redact-only comments)
-    }
-
-    @Test(expected = DocumentSegmentationException.class)
-    public void testMaskElement_Throws_DocumentSegmentationException() throws Exception {
-        // Empty xml file
-        @SuppressWarnings("unused")
-        String s = documentMasker.maskDocument("",
-                EncryptTool.generateKeyEncryptionKey(), ruleExecutionContainer,
-                xacmlResultMock);
     }
 
     private static RuleExecutionContainer setRuleExecutionContainer() {
@@ -106,7 +66,7 @@ public class DocumentMaskerImplTest {
         r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
         r2.setSensitivity(Sensitivity.HIV);
         r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
+        List<RuleExecutionResponse> list = new LinkedList<>();
         list.add(r1);
         list.add(r2);
         container.setExecutionResponseList(list);
@@ -115,10 +75,37 @@ public class DocumentMaskerImplTest {
 
     private static XacmlResult setMockXacmlResult() {
         XacmlResult temp = mock(XacmlResult.class);
-        List<String> obligations = new LinkedList<String>();
+        List<String> obligations = new LinkedList<>();
         obligations.add("ETH");
         obligations.add("HIV");
         when(temp.getPdpObligations()).thenReturn(obligations);
         return temp;
+    }
+
+    @Test
+    public void testMaskElement() {
+        logger.debug(c32);
+        String s = null;
+        try {
+            // Act
+            s = documentMasker.maskDocument(c32,
+                    EncryptTool.generateKeyEncryptionKey(),
+                    ruleExecutionContainer, xacmlResultMock);
+            logger.debug(s);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        assertNotNull(s);
+        // TODO might need better assertion for masking if the masking code is
+        // activated (disabling redact-only comments)
+    }
+
+    @Test(expected = DocumentSegmentationException.class)
+    public void testMaskElement_Throws_DocumentSegmentationException() throws Exception {
+        // Empty xml file
+        @SuppressWarnings("unused")
+        String s = documentMasker.maskDocument("",
+                EncryptTool.generateKeyEncryptionKey(), ruleExecutionContainer,
+                xacmlResultMock);
     }
 }
