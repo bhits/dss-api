@@ -1,10 +1,9 @@
 package gov.samhsa.c2s.dss.service.dto;
 
 import gov.samhsa.c2s.dss.service.document.template.DocumentType;
+import lombok.Data;
 
-/**
- * Created by Jiahao.Li on 5/26/2016.
- */
+@Data
 public class ClinicalDocumentValidationResult {
     private DocumentType documentType;
     private boolean isValidDocument;
@@ -12,21 +11,5 @@ public class ClinicalDocumentValidationResult {
     public ClinicalDocumentValidationResult(DocumentType documentType, boolean isValidDocument) {
         this.documentType = documentType;
         this.isValidDocument = isValidDocument;
-    }
-
-    public DocumentType getDocumentType() {
-        return documentType;
-    }
-
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
-    }
-
-    public boolean isValidDocument() {
-        return isValidDocument;
-    }
-
-    public void setValidDocument(boolean validDocument) {
-        isValidDocument = validDocument;
     }
 }
