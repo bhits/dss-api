@@ -1,6 +1,8 @@
 package gov.samhsa.c2s.dss.infrastructure.valueset;
 
 import gov.samhsa.c2s.common.filereader.FileReader;
+import gov.samhsa.c2s.common.log.Logger;
+import gov.samhsa.c2s.common.log.LoggerFactory;
 import gov.samhsa.c2s.dss.infrastructure.valueset.dto.ConceptCodeAndCodeSystemOidDto;
 import gov.samhsa.c2s.dss.infrastructure.valueset.dto.ValueSetQueryDto;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import static java.util.stream.Collectors.toList;
 
 public class ValueSetServiceImplMock implements ValueSetService {
     private static final String VALUE_SET_MOCK_DATA_PATH = "MockValueSetData.csv";
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private FileReader fileReader;
     private List<ConceptCode> conceptCodeList;
 
@@ -24,7 +27,7 @@ public class ValueSetServiceImplMock implements ValueSetService {
         try {
             init();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -51,7 +54,7 @@ public class ValueSetServiceImplMock implements ValueSetService {
             }
             conceptCodeList.add(code);
         }
-     }
+    }
 
     private boolean isEqual(ConceptCode c1, String code, String codeSystem) {
         return c1.getCode().equals(code)
