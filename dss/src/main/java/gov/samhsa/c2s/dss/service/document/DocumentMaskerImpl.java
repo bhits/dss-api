@@ -40,9 +40,6 @@ import java.security.Key;
 @Service
 public class DocumentMaskerImpl implements DocumentMasker {
 
-    /**
-     * The logger.
-     */
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
@@ -66,12 +63,6 @@ public class DocumentMaskerImpl implements DocumentMasker {
         this.documentXmlConverter = documentXmlConverter;
     }
 
-    // commented out for redact-only application
-    //
-    // /** The pdp obligation prefix for mask. */
-    // private final String PDP_OBLIGATION_PREFIX_MASK =
-    // "urn:oasis:names:tc:xspa:2.0:resource:patient:mask:";
-
     /*
      * (non-Javadoc)
      *
@@ -89,59 +80,6 @@ public class DocumentMaskerImpl implements DocumentMasker {
 
         try {
             xmlDocument = documentXmlConverter.loadDocument(document);
-
-			/*
-             * Get a key to be used for encrypting the element. Here we are
-			 * generating an AES key.
-			 */
-            // Key aesSymmetricKey = EncryptTool.generateDataEncryptionKey();
-
-            // commented out for redact-only application
-            // byte[] keyBytes = deSedeMaskKey.getEncoded();
-            //
-            // String algorithmURI = XMLCipher.TRIPLEDES_KeyWrap;
-            //
-            // XMLCipher keyCipher = XMLCipher.getInstance(algorithmURI);
-            // keyCipher.init(XMLCipher.WRAP_MODE, deSedeMaskKey);
-            // EncryptedKey encryptedKey = keyCipher.encryptKey(xmlDocument,
-            // aesSymmetricKey);
-            //
-            // commented out for redact-only application
-            // for (RuleExecutionResponse response : ruleExecutionContainer
-            // .getExecutionResponseList()) {
-            // if (containsMaskObligation(xacmlResult, response)) {
-            // String observationId = response.getObservationId();
-            // String displayName = response.getDisplayName();
-            //
-            // // mask display Name
-            // String xPathExprDisplayName = "//hl7:td[.='%']/parent::hl7:tr";
-            // xPathExprDisplayName = xPathExprDisplayName.replace("%",
-            // displayName);
-            //
-            // Element elementToBeEncrypted =
-            // DocumentHelper.getElement(xmlDocument,
-            // xPathExprDisplayName);
-            //
-            // DocumentEncrypter.encryptElement(xmlDocument, aesSymmetricKey,
-            // encryptedKey,
-            // elementToBeEncrypted);
-            //
-            // // mask element contents
-            // String xPathExprObservationId =
-            // "//hl7:id[@root='%']/ancestor::hl7:entry";
-            // xPathExprObservationId = xPathExprObservationId.replace(
-            // "%", observationId);
-            //
-            // elementToBeEncrypted = DocumentHelper.getElement(xmlDocument,
-            // xPathExprObservationId);
-            //
-            // DocumentEncrypter.encryptElement(xmlDocument, aesSymmetricKey,
-            // encryptedKey,
-            // elementToBeEncrypted);
-            // }
-            // }
-
-            // FileHelper.writeDocToFile(xmlDocument, "Masked_C32.xml");
             xmlString = documentXmlConverter.convertXmlDocToString(xmlDocument);
 
         } catch (final Exception e) {
@@ -151,20 +89,4 @@ public class DocumentMaskerImpl implements DocumentMasker {
         return xmlString;
     }
 
-    // commented out for redact-only application
-    // /**
-    // * Checks if the xacmlResult has any mask obligations for a single
-    // executionResonse's sensitivity value.
-    // *
-    // * @param xacmlResult the xacml result
-    // * @param response the response
-    // * @return true, if successful
-    // */
-    // private boolean containsMaskObligation(XacmlResult xacmlResult,
-    // RuleExecutionResponse response)
-    // {
-    // return
-    // xacmlResult.getPdpObligations().contains(PDP_OBLIGATION_PREFIX_MASK+response.getSensitivity());
-    //
-    // }
 }
