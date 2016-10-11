@@ -25,12 +25,12 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.document;
 
-import gov.samhsa.c2s.dss.config.DocumentTaggerConfig;
 import gov.samhsa.c2s.common.document.transformer.XmlTransformer;
 import gov.samhsa.c2s.common.log.Logger;
 import gov.samhsa.c2s.common.log.LoggerFactory;
 import gov.samhsa.c2s.common.marshaller.SimpleMarshaller;
 import gov.samhsa.c2s.common.util.StringURIResolver;
+import gov.samhsa.c2s.dss.config.DocumentTaggerConfig;
 import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

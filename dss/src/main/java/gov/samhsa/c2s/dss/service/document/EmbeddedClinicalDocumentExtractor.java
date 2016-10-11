@@ -39,7 +39,7 @@ public interface EmbeddedClinicalDocumentExtractor {
      * @return the string
      * @throws DocumentSegmentationException the document segmentation exception
      */
-    public abstract String extractClinicalDocumentFromFactModel(String factModel)
+    String extractClinicalDocumentFromFactModel(String factModel)
             throws DocumentSegmentationException;
 
 }

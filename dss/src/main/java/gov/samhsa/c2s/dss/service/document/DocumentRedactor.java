@@ -25,8 +25,8 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.document;
 
-import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
 import gov.samhsa.c2s.brms.domain.FactModel;
+import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
 import gov.samhsa.c2s.dss.service.document.dto.RedactedDocument;
 
 /**
@@ -42,8 +42,8 @@ public interface DocumentRedactor {
      * @param factModel              the fact model
      * @return the string
      */
-    public abstract RedactedDocument redactDocument(String document,
-                                                    RuleExecutionContainer ruleExecutionContainer, FactModel factModel);
+    RedactedDocument redactDocument(String document,
+                                    RuleExecutionContainer ruleExecutionContainer, FactModel factModel);
 
     /**
      * Clean up generated entry ids.
@@ -51,7 +51,7 @@ public interface DocumentRedactor {
      * @param document the document
      * @return the string
      */
-    public abstract String cleanUpGeneratedEntryIds(String document);
+    String cleanUpGeneratedEntryIds(String document);
 
     /**
      * Clean up generated service event ids.
@@ -59,7 +59,7 @@ public interface DocumentRedactor {
      * @param document the document
      * @return the string
      */
-    public abstract String cleanUpGeneratedServiceEventIds(String document);
+    String cleanUpGeneratedServiceEventIds(String document);
 
     /**
      * Clean up embedded clinical document from fact model.
@@ -67,6 +67,6 @@ public interface DocumentRedactor {
      * @param factModelXml the fact model xml
      * @return the string
      */
-    public abstract String cleanUpEmbeddedClinicalDocumentFromFactModel(
+    String cleanUpEmbeddedClinicalDocumentFromFactModel(
             String factModelXml);
 }

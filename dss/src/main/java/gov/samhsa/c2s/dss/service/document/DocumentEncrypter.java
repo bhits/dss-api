@@ -43,6 +43,6 @@ public interface DocumentEncrypter {
      * @param ruleExecutionContainer the rule execution container
      * @return the string
      */
-    public abstract String encryptDocument(Key deSedeEncryptKey,
-                                           String document, RuleExecutionContainer ruleExecutionContainer);
+    String encryptDocument(Key deSedeEncryptKey,
+                           String document, RuleExecutionContainer ruleExecutionContainer);
 }

@@ -34,6 +34,6 @@ public interface DocumentFactModelExtractor {
      * @param enforcementPolicies the enforcement policies
      * @return the string
      */
-    public abstract String extractFactModel(String document,
-                                            String enforcementPolicies);
+    String extractFactModel(String document,
+                            String enforcementPolicies);
 }

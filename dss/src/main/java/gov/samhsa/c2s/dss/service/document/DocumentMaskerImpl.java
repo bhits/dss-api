@@ -27,20 +27,16 @@ package gov.samhsa.c2s.dss.service.document;
 
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
 import gov.samhsa.c2s.brms.domain.XacmlResult;
-import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.c2s.common.log.Logger;
 import gov.samhsa.c2s.common.log.LoggerFactory;
-import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
-
-import java.security.Key;
-
+import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
-/**
- * The Class DocumentMaskerImpl.
- */
+import java.security.Key;
+
 @Service
 public class DocumentMaskerImpl implements DocumentMasker {
 

@@ -68,10 +68,8 @@ public class EmbeddedClinicalDocumentExtractorImpl implements
     /**
      * Instantiates a new embedded clinical document extractor impl.
      *
-     * @param documentXmlConverter
-     *            the document xml converter
-     * @param documentAccessor
-     *            the document accessor
+     * @param documentXmlConverter the document xml converter
+     * @param documentAccessor     the document accessor
      */
     @Autowired
     public EmbeddedClinicalDocumentExtractorImpl(

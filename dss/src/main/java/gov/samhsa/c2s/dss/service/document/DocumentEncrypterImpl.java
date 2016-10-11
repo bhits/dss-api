@@ -25,17 +25,14 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.document;
 
+import gov.samhsa.c2s.brms.domain.ObligationPolicyDocument;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
 import gov.samhsa.c2s.brms.domain.RuleExecutionResponse;
-import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
-import gov.samhsa.c2s.brms.domain.ObligationPolicyDocument;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.c2s.common.log.Logger;
 import gov.samhsa.c2s.common.log.LoggerFactory;
-import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.c2s.common.util.EncryptTool;
-
-import java.security.Key;
-
+import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import org.apache.xml.security.encryption.EncryptedData;
 import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.encryption.XMLCipher;
@@ -44,10 +41,8 @@ import org.apache.xml.security.keys.KeyInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.security.Key;
 
-/**
- * The Class DocumentEncrypter.
- */
 public class DocumentEncrypterImpl implements DocumentEncrypter {
 
     /**
@@ -149,7 +144,7 @@ public class DocumentEncrypterImpl implements DocumentEncrypter {
      */
     void encryptElement(Document xmlDocument, Key encryptSymmetricKey,
                         EncryptedKey encryptedKey, Element element)
-            throws XMLEncryptionException, Exception {
+            throws Exception {
 
         final String algorithmURI = XMLCipher.AES_128;
 

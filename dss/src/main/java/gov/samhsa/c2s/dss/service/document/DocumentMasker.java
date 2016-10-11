@@ -25,10 +25,10 @@
  ******************************************************************************/
 package gov.samhsa.c2s.dss.service.document;
 
-import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
-import gov.samhsa.c2s.brms.domain.XacmlResult;
+        import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
+        import gov.samhsa.c2s.brms.domain.XacmlResult;
 
-import java.security.Key;
+        import java.security.Key;
 
 public interface DocumentMasker {
 
@@ -41,7 +41,7 @@ public interface DocumentMasker {
      * @param xacmlResult            the xacml result
      * @return the string
      */
-    public abstract String maskDocument(String document, Key deSedeMaskKey,
-                                        RuleExecutionContainer ruleExecutionContainer,
-                                        XacmlResult xacmlResult);
+    String maskDocument(String document, Key deSedeMaskKey,
+                        RuleExecutionContainer ruleExecutionContainer,
+                        XacmlResult xacmlResult);
 }
