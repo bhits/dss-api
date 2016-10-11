@@ -7,7 +7,6 @@ public class DocumentSegmentationException extends RuntimeException {
      */
     public DocumentSegmentationException() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -18,7 +17,6 @@ public class DocumentSegmentationException extends RuntimeException {
      */
     public DocumentSegmentationException(String arg0, Throwable arg1) {
         super(arg0, arg1);
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -28,7 +26,6 @@ public class DocumentSegmentationException extends RuntimeException {
      */
     public DocumentSegmentationException(String arg0) {
         super(arg0);
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -38,11 +35,5 @@ public class DocumentSegmentationException extends RuntimeException {
      */
     public DocumentSegmentationException(Throwable arg0) {
         super(arg0);
-        // TODO Auto-generated constructor stub
     }
-
-    /**
-     * The Constant serialVersionUID.
-     */
-    private static final long serialVersionUID = -6820537577171759098L;
 }
