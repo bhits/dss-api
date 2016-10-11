@@ -31,7 +31,9 @@ package gov.samhsa.c2s.brms.domain;
 public enum Confidentiality {
     V(3), R(2), N(1);
 
-    /** The priority. */
+    /**
+     * The priority.
+     */
     private int priority;
 
     /**
