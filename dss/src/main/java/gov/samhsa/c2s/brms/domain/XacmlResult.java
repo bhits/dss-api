@@ -39,31 +39,43 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XacmlResult {
 
-    /** The pdp decision. */
+    /**
+     * The pdp decision.
+     */
     private String pdpDecision;
 
-    /** The subject purpose of use. */
+    /**
+     * The subject purpose of use.
+     */
     @XmlElement(name = "purposeOfUse")
     private SubjectPurposeOfUse subjectPurposeOfUse;
 
-    /** The message id. */
+    /**
+     * The message id.
+     */
     private String messageId;
 
-    /** The home community id. */
+    /**
+     * The home community id.
+     */
     private String homeCommunityId;
 
-    /** The pdp obligations. */
+    /**
+     * The pdp obligations.
+     */
     @XmlElement(name = "pdpObligation")
     private List<String> pdpObligations;
 
-    /** The patient id. */
+    /**
+     * The patient id.
+     */
     private String patientId;
 
     /**
      * Instantiates a new xacml result.
      */
     public XacmlResult() {
-        pdpObligations = new LinkedList<String>();
+        pdpObligations = new LinkedList<>();
     }
 
     /**

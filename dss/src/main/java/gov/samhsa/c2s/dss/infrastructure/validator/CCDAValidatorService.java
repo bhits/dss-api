@@ -7,5 +7,6 @@ import java.nio.charset.Charset;
 
 public interface CCDAValidatorService {
     ValidationResponseDto validate(ValidationRequestDto request);
+
     ValidationResponseDto validate(String document, Charset charset);
 }

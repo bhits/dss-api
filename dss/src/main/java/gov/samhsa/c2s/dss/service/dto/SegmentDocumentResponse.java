@@ -1,6 +1,8 @@
 
 package gov.samhsa.c2s.dss.service.dto;
 
+import lombok.Data;
+
 import javax.activation.DataHandler;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
+@Data
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "documentPayloadRawData",
@@ -55,125 +58,4 @@ public class SegmentDocumentResponse {
     protected String postSegmentationMetadataXml;
     @XmlElement(required = true)
     protected String executionResponseContainerXml;
-
-    /**
-     * Gets the value of the documentPayloadRawData property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DataHandler }
-     *     
-     */
-    public DataHandler getDocumentPayloadRawData() {
-        return documentPayloadRawData;
-    }
-
-    /**
-     * Sets the value of the documentPayloadRawData property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DataHandler }
-     *     
-     */
-    public void setDocumentPayloadRawData(DataHandler value) {
-        this.documentPayloadRawData = value;
-    }
-
-    /**
-     * Gets the value of the segmentedDocumentXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSegmentedDocumentXml() {
-        return segmentedDocumentXml;
-    }
-
-    /**
-     * Sets the value of the segmentedDocumentXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSegmentedDocumentXml(String value) {
-        this.segmentedDocumentXml = value;
-    }
-
-    /**
-     * Gets the value of the tryPolicyDocumentXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTryPolicyDocumentXml() {
-        return tryPolicyDocumentXml;
-    }
-
-    /**
-     * Sets the value of the tryPolicyDocumentXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTryPolicyDocumentXml(String value) {
-        this.tryPolicyDocumentXml = value;
-    }
-
-    /**
-     * Gets the value of the postSegmentationMetadataXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPostSegmentationMetadataXml() {
-        return postSegmentationMetadataXml;
-    }
-
-    /**
-     * Sets the value of the postSegmentationMetadataXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPostSegmentationMetadataXml(String value) {
-        this.postSegmentationMetadataXml = value;
-    }
-
-    /**
-     * Gets the value of the executionResponseContainerXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getExecutionResponseContainerXml() {
-        return executionResponseContainerXml;
-    }
-
-    /**
-     * Sets the value of the executionResponseContainerXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setExecutionResponseContainerXml(String value) {
-        this.executionResponseContainerXml = value;
-    }
-
 }

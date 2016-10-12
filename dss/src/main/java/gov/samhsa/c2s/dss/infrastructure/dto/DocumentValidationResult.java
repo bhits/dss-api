@@ -1,8 +1,8 @@
-/**
- * Created by Jiahao.Li on 4/16/2016.
- */
 package gov.samhsa.c2s.dss.infrastructure.dto;
 
+import lombok.Data;
+
+@Data
 public class DocumentValidationResult {
 
     private DiagnosticType type;
@@ -18,38 +18,6 @@ public class DocumentValidationResult {
         this.type = type;
         this.message = message;
         this.xPath = xPath;
-        this.documentLineNumber = documentLineNumber;
-    }
-
-    public DiagnosticType getType() {
-        return type;
-    }
-
-    public void setType(DiagnosticType type) {
-        this.type = type;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getxPath() {
-        return xPath;
-    }
-
-    public void setxPath(String xPath) {
-        this.xPath = xPath;
-    }
-
-    public String getDocumentLineNumber() {
-        return documentLineNumber;
-    }
-
-    public void setDocumentLineNumber(String documentLineNumber) {
         this.documentLineNumber = documentLineNumber;
     }
 }

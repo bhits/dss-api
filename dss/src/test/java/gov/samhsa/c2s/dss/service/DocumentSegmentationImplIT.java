@@ -201,8 +201,10 @@ public class DocumentSegmentationImplIT {
 
             */
 /*************************************************
-             * DECRYPT DOCUMENT
-             *************************************************//*
+ * DECRYPT DOCUMENT
+ * <p>
+ * DECRYPT ELEMENTS
+ *************************************************//*
 
             final Element encryptedDataElement = (Element) processedDoc
                     .getElementsByTagNameNS(
@@ -234,8 +236,8 @@ public class DocumentSegmentationImplIT {
 
             */
 /*************************************************
-             * DECRYPT ELEMENTS
-             *************************************************//*
+ * DECRYPT ELEMENTS
+ *************************************************//*
 
             NodeList encryptedDataElements = processedDoc
                     .getElementsByTagNameNS(
@@ -245,7 +247,7 @@ public class DocumentSegmentationImplIT {
             while (encryptedDataElements.getLength() > 0) {
 				*/
 /*
-				 * The key to be used for decrypting xml data would be obtained
+                 * The key to be used for decrypting xml data would be obtained
 				 * from the keyinfo of the EncrypteData using the kek.
 				 *//*
 

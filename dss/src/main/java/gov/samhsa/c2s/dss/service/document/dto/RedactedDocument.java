@@ -1,7 +1,9 @@
 package gov.samhsa.c2s.dss.service.document.dto;
 
+import lombok.Data;
 import java.util.Set;
 
+@Data
 public class RedactedDocument {
     private String redactedDocument;
     private String tryPolicyDocument;
@@ -14,38 +16,6 @@ public class RedactedDocument {
         this.redactedDocument = redactedDocument;
         this.tryPolicyDocument = tryPolicyDocument;
         this.redactedSectionSet = redactedSectionSet;
-        this.redactedCategorySet = redactedCategorySet;
-    }
-
-    public String getTryPolicyDocument() {
-        return tryPolicyDocument;
-    }
-
-    public void setTryPolicyDocument(String tryPolicyDocument) {
-        this.tryPolicyDocument = tryPolicyDocument;
-    }
-
-    public String getRedactedDocument() {
-        return redactedDocument;
-    }
-
-    public void setRedactedDocument(String redactedDocument) {
-        this.redactedDocument = redactedDocument;
-    }
-
-    public Set<String> getRedactedSectionSet() {
-        return redactedSectionSet;
-    }
-
-    public void setRedactedSectionSet(Set<String> redactedSectionSet) {
-        this.redactedSectionSet = redactedSectionSet;
-    }
-
-    public Set<String> getRedactedCategorySet() {
-        return redactedCategorySet;
-    }
-
-    public void setRedactedCategorySet(Set<String> redactedCategorySet) {
         this.redactedCategorySet = redactedCategorySet;
     }
 }

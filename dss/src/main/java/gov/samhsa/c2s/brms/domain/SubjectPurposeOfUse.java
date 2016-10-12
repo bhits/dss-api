@@ -50,10 +50,6 @@ public enum SubjectPurposeOfUse {
         return valueOf(v);
     }
 
-    public String getPurpose() {
-        return purpose;
-    }
-
     public static SubjectPurposeOfUse fromAbbreviation(String purposeOfUse) {
         for (SubjectPurposeOfUse p : SubjectPurposeOfUse.values()) {
             if (p.getPurpose().equals(purposeOfUse)) {
@@ -65,5 +61,9 @@ public enum SubjectPurposeOfUse {
         builder.append(purposeOfUse);
         builder.append("' is not defined in this enum.");
         throw new IllegalArgumentException(builder.toString());
+    }
+
+    public String getPurpose() {
+        return purpose;
     }
 }

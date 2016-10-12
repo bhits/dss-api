@@ -37,6 +37,6 @@ public interface DocumentTagger {
      * @param executionResponseContainer the execution response container
      * @return the string
      */
-    public abstract String tagDocument(String document,
-                                       String executionResponseContainer);
+    String tagDocument(String document,
+                       String executionResponseContainer);
 }

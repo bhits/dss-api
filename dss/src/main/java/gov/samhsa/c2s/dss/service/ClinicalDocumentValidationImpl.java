@@ -46,10 +46,6 @@ import static gov.samhsa.c2s.dss.service.audit.DssPredicateKey.*;
 public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidation {
 
     private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
-
-    /**
-     * The logger.
-     */
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
@@ -115,7 +111,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                 originalCCDADocumentValidationResult.getValidationDetails()
                         .stream()
                         .filter(type -> type.getType().getTypeName().contains(DiagnosticType.CCDA_ERROR.getTypeName()))
-                        .forEach(detail -> logger.error("Validation Error -- xPath: " + detail.getxPath() + ", Message: " + detail.getMessage()));
+                        .forEach(detail -> logger.error("Validation Error -- xPath: " + detail.getXPath() + ", Message: " + detail.getMessage()));
                 throw new InvalidOriginalClinicalDocumentException("C-CDA validation failed for document type " + documentType);
             }
         } else {
@@ -181,7 +177,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                 segmentedCCDADocumentValidationResult.getValidationDetails()
                         .stream()
                         .filter(errorType -> errorType.getType().getTypeName().contains(DiagnosticType.CCDA_ERROR.getTypeName()))
-                        .forEach(detail -> logger.error("Validation Error -- xPath: " + detail.getxPath() + ", Message: " + detail.getMessage()));
+                        .forEach(detail -> logger.error("Validation Error -- xPath: " + detail.getXPath() + ", Message: " + detail.getMessage()));
                 throw new InvalidSegmentedClinicalDocumentException("C-CDA validation failed for document type " + documentType);
             }
         }

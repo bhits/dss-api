@@ -1,6 +1,5 @@
 package gov.samhsa.c2s.brms.service.guvnor;
 
-import gov.samhsa.c2s.brms.service.guvnor.GuvnorServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,18 +1,13 @@
-
 package gov.samhsa.c2s.brms.service.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -25,13 +20,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "ruleExecutionResponseContainer",
-    "rulesFired"
+        "ruleExecutionResponseContainer",
+        "rulesFired"
 })
 @XmlRootElement(name = "assertAndExecuteClinicalFactsResponse")
 public class AssertAndExecuteClinicalFactsResponse {
@@ -43,11 +36,9 @@ public class AssertAndExecuteClinicalFactsResponse {
 
     /**
      * Gets the value of the ruleExecutionResponseContainer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getRuleExecutionResponseContainer() {
         return ruleExecutionResponseContainer;
@@ -55,11 +46,9 @@ public class AssertAndExecuteClinicalFactsResponse {
 
     /**
      * Sets the value of the ruleExecutionResponseContainer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setRuleExecutionResponseContainer(String value) {
         this.ruleExecutionResponseContainer = value;
@@ -67,11 +56,9 @@ public class AssertAndExecuteClinicalFactsResponse {
 
     /**
      * Gets the value of the rulesFired property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getRulesFired() {
         return rulesFired;
@@ -79,11 +66,9 @@ public class AssertAndExecuteClinicalFactsResponse {
 
     /**
      * Sets the value of the rulesFired property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setRulesFired(String value) {
         this.rulesFired = value;

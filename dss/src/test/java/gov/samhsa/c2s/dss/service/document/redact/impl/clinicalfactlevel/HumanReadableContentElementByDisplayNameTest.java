@@ -3,7 +3,6 @@ package gov.samhsa.c2s.dss.service.document.redact.impl.clinicalfactlevel;
 import gov.samhsa.c2s.brms.domain.ClinicalFact;
 import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
-import gov.samhsa.c2s.dss.service.document.redact.impl.clinicalfactlevel.HumanReadableContentElementByDisplayName;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
@@ -67,7 +66,7 @@ public class HumanReadableContentElementByDisplayNameTest {
         Document factModelDocument = documentXmlConverter.loadDocument(factmodelXml);
         FactModel factModel = marshaller.unmarshalFromXml(FactModel.class, factmodelXml);
         ClinicalFact fact = factModel.getClinicalFactList().get(8);
-        Set<String> valueSetCategories = new HashSet<String>();
+        Set<String> valueSetCategories = new HashSet<>();
         valueSetCategories.add("HIV");
         valueSetCategories.add("ETH");
         fact.setValueSetCategories(valueSetCategories);

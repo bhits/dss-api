@@ -2,7 +2,6 @@ package gov.samhsa.c2s.dss.service.document.redact.impl.postredactionlevel;
 
 import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
-import gov.samhsa.c2s.dss.service.document.redact.impl.postredactionlevel.RuleExecutionResponseMarkerForRedactedEntries;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;

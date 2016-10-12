@@ -1,30 +1,11 @@
 package gov.samhsa.c2s.dss.service.document;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import gov.samhsa.c2s.brms.domain.Confidentiality;
-import gov.samhsa.c2s.brms.domain.ObligationPolicyDocument;
-import gov.samhsa.c2s.brms.domain.RefrainPolicy;
-import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
-import gov.samhsa.c2s.brms.domain.RuleExecutionResponse;
-import gov.samhsa.c2s.brms.domain.Sensitivity;
-import gov.samhsa.c2s.brms.domain.UsPrivacyLaw;
-import gov.samhsa.c2s.dss.service.document.DocumentEncrypterImpl;
-import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
+import gov.samhsa.c2s.brms.domain.*;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.c2s.common.filereader.FileReaderImpl;
-import gov.samhsa.c2s.common.util.EncryptTool;
 import gov.samhsa.c2s.common.unit.xml.XmlComparator;
-
-import java.io.IOException;
-import java.security.Key;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
+import gov.samhsa.c2s.common.util.EncryptTool;
+import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.encryption.XMLCipher;
 import org.apache.xml.security.encryption.XMLEncryptionException;
@@ -36,9 +17,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-public class DocumentEncrypterImplTest {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+import java.io.IOException;
+import java.security.Key;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
+import static org.junit.Assert.*;
+
+public class DocumentEncrypterImplTest {
+    private static final String ENCRYPTION_PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ClinicalDocument xmlns=\"urn:hl7-org:v3\" xmlns:sdtc=\"urn:hl7-org:sdtc\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">    <xenc:EncryptedData xmlns:xenc=\"http://www.w3.org/2001/04/xmlenc#\" Type=\"http://www.w3.org/2001/04/xmlenc#Content\">        <xenc:EncryptionMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#aes128-cbc\"/>        <ds:KeyInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"><xenc:EncryptedKey xmlns:xenc=\"http://www.w3.org/2001/04/xmlenc#\">                <xenc:EncryptionMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#kw-tripledes\"/>                <xenc:CipherData>                    <xenc:CipherValue>/ykRTBcO+EGKwVAniQQd7rJIRZERuhUVEG2RSRVi5SY=</xenc:CipherValue>                </xenc:CipherData>            </xenc:EncryptedKey>        </ds:KeyInfo>        <xenc:CipherData>            <xenc:CipherValue>";
     private static FileReaderImpl fileReader;
     private static DocumentXmlConverterImpl documentXmlConverter;
 
@@ -47,9 +35,43 @@ public class DocumentEncrypterImplTest {
     private static String testEncrypted;
 
     private static RuleExecutionContainer ruleExecutionContainer;
-    private static final String ENCRYPTION_PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ClinicalDocument xmlns=\"urn:hl7-org:v3\" xmlns:sdtc=\"urn:hl7-org:sdtc\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">    <xenc:EncryptedData xmlns:xenc=\"http://www.w3.org/2001/04/xmlenc#\" Type=\"http://www.w3.org/2001/04/xmlenc#Content\">        <xenc:EncryptionMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#aes128-cbc\"/>        <ds:KeyInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"><xenc:EncryptedKey xmlns:xenc=\"http://www.w3.org/2001/04/xmlenc#\">                <xenc:EncryptionMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#kw-tripledes\"/>                <xenc:CipherData>                    <xenc:CipherValue>/ykRTBcO+EGKwVAniQQd7rJIRZERuhUVEG2RSRVi5SY=</xenc:CipherValue>                </xenc:CipherData>            </xenc:EncryptedKey>        </ds:KeyInfo>        <xenc:CipherData>            <xenc:CipherValue>";
-
     private static DocumentEncrypterImpl documentEncrypter;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private static RuleExecutionContainer setRuleExecutionContainer() {
+        RuleExecutionContainer container = new RuleExecutionContainer();
+        RuleExecutionResponse r1 = new RuleExecutionResponse();
+        r1.setC32SectionLoincCode("11450-4");
+        r1.setC32SectionTitle("Problems");
+        r1.setCode("66214007");
+        r1.setCodeSystemName("SNOMED CT");
+        r1.setDisplayName("Substance Abuse Disorder");
+        r1.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
+        r1.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
+        r1.setImpliedConfSection(Confidentiality.R);
+        r1.setItemAction("REDACT");
+        r1.setObservationId("e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7");
+        r1.setSensitivity(Sensitivity.ETH);
+        r1.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
+        RuleExecutionResponse r2 = new RuleExecutionResponse();
+        r2.setC32SectionLoincCode("11450-4");
+        r2.setC32SectionTitle("Problems");
+        r2.setCode("111880001");
+        r2.setCodeSystemName("SNOMED CT");
+        r2.setDisplayName("Acute HIV");
+        r2.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
+        r2.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
+        r2.setImpliedConfSection(Confidentiality.R);
+        r2.setItemAction("MASK");
+        r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
+        r2.setSensitivity(Sensitivity.HIV);
+        r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
+        List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
+        list.add(r1);
+        list.add(r2);
+        container.setExecutionResponseList(list);
+        return container;
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -129,7 +151,7 @@ public class DocumentEncrypterImplTest {
         logger.debug("NOT ENCRYPTED--> " + c32);
         String encrypted = null;
         try {
-            List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
+            List<RuleExecutionResponse> list = new LinkedList<>();
             RuleExecutionContainer container = new RuleExecutionContainer();
             container.setExecutionResponseList(list);
             encrypted = documentEncrypter.encryptDocument(
@@ -150,7 +172,7 @@ public class DocumentEncrypterImplTest {
         logger.debug("NOT ENCRYPTED--> " + c32);
         String encrypted = null;
         try {
-            List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
+            List<RuleExecutionResponse> list = new LinkedList<>();
             RuleExecutionContainer container = new RuleExecutionContainer();
             RuleExecutionResponse resp = new RuleExecutionResponse();
             resp.setDocumentRefrainPolicy(RefrainPolicy.NOVIP);
@@ -170,45 +192,10 @@ public class DocumentEncrypterImplTest {
 
     @Test(expected = DocumentSegmentationException.class)
     public void testEncryptDocument_Throws_DocumentSegmentationException()
-            throws XMLEncryptionException, Exception {
+            throws Exception {
         // Empty xml file
         documentEncrypter.encryptDocument(
                 EncryptTool.generateDataEncryptionKey(), "",
                 ruleExecutionContainer);
-    }
-
-    private static RuleExecutionContainer setRuleExecutionContainer() {
-        RuleExecutionContainer container = new RuleExecutionContainer();
-        RuleExecutionResponse r1 = new RuleExecutionResponse();
-        r1.setC32SectionLoincCode("11450-4");
-        r1.setC32SectionTitle("Problems");
-        r1.setCode("66214007");
-        r1.setCodeSystemName("SNOMED CT");
-        r1.setDisplayName("Substance Abuse Disorder");
-        r1.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
-        r1.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
-        r1.setImpliedConfSection(Confidentiality.R);
-        r1.setItemAction("REDACT");
-        r1.setObservationId("e11275e7-67ae-11db-bd13-0800200c9a66b827vs52h7");
-        r1.setSensitivity(Sensitivity.ETH);
-        r1.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        RuleExecutionResponse r2 = new RuleExecutionResponse();
-        r2.setC32SectionLoincCode("11450-4");
-        r2.setC32SectionTitle("Problems");
-        r2.setCode("111880001");
-        r2.setCodeSystemName("SNOMED CT");
-        r2.setDisplayName("Acute HIV");
-        r2.setDocumentObligationPolicy(ObligationPolicyDocument.ENCRYPT);
-        r2.setDocumentRefrainPolicy(RefrainPolicy.NODSCLCD);
-        r2.setImpliedConfSection(Confidentiality.R);
-        r2.setItemAction("MASK");
-        r2.setObservationId("d11275e7-67ae-11db-bd13-0800200c9a66");
-        r2.setSensitivity(Sensitivity.HIV);
-        r2.setUSPrivacyLaw(UsPrivacyLaw._42CFRPart2);
-        List<RuleExecutionResponse> list = new LinkedList<RuleExecutionResponse>();
-        list.add(r1);
-        list.add(r2);
-        container.setExecutionResponseList(list);
-        return container;
     }
 }

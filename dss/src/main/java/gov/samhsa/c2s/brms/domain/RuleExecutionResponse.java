@@ -32,56 +32,90 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 public class RuleExecutionResponse {
 
-    /** The Constant ITEM_ACTION_REDACT. */
+    /**
+     * The Constant ITEM_ACTION_REDACT.
+     */
     public static final String ITEM_ACTION_REDACT = "REDACT";
 
-    /** The Constant ITEM_ACTION_NO_ACTION. */
+    /**
+     * The Constant ITEM_ACTION_NO_ACTION.
+     */
     public static final String ITEM_ACTION_NO_ACTION = "NO_ACTION";
 
-    /** The Implied conf section. */
+    /**
+     * The Implied conf section.
+     */
     private Confidentiality ImpliedConfSection;
 
-    /** The Sensitivity. */
+    /**
+     * The Sensitivity.
+     */
     private gov.samhsa.c2s.brms.domain.Sensitivity Sensitivity;
 
-    /** The Item action. */
+    /**
+     * The Item action.
+     */
     private String ItemAction;
 
-    /** The US privacy law. */
+    /**
+     * The US privacy law.
+     */
     private UsPrivacyLaw USPrivacyLaw;
 
-    /** The Document obligation policy. */
+    /**
+     * The Document obligation policy.
+     */
     private ObligationPolicyDocument DocumentObligationPolicy;
 
-    /** The Document refrain policy. */
+    /**
+     * The Document refrain policy.
+     */
     private RefrainPolicy DocumentRefrainPolicy;
 
-    /** The clinical fact. */
+    /**
+     * The clinical fact.
+     */
     @XmlTransient
     private ClinicalFact clinicalFact;
 
-    /** The code. */
+    /**
+     * The code.
+     */
     private String code;
 
-    /** The code system. */
+    /**
+     * The code system.
+     */
     private String codeSystem;
 
-    /** The code system name. */
+    /**
+     * The code system name.
+     */
     private String codeSystemName;
 
-    /** The display name. */
+    /**
+     * The display name.
+     */
     private String displayName;
 
-    /** The c32 section title. */
+    /**
+     * The c32 section title.
+     */
     private String c32SectionTitle;
 
-    /** The c32 section loinc code. */
+    /**
+     * The c32 section loinc code.
+     */
     private String c32SectionLoincCode;
 
-    /** The observation id. */
+    /**
+     * The observation id.
+     */
     private String observationId;
 
-    /** The entry. */
+    /**
+     * The entry.
+     */
     private String entry;
 
     /**
@@ -103,8 +137,7 @@ public class RuleExecutionResponse {
     /**
      * Sets the clinical fact.
      *
-     * @param clinicalFact
-     *            the new clinical fact
+     * @param clinicalFact the new clinical fact
      */
     public void setClinicalFact(ClinicalFact clinicalFact) {
         this.code = clinicalFact.getCode();
@@ -127,8 +160,7 @@ public class RuleExecutionResponse {
     /**
      * Sets the implied conf section.
      *
-     * @param ImpliedConfSection
-     *            the ImpliedConfSection to set
+     * @param ImpliedConfSection the ImpliedConfSection to set
      */
     public void setImpliedConfSection(Confidentiality ImpliedConfSection) {
         this.ImpliedConfSection = ImpliedConfSection;
@@ -146,8 +178,7 @@ public class RuleExecutionResponse {
     /**
      * Sets the uS privacy law.
      *
-     * @param uSPrivacyLaw
-     *            the new uS privacy law
+     * @param uSPrivacyLaw the new uS privacy law
      */
     public void setUSPrivacyLaw(UsPrivacyLaw uSPrivacyLaw) {
         USPrivacyLaw = uSPrivacyLaw;
@@ -165,8 +196,7 @@ public class RuleExecutionResponse {
     /**
      * Sets the document obligation policy.
      *
-     * @param documentObligationPolicy
-     *            the new document obligation policy
+     * @param documentObligationPolicy the new document obligation policy
      */
     public void setDocumentObligationPolicy(
             ObligationPolicyDocument documentObligationPolicy) {
@@ -185,8 +215,7 @@ public class RuleExecutionResponse {
     /**
      * Sets the document refrain policy.
      *
-     * @param documentRefrainPolicy
-     *            the new document refrain policy
+     * @param documentRefrainPolicy the new document refrain policy
      */
     public void setDocumentRefrainPolicy(RefrainPolicy documentRefrainPolicy) {
         DocumentRefrainPolicy = documentRefrainPolicy;
@@ -204,8 +233,7 @@ public class RuleExecutionResponse {
     /**
      * Sets the sensitivity.
      *
-     * @param sensitivity
-     *            the new sensitivity
+     * @param sensitivity the new sensitivity
      */
     public void setSensitivity(gov.samhsa.c2s.brms.domain.Sensitivity sensitivity) {
         Sensitivity = sensitivity;
@@ -223,8 +251,7 @@ public class RuleExecutionResponse {
     /**
      * Sets the item action.
      *
-     * @param ItemAction
-     *            the ItemAction to set
+     * @param ItemAction the ItemAction to set
      */
     public void setItemAction(String ItemAction) {
         this.ItemAction = ItemAction;
@@ -240,12 +267,30 @@ public class RuleExecutionResponse {
     }
 
     /**
+     * Sets the code.
+     *
+     * @param code the new code
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    /**
      * Gets the code system.
      *
      * @return the code system
      */
     public String getCodeSystem() {
         return codeSystem;
+    }
+
+    /**
+     * Sets the code system.
+     *
+     * @param codeSystem the new code system
+     */
+    public void setCodeSystem(String codeSystem) {
+        this.codeSystem = codeSystem;
     }
 
     /**
@@ -258,12 +303,30 @@ public class RuleExecutionResponse {
     }
 
     /**
+     * Sets the code system name.
+     *
+     * @param codeSystemName the new code system name
+     */
+    public void setCodeSystemName(String codeSystemName) {
+        this.codeSystemName = codeSystemName;
+    }
+
+    /**
      * Gets the display name.
      *
      * @return the display name
      */
     public String getDisplayName() {
         return displayName;
+    }
+
+    /**
+     * Sets the display name.
+     *
+     * @param displayName the new display name
+     */
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     /**
@@ -276,12 +339,30 @@ public class RuleExecutionResponse {
     }
 
     /**
+     * Sets the c32 section title.
+     *
+     * @param c32SectionTitle the new c32 section title
+     */
+    public void setC32SectionTitle(String c32SectionTitle) {
+        this.c32SectionTitle = c32SectionTitle;
+    }
+
+    /**
      * Gets the c32 section loinc code.
      *
      * @return the c32 section loinc code
      */
     public String getC32SectionLoincCode() {
         return c32SectionLoincCode;
+    }
+
+    /**
+     * Sets the c32 section loinc code.
+     *
+     * @param c32SectionLoincCode the new c32 section loinc code
+     */
+    public void setC32SectionLoincCode(String c32SectionLoincCode) {
+        this.c32SectionLoincCode = c32SectionLoincCode;
     }
 
     /**
@@ -294,70 +375,9 @@ public class RuleExecutionResponse {
     }
 
     /**
-     * Sets the code.
-     *
-     * @param code
-     *            the new code
-     */
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    /**
-     * Sets the code system.
-     *
-     * @param codeSystem
-     *            the new code system
-     */
-    public void setCodeSystem(String codeSystem) {
-        this.codeSystem = codeSystem;
-    }
-
-    /**
-     * Sets the code system name.
-     *
-     * @param codeSystemName
-     *            the new code system name
-     */
-    public void setCodeSystemName(String codeSystemName) {
-        this.codeSystemName = codeSystemName;
-    }
-
-    /**
-     * Sets the display name.
-     *
-     * @param displayName
-     *            the new display name
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    /**
-     * Sets the c32 section title.
-     *
-     * @param c32SectionTitle
-     *            the new c32 section title
-     */
-    public void setC32SectionTitle(String c32SectionTitle) {
-        this.c32SectionTitle = c32SectionTitle;
-    }
-
-    /**
-     * Sets the c32 section loinc code.
-     *
-     * @param c32SectionLoincCode
-     *            the new c32 section loinc code
-     */
-    public void setC32SectionLoincCode(String c32SectionLoincCode) {
-        this.c32SectionLoincCode = c32SectionLoincCode;
-    }
-
-    /**
      * Sets the observation id.
      *
-     * @param observationId
-     *            the new observation id
+     * @param observationId the new observation id
      */
     public void setObservationId(String observationId) {
         this.observationId = observationId;
@@ -375,8 +395,7 @@ public class RuleExecutionResponse {
     /**
      * Sets the entry.
      *
-     * @param entry
-     *            the new entry
+     * @param entry the new entry
      */
     public void setEntry(String entry) {
         this.entry = entry;

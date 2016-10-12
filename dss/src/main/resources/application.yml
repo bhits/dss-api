@@ -17,7 +17,7 @@ eureka:
     service-url:
       # endpoint for discovery-server, pass '--eureka.client.protocol=https' if discovery-server is running on https
       defaultZone: ${eureka.client.protocol:http}://localhost:8761/eureka/
-# TODO: until finding a better solution, disable hystrix command timeout. See https://github.com/spring-cloud/spring-cloud-netflix/issues/321#issuecomment-97727313
+
 hystrix.command.default.execution.timeout.enabled: false
 ribbon:
   ReadTimeout: 50000
@@ -89,9 +89,11 @@ c2s:
       host: BHITSDEVACS01
       port: 9630
 ---
+# Enables ssl in this service when activated
 spring.profiles: ssl
 server:
   port: 8450
+  # Configure keystore and keystore password for ssl per environment
   ssl:
     key-store: /ssl_keystore.keystore
     key-store-password: changeit
@@ -101,45 +103,13 @@ eureka:
     secure-port-enabled: true
     non-secure-port-enabled: false
 ---
+# Enables ssl and adds /phr context path when activated
 spring.profiles: standalone-ssl
 spring:
   profiles:
     include: ssl
 server:
   context-path: /dss
----
-spring.profiles: pgchd
-c2s:
-  dss:
-    DocumentTaggerImpl:
-      additionalSections:
-        - code: DISCLAIMER
-          codeSystem: 2.25.85119437033116720353817881047915448747
-          codeSystemName: Consent2Share Disclaimer Codes
-          displayName: DISCLAIMER
-          title: "***PLEASE READ THE DISCLAIMER***"
-          text: >
-              The patient has authorized the sharing of their continuity of care document in a C32 summary format that has been provided by Prince George's County Health Department and its affiliates as a partial reference service; it is not to be used as a substitute for a medical intake process and/or diagnosis, which must be provided by the patient's own physician or reviewing practitioner.<br/>
-              <br/>CAUTION:<br/>The following history may not be complete<br/>
-              <list>
-                  <item>Patients may have purchased or obtained care through sources which bypass Prince George's County Health Department supplying the history.</item>
-                  <item>Electronic Medical Record (EMR) systems may have their own unique method for accepting and/or formatting data sent by the system of origin.</item>
-              </list>
-        - code: PROHIBITION_ON_REDISCLOSURE
-          codeSystem: 2.25.85119437033116720353817881047915448747
-          codeSystemName: Consent2Share Disclaimer Codes
-          displayName: PROHIBITION ON RE-DISCLOSURE
-          title: "***PLEASE READ PROHIBITION ON RE-DISCLOSURE***"
-          text: >
-              "This information has been disclosed to you from records protected by
-              Federal confidentiality rules (42 CFR part 2). The Federal rules prohibit
-              you from making any further disclosure of this information unless further
-              disclosure is expressly permitted by the written consent of the person to
-              whom it pertains or as otherwise permitted by 42 CFR part 2. A general
-              authorization for the release of medical or other information is NOT
-              sufficient for this purpose. The Federal rules restrict any use of the
-              information to criminally investigate or prosecute any alcohol or drug abuse
-              patient."<br/>(42 C.F.R. § 2.32)
 ---
 spring.profiles: docker
 eureka:

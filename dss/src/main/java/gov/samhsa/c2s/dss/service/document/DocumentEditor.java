@@ -26,13 +26,11 @@
 package gov.samhsa.c2s.dss.service.document;
 
 import gov.samhsa.c2s.brms.domain.XacmlResult;
-
-import java.io.IOException;
-
-import javax.xml.xpath.XPathExpressionException;
-
 import org.apache.axiom.attachments.ByteArrayDataSource;
 import org.apache.xml.security.encryption.XMLEncryptionException;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
 
 /**
  * The Interface DocumentEditor.
@@ -47,8 +45,8 @@ public interface DocumentEditor {
      * @throws Exception                the exception
      * @throws XPathExpressionException the x path expression exception
      */
-    public abstract String setDocumentCreationDate(String document)
-            throws Exception, XPathExpressionException, XMLEncryptionException;
+    String setDocumentCreationDate(String document)
+            throws Exception;
 
     /**
      * Sets the document payload raw data.
@@ -65,10 +63,10 @@ public interface DocumentEditor {
      * @throws Exception   the exception
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    public abstract ByteArrayDataSource setDocumentPayloadRawData(
+    ByteArrayDataSource setDocumentPayloadRawData(
             String document, boolean packageAsXdm, String senderEmailAddress,
             String recipientEmailAddress, XacmlResult xacmlResult,
             String executionResponseContainer, byte[] maskingKeyBytes,
-            byte[] encryptionKeyBytes) throws Exception, IOException;
+            byte[] encryptionKeyBytes) throws Exception;
 
 }

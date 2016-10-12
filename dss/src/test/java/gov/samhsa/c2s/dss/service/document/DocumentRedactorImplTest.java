@@ -138,7 +138,7 @@ public class DocumentRedactorImplTest {
     @SuppressWarnings("unused")
     private static XacmlResult setMockXacmlResult_WrongSensitivity() {
         final XacmlResult mock = mock(XacmlResult.class);
-        final List<String> obligations = new LinkedList<String>();
+        final List<String> obligations = new LinkedList<>();
         obligations.add("STD");
         obligations.add("SEX");
         when(mock.getPdpObligations()).thenReturn(obligations)
@@ -245,10 +245,10 @@ public class DocumentRedactorImplTest {
 
         documentXmlConverterSpy = setSpyDocumentXmlConverter();
 
-        final Set<AbstractObligationLevelRedactionHandler> obligationLevelChain = new HashSet<AbstractObligationLevelRedactionHandler>();
-        final Set<AbstractClinicalFactLevelRedactionHandler> clinicalFactLevelChain = new HashSet<AbstractClinicalFactLevelRedactionHandler>();
-        final Set<AbstractPostRedactionLevelRedactionHandler> postRedactionChain = new HashSet<AbstractPostRedactionLevelRedactionHandler>();
-        final Set<AbstractDocumentLevelRedactionHandler> documentLevelRedactionHandlers = new HashSet<AbstractDocumentLevelRedactionHandler>();
+        final Set<AbstractObligationLevelRedactionHandler> obligationLevelChain = new HashSet<>();
+        final Set<AbstractClinicalFactLevelRedactionHandler> clinicalFactLevelChain = new HashSet<>();
+        final Set<AbstractPostRedactionLevelRedactionHandler> postRedactionChain = new HashSet<>();
+        final Set<AbstractDocumentLevelRedactionHandler> documentLevelRedactionHandlers = new HashSet<>();
         UnsupportedHeaderElementHandler unsupportedHeaderElementHandler = new UnsupportedHeaderElementHandler(
                 documentAccessor);
         ReflectionTestUtils.setField(unsupportedHeaderElementHandler, "headersWhiteList", headersWhiteList);
@@ -1025,13 +1025,13 @@ public class DocumentRedactorImplTest {
     }
 
     private Element getEntryElement(String c32, String observationId)
-            throws XPathExpressionException, XMLEncryptionException, Exception {
+            throws Exception {
         return getEntryElementAsOptional(c32, observationId).get();
     }
 
     private Optional<Element> getEntryElementAsOptional(String c32,
-                                                        String observationId) throws XPathExpressionException,
-            XMLEncryptionException, Exception {
+                                                        String observationId) throws
+            Exception {
         String xPathExprSection = "//hl7:id[@root='%']/ancestor::hl7:entry";
         xPathExprSection = xPathExprSection.replace("%", observationId);
         return documentAccessor.getElement(
@@ -1039,7 +1039,7 @@ public class DocumentRedactorImplTest {
     }
 
     private NodeList getHumanReadableTextNodeList(String c32, String textContent)
-            throws XPathExpressionException, XMLEncryptionException, Exception {
+            throws Exception {
         String xPathExprHumanReadableTextNode = "//hl7:section/hl7:text//*/text()[contains(lower-case(.), '%')]";
         xPathExprHumanReadableTextNode = xPathExprHumanReadableTextNode
                 .replace("%", textContent.toLowerCase());
@@ -1050,13 +1050,13 @@ public class DocumentRedactorImplTest {
     }
 
     private Element getSectionElement(String c32, String sectionLoincCode)
-            throws XPathExpressionException, XMLEncryptionException, Exception {
+            throws Exception {
         return getSectionElementAsOptional(c32, sectionLoincCode).get();
     }
 
     private Optional<Element> getSectionElementAsOptional(String c32,
-                                                          String sectionLoincCode) throws XPathExpressionException,
-            XMLEncryptionException, Exception {
+                                                          String sectionLoincCode) throws
+            Exception {
         String xPathExprSection = "//hl7:component[hl7:section[hl7:code[@code='%']]]";
         xPathExprSection = xPathExprSection.replace("%", sectionLoincCode);
         return documentAccessor.getElement(
@@ -1095,7 +1095,7 @@ public class DocumentRedactorImplTest {
     }
 
     private String removeEmbeddedClinicalDocument(String factModelXml)
-            throws Exception, XPathExpressionException, IOException {
+            throws Exception {
         final Document fmDoc = documentXmlConverter.loadDocument(factModelXml);
         final Node ecd = documentAccessor.getNode(fmDoc,
                 "//hl7:EmbeddedClinicalDocument").get();
@@ -1106,7 +1106,7 @@ public class DocumentRedactorImplTest {
 
     @SuppressWarnings("unused")
     private DocumentAccessor setMockDocumentAccessor()
-            throws XPathExpressionException, XMLEncryptionException, Exception {
+            throws Exception {
         final DocumentAccessor mock = mock(DocumentAccessor.class);
 
         final Optional<Element> e1 = documentAccessor.getElement(c32Document,

@@ -26,10 +26,10 @@
 package gov.samhsa.c2s.brms.service;
 
 import gov.samhsa.c2s.brms.domain.ClinicalFact;
+import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
 import gov.samhsa.c2s.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
 import gov.samhsa.c2s.brms.service.guvnor.GuvnorService;
-import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.common.log.Logger;
 import gov.samhsa.c2s.common.log.LoggerFactory;
 import gov.samhsa.c2s.common.marshaller.SimpleMarshaller;
@@ -95,7 +95,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
         RuleExecutionContainer executionResponseContainer = null;
         final AssertAndExecuteClinicalFactsResponse assertAndExecuteResponse = new AssertAndExecuteClinicalFactsResponse();
         String executionResponseContainerXMLString = null;
-        final Set<String> firedRuleNames = new HashSet<String>();
+        final Set<String> firedRuleNames = new HashSet<>();
 
         final StatefulKnowledgeSession session = createStatefulKnowledgeSession();
         try {

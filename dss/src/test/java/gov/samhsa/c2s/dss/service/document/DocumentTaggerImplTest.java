@@ -3,10 +3,6 @@ package gov.samhsa.c2s.dss.service.document;
 import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.service.RuleExecutionServiceImpl;
 import gov.samhsa.c2s.brms.service.guvnor.GuvnorServiceImpl;
-import gov.samhsa.c2s.dss.service.document.DocumentFactModelExtractorImpl;
-import gov.samhsa.c2s.dss.service.document.DocumentTaggerImpl;
-import gov.samhsa.c2s.dss.service.document.EmbeddedClinicalDocumentExtractor;
-import gov.samhsa.c2s.dss.service.document.EmbeddedClinicalDocumentExtractorImpl;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.c2s.common.document.transformer.XmlTransformer;
@@ -14,8 +10,8 @@ import gov.samhsa.c2s.common.document.transformer.XmlTransformerImpl;
 import gov.samhsa.c2s.common.filereader.FileReaderImpl;
 import gov.samhsa.c2s.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.c2s.common.namespace.DefaultNamespaceContext;
-import gov.samhsa.c2s.dss.config.DocumentTaggerConfig;
 import gov.samhsa.c2s.dss.config.CustomSection;
+import gov.samhsa.c2s.dss.config.DocumentTaggerConfig;
 import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.junit.Before;
@@ -1151,7 +1147,7 @@ public class DocumentTaggerImplTest {
             throws XPathExpressionException, XMLEncryptionException, Exception {
         final String xPathExpr = "//hl7:entry[child::hl7:generatedEntryId='$generatedEntryId']//hl7:entryRelationship[descendant::hl7:templateId[@root='2.16.840.1.113883.3.3251.1.4']]//hl7:value/@code";
         final String xPathExprForOrganizer = "//hl7:entry[child::hl7:generatedEntryId='$generatedEntryId']//hl7:component[child::hl7:organizer[child::hl7:templateId[@root='2.16.840.1.113883.3.3251.1.4']]]//hl7:value/@code";
-        final LinkedList<String> solutionList = new LinkedList<String>();
+        final LinkedList<String> solutionList = new LinkedList<>();
 
         // Add everything except organizer
         NodeList nodeList = getNodeList(taggedDoc,
