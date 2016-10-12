@@ -1,7 +1,6 @@
 package gov.samhsa.c2s.dss.config;
 
 import ch.qos.logback.audit.AuditException;
-import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorServiceImpl;
 import gov.samhsa.c2s.common.audit.AuditService;
 import gov.samhsa.c2s.common.audit.AuditServiceImpl;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
@@ -15,6 +14,7 @@ import gov.samhsa.c2s.common.filereader.FileReaderImpl;
 import gov.samhsa.c2s.common.marshaller.SimpleMarshaller;
 import gov.samhsa.c2s.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorService;
+import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

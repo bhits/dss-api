@@ -36,12 +36,16 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RuleExecutionContainer {
 
-    /** The execution response list. */
+    /**
+     * The execution response list.
+     */
     @XmlElementWrapper(name = "executionResponseList")
     @XmlElement(name = "executionResponse")
     private List<RuleExecutionResponse> executionResponseList;
 
-    /** The size. */
+    /**
+     * The size.
+     */
     @XmlTransient
     private int size;
 
@@ -49,7 +53,7 @@ public class RuleExecutionContainer {
      * Instantiates a new rule execution container.
      */
     public RuleExecutionContainer() {
-        executionResponseList = new ArrayList<RuleExecutionResponse>();
+        executionResponseList = new ArrayList<>();
     }
 
 

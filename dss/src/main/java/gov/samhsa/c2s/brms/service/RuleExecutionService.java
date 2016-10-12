@@ -36,20 +36,18 @@ public interface RuleExecutionService {
     /**
      * Assert and execute clinical facts.
      *
-     * @param factModelXmlString
-     *            the fact model xml string
+     * @param factModelXmlString the fact model xml string
      * @return the assert and execute clinical facts response
      */
-    public AssertAndExecuteClinicalFactsResponse assertAndExecuteClinicalFacts(
+    AssertAndExecuteClinicalFactsResponse assertAndExecuteClinicalFacts(
             String factModelXmlString);
 
     /**
      * Assert and execute clinical facts.
      *
-     * @param factModel
-     *            the fact model
+     * @param factModel the fact model
      * @return the assert and execute clinical facts response
      */
-    public AssertAndExecuteClinicalFactsResponse assertAndExecuteClinicalFacts(
+    AssertAndExecuteClinicalFactsResponse assertAndExecuteClinicalFacts(
             FactModel factModel);
 }

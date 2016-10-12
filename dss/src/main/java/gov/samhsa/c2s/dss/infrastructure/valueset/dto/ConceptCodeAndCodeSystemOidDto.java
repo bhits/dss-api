@@ -1,14 +1,11 @@
 package gov.samhsa.c2s.dss.infrastructure.valueset.dto;
 
-public class ConceptCodeAndCodeSystemOidDto {
-    /**
-     * The concept code.
-     */
-    private String conceptCode;
+import lombok.Data;
 
-    /**
-     * The code system oid.
-     */
+@Data
+public class ConceptCodeAndCodeSystemOidDto {
+
+    private String conceptCode;
     private String codeSystemOid;
 
     public ConceptCodeAndCodeSystemOidDto() {
@@ -18,22 +15,5 @@ public class ConceptCodeAndCodeSystemOidDto {
         this.conceptCode = conceptCode;
         this.codeSystemOid = codeSystemOid;
     }
-
-    public String getConceptCode() {
-        return conceptCode;
-    }
-
-    public void setConceptCode(String conceptCode) {
-        this.conceptCode = conceptCode;
-    }
-
-    public String getCodeSystemOid() {
-        return codeSystemOid;
-    }
-
-    public void setCodeSystemOid(String codeSystemOid) {
-        this.codeSystemOid = codeSystemOid;
-    }
-
 
 }

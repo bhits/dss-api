@@ -38,5 +38,5 @@ public interface GuvnorService {
      * @return the versioned rules from package
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    public String getVersionedRulesFromPackage() throws IOException;
+    String getVersionedRulesFromPackage() throws IOException;
 }

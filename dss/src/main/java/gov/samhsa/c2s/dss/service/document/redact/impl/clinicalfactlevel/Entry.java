@@ -26,12 +26,12 @@
 package gov.samhsa.c2s.dss.service.document.redact.impl.clinicalfactlevel;
 
 import gov.samhsa.c2s.brms.domain.ClinicalFact;
+import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.domain.RuleExecutionContainer;
 import gov.samhsa.c2s.brms.domain.XacmlResult;
+import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import gov.samhsa.c2s.dss.service.document.dto.RedactionHandlerResult;
 import gov.samhsa.c2s.dss.service.document.redact.base.AbstractClinicalFactLevelRedactionHandler;
-import gov.samhsa.c2s.brms.domain.FactModel;
-import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;

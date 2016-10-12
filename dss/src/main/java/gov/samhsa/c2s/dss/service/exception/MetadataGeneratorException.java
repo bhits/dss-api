@@ -1,17 +1,12 @@
 package gov.samhsa.c2s.dss.service.exception;
 
-/**
- * Created by jiahao.li on 2/8/2016.
- */
 public class MetadataGeneratorException extends RuntimeException {
-
 
     /**
      * Instantiates a new d s4 p exception.
      */
     public MetadataGeneratorException() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -22,7 +17,6 @@ public class MetadataGeneratorException extends RuntimeException {
      */
     public MetadataGeneratorException(String arg0, Throwable arg1) {
         super(arg0, arg1);
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -32,7 +26,6 @@ public class MetadataGeneratorException extends RuntimeException {
      */
     public MetadataGeneratorException(String arg0) {
         super(arg0);
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -42,11 +35,5 @@ public class MetadataGeneratorException extends RuntimeException {
      */
     public MetadataGeneratorException(Throwable arg0) {
         super(arg0);
-        // TODO Auto-generated constructor stub
     }
-
-    /**
-     * The Constant serialVersionUID.
-     */
-    private static final long serialVersionUID = -6820537577171759098L;
 }

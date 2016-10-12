@@ -1,6 +1,5 @@
 package gov.samhsa.c2s.dss.service.document.redact.impl.documentlevel;
 
-import gov.samhsa.c2s.dss.service.document.redact.impl.documentlevel.UnsupportedSectionHandler;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;

@@ -1,7 +1,6 @@
 package gov.samhsa.c2s.dss.service.document;
 
 import gov.samhsa.c2s.brms.domain.XacmlResult;
-import gov.samhsa.c2s.dss.service.document.DocumentEditorImpl;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.c2s.common.filereader.FileReaderImpl;

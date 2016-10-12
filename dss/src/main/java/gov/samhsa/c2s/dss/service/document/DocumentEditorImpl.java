@@ -44,10 +44,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-/**
- * The Class DocumentEditorImpl.
- */
 @Service
 public class DocumentEditorImpl implements DocumentEditor {
 
@@ -81,14 +77,10 @@ public class DocumentEditorImpl implements DocumentEditor {
     /**
      * Instantiates a new document editor impl.
      *
-     * @param metadataGenerator
-     *            the metadata generator
-     * @param fileReader
-     *            the file reader
-     * @param documentXmlConverter
-     *            the document xml converter
-     * @param documentAccessor
-     *            the document accessor
+     * @param metadataGenerator    the metadata generator
+     * @param fileReader           the file reader
+     * @param documentXmlConverter the document xml converter
+     * @param documentAccessor     the document accessor
      */
     @Autowired
     public DocumentEditorImpl(MetadataGenerator metadataGenerator,
@@ -108,8 +100,7 @@ public class DocumentEditorImpl implements DocumentEditor {
      * .DocumentEditor#setDocumentCreationDate(java.lang.String)
      */
     @Override
-    public String setDocumentCreationDate(String document) throws Exception,
-            XPathExpressionException, XMLEncryptionException {
+    public String setDocumentCreationDate(String document) throws Exception {
         Document xmlDocument;
         xmlDocument = documentXmlConverter.loadDocument(document);
 
@@ -139,7 +130,7 @@ public class DocumentEditorImpl implements DocumentEditor {
                                                          boolean packageAsXdm, String senderEmailAddress,
                                                          String recipientEmailAddress, XacmlResult xacmlResult,
                                                          String executionResponseContainer, byte[] maskingKeyBytes,
-                                                         byte[] encryptionKeyBytes) throws Exception, IOException {
+                                                         byte[] encryptionKeyBytes) throws Exception {
         ByteArrayDataSource rawData;
         byte[] documentPayload = null;
         if (packageAsXdm) {

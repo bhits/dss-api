@@ -46,6 +46,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -389,8 +390,8 @@ public class DocumentSegmentationImplTest {
                 xmlValidatorMock);
         DSSRequest dssRequest = new DSSRequest();
         dssRequest.setDocument("".getBytes(StandardCharsets.UTF_8));
-        dssRequest.setAudited(false);
-        dssRequest.setAuditFailureByPass(true);
+        dssRequest.setAudited(Optional.empty());
+        dssRequest.setAuditFailureByPass(Optional.empty());
 
         // Act
         @SuppressWarnings("unused")
@@ -424,8 +425,8 @@ public class DocumentSegmentationImplTest {
                 "xmlValidator", xmlValidatorMock);
         DSSRequest dssRequest = new DSSRequest();
         dssRequest.setDocument("".getBytes(StandardCharsets.UTF_8));
-        dssRequest.setAudited(false);
-        dssRequest.setAuditFailureByPass(true);
+        dssRequest.setAudited(Optional.empty());
+        dssRequest.setAuditFailureByPass(Optional.empty());
 
         // Act
         @SuppressWarnings("unused")
@@ -462,8 +463,8 @@ public class DocumentSegmentationImplTest {
         when(clinicalDocumentValidationMock.validateClinicalDocument(StandardCharsets.UTF_8, notxml)).thenThrow(XmlDocumentReadFailureException.class);
         DSSRequest dssRequest = new DSSRequest();
         dssRequest.setDocument(notxml.getBytes(StandardCharsets.UTF_8));
-        dssRequest.setAudited(false);
-        dssRequest.setAuditFailureByPass(true);
+        dssRequest.setAudited(Optional.empty());
+        dssRequest.setAuditFailureByPass(Optional.empty());
 
 
         // Act
