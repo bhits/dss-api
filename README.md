@@ -43,10 +43,6 @@ To build the project, navigate to the folder that contains `pom.xml` file using 
 
 ## Run
 
-### Prerequisites
-
-This API uses *[MySQL](https://www.mysql.com/)* for persistence and *[Flyway](https://flywaydb.org/)* for database migration. It requires having a database user account with Object and DDL Rights to a schema with default name `dss`. Please see [Configure](#configure) section for details of configuring the data source.
-
 ### Commands
 
 This is a [Spring Boot](https://projects.spring.io/spring-boot/) project and serves the API via an embedded Tomcat instance, therefore there is no need for a separate application server to run this service.
