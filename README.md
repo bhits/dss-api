@@ -1,15 +1,15 @@
 Document Segmentation Service API
 =================================
 
-Document Segmentation Service (DSS) API is responsible for the segmentation of the patient's sensitive health information using the patient consent. Segmentation invloves the following phase:
+The Document Segmentation Service (DSS) API is responsible for the segmentation of the patient's sensitive health information using the patient consent. Segmentation invloves the following phase:
 
 1. Document Validation: DSS uses  [Document-Validator](https://github.com/FEISystems/document-validator) to verify that the document is a valid CCD document.
 
-2. Fact Model Extraction: DSS extract the fact model using the consent policy.
+2. Fact Model Extraction: DSS extracts the fact model using the consent policy.
 
-3. Value Set Lookup: For every code and code system in the Fact model, it uses Value Set Service to lookup the value set categories which is store in the fact model.
+3. Value Set Lookup: For every code and code system in the fact model, it uses Value Set Service to lookup the value set categories which is store in the fact model.
 
-4. BRMS (Business Rules Management Service) Execution: DSS uses the rule execution service to execute the clinical fact. Based on
+4. BRMS (Business Rules Management Service) Execution: DSS uses the rule execution service to execute the clinical fact. 
 
 5. Redaction: DSS uses the patient consent and the concept code to redact the document.
 
@@ -45,15 +45,15 @@ To build the project, navigate to the folder that contains `pom.xml` file using 
 
 ### Commands
 
-This is a [Spring Boot](https://projects.spring.io/spring-boot/) project and serves the API via an embedded Tomcat instance, therefore there is no need for a separate application server to run this service.
+This is a [Spring Boot](https://projects.spring.io/spring-boot/) project and serves the API via an embedded Tomcat instance. Therefore, there is no need for a separate application server to run this service.
 + Run as a JAR file: `java -jar dss-x.x.x-SNAPSHOT.jar <additional program arguments>`
 + Run as a Docker Container: `docker run -d bhits/dss:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in C2S Application, it is also required to setup the dependency microservices and support level infrastructure. Please refer to the C2S Deployment Guide for instructions to setup the C2S infrastructure.*
+*NOTE: In order for this API to fully function as a microservice in the C2S application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the C2S Deployment Guide for instructions to setup the C2S infrastructure.*
 
 ## Configure
 
-This API runs with some default configuration that is primarily targeted for development environment. However, [Spring Boot](https://projects.spring.io/spring-boot/) supports several methods to override the default configuration to configure the API for a certain deployment environment.
+This API runs with a default configuration that is primarily targeted for development environment. However, [Spring Boot](https://projects.spring.io/spring-boot/) supports several methods to override the default configuration to configure the API for a certain deployment environment.
 
 Please see the [default configuration](dss/src/main/resources/application.yml) for this API as a guidance and override the specific configuration per environment as needed. Also, please refer to [Spring Boot Externalized Configuration](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html) documentation to see how Spring Boot applies the order to load the properties and [Spring Boot Common Properties](http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html) documentation to see the common properties used by Spring Boot.
 
@@ -109,7 +109,7 @@ services:
 
 Java has a default CA Certificates Store that allows it to trust well-known certificate authorities. For development and testing purposes, one might want to trust additional self-signed certificates. In order to override the default Java CA Certificates Store in a Docker container, one can mount a custom `cacerts` file over the default one in the Docker image as `docker run -d -v "/path/on/dockerhost/to/custom/cacerts:/etc/ssl/certs/java/cacerts" bhits/dss:latest`
 
-*NOTE: The `cacerts` references given in the both sides of volume mapping above are files, not directories.*
+*NOTE: The `cacerts` references given regarding volume mapping above are files, not directories.*
 
 [//]: # (## API Documentation)
 
