@@ -17,4 +17,36 @@ public class DSSRequest {
     @NotNull
     private byte[] document;
     private Optional<String> documentEncoding = Optional.empty();
+
+    public Optional<String> getDocumentEncoding() {
+        return documentEncoding;
+    }
+
+    public void setDocumentEncoding(String documentEncoding) {
+        this.documentEncoding = Optional.of(documentEncoding);
+    }
+
+    public Optional<Boolean> getAudited() {
+        return audited;
+    }
+
+    public void setAudited(Boolean audited) {
+        this.audited = Optional.of(audited);
+    }
+
+    public Optional<Boolean> getAuditFailureByPass() {
+        return auditFailureByPass;
+    }
+
+    public void setAuditFailureByPass(Boolean auditFailureByPass) {
+        this.auditFailureByPass = Optional.of(auditFailureByPass);
+    }
+
+    public Optional<Boolean> getEnableTryPolicyResponse() {
+        return enableTryPolicyResponse;
+    }
+
+    public void setEnableTryPolicyResponse(Boolean enableTryPolicyResponse) {
+        this.enableTryPolicyResponse = Optional.of(enableTryPolicyResponse);
+    }
 }

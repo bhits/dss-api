@@ -369,6 +369,8 @@ public class DocumentSegmentationImplTest {
         // Arrange
         final boolean xdm = true;
         final boolean ecrypt = true;
+        final boolean audited = true;
+        final boolean auditFailureByPass = true;
         final XmlValidationResult xmlValidationResultTrue = mock(XmlValidationResult.class);
         when(xmlValidationResultTrue.isValid()).thenReturn(true);
         when(xmlValidatorMock.validateWithAllErrors("")).thenReturn(
@@ -390,8 +392,8 @@ public class DocumentSegmentationImplTest {
                 xmlValidatorMock);
         DSSRequest dssRequest = new DSSRequest();
         dssRequest.setDocument("".getBytes(StandardCharsets.UTF_8));
-        dssRequest.setAudited(Optional.empty());
-        dssRequest.setAuditFailureByPass(Optional.empty());
+        dssRequest.setAudited(audited);
+        dssRequest.setAuditFailureByPass(auditFailureByPass);
 
         // Act
         @SuppressWarnings("unused")
@@ -409,6 +411,8 @@ public class DocumentSegmentationImplTest {
         // Arrange
         final boolean xdm = true;
         final boolean ecrypt = true;
+        final boolean audited = true;
+        final boolean auditFailureByPass = true;
         final XmlValidationResult xmlValidationResultMock = mock(XmlValidationResult.class);
         when(xmlValidationResultMock.isValid()).thenReturn(true);
         when(xmlValidatorMock.validateWithAllErrors("")).thenReturn(
@@ -425,8 +429,8 @@ public class DocumentSegmentationImplTest {
                 "xmlValidator", xmlValidatorMock);
         DSSRequest dssRequest = new DSSRequest();
         dssRequest.setDocument("".getBytes(StandardCharsets.UTF_8));
-        dssRequest.setAudited(Optional.empty());
-        dssRequest.setAuditFailureByPass(Optional.empty());
+        dssRequest.setAudited(audited);
+        dssRequest.setAuditFailureByPass(auditFailureByPass);
 
         // Act
         @SuppressWarnings("unused")
@@ -443,6 +447,8 @@ public class DocumentSegmentationImplTest {
         // Arrange
         final boolean xdm = true;
         final boolean ecrypt = true;
+        final boolean audited = true;
+        final boolean auditFailureByPass = true;
         final XmlValidation validationMock = mock(XmlValidation.class);
         doThrow(XmlDocumentReadFailureException.class).when(validationMock)
                 .validateWithAllErrors("");
@@ -463,8 +469,8 @@ public class DocumentSegmentationImplTest {
         when(clinicalDocumentValidationMock.validateClinicalDocument(StandardCharsets.UTF_8, notxml)).thenThrow(XmlDocumentReadFailureException.class);
         DSSRequest dssRequest = new DSSRequest();
         dssRequest.setDocument(notxml.getBytes(StandardCharsets.UTF_8));
-        dssRequest.setAudited(Optional.empty());
-        dssRequest.setAuditFailureByPass(Optional.empty());
+        dssRequest.setAudited(audited);
+        dssRequest.setAuditFailureByPass(auditFailureByPass);
 
 
         // Act
