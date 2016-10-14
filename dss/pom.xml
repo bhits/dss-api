@@ -45,19 +45,6 @@
         <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
 
-    <distributionManagement>
-        <repository>
-            <id>deployment</id>
-            <name>Internal Releases</name>
-            <url>http://${maven.nexus.servername}/repository/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>deployment</id>
-            <name>Internal Releases</name>
-            <url>http://${maven.nexus.servername}/repository/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -70,7 +57,7 @@
         <java.version>1.8</java.version>
         <spring.cloud.version>Brixton.M4</spring.cloud.version>
         <!-- C2S Common Libraries' version -->
-        <c2s.common-libraries.version>1.6.0</c2s.common-libraries.version>
+        <c2s.common-libraries.version>1.7.0</c2s.common-libraries.version>
         <!-- Third-party library versions -->
         <saxon-HE.version>9.6.0-3</saxon-HE.version>
         <axiom-api.version>1.2.17</axiom-api.version>
@@ -82,193 +69,36 @@
         <docker.maven.version>0.4.3</docker.maven.version>
     </properties>
 
-
     <profiles>
         <profile>
-            <id>fullbuild</id>
+            <id>external-build</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-eureka</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-ribbon</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-feign</artifactId>
-                </dependency>
-                <!-- C2S Common Libraries -->
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>logger-wrapper</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>marshaller</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>common-unit</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>file-reader</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>xml-validation</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>param</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>common-util</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>document-transformer</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>document-accessor</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>document-converter</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>xdm</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>namespace</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.samhsa.c2s</groupId>
-                    <artifactId>audit-service</artifactId>
-                    <version>${c2s.common-libraries.version}</version>
-                </dependency>
-                <!-- BRMS dependencies -->
-                <dependency>
-                    <groupId>org.drools</groupId>
-                    <artifactId>knowledge-api</artifactId>
-                    <version>${drools.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.drools</groupId>
-                    <artifactId>drools-core</artifactId>
-                    <version>${drools.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.drools</groupId>
-                    <artifactId>drools-compiler</artifactId>
-                    <version>${drools.version}</version>
-                </dependency>
-                <!-- Third-party dependencies -->
-                <dependency>
-                    <groupId>net.sf.saxon</groupId>
-                    <artifactId>Saxon-HE</artifactId>
-                    <version>${saxon-HE.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.ws.commons.axiom</groupId>
-                    <artifactId>axiom-api</artifactId>
-                    <version>${axiom-api.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>xml-security</groupId>
-                    <artifactId>xmlsec</artifactId>
-                    <version>${xmlsec.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
-                    <version>${lombok.version}</version>
-                </dependency>
-                <!-- Logback -->
-                <dependency>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-core</artifactId>
-                    <version>${logback.version}</version>
-                </dependency>
-
-                <!-- Test -->
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-test</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.springframework.cloud</groupId>
-                        <artifactId>spring-cloud-starter-parent</artifactId>
-                        <version>${spring.cloud.version}</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>${docker.maven.version}</version>
-                        <configuration>
-                            <imageName>bhits/${project.artifactId}</imageName>
-                            <dockerDirectory>src/main/docker</dockerDirectory>
-                            <buildArgs>
-                                <finalName>${project.build.finalName}.jar</finalName>
-                            </buildArgs>
-                            <resources>
-                                <resource>
-                                    <targetPath>/</targetPath>
-                                    <directory>${project.build.directory}</directory>
-                                    <include>${project.build.finalName}.jar</include>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-
+            <repositories>
+                <repository>
+                    <id>repo.spring.io</id>
+                    <name>Spring Milestone Repository</name>
+                    <url>https://repo.spring.io/libs-milestone-local</url>
+                </repository>
+            </repositories>
         </profile>
+        <profile>
+            <id>bhits-mvn-repo</id>
+            <distributionManagement>
+                <repository>
+                    <id>deployment</id>
+                    <name>Internal Releases</name>
+                    <url>http://${maven.nexus.servername}/repository/releases/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>deployment</id>
+                    <name>Internal Releases</name>
+                    <url>http://${maven.nexus.servername}/repository/snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+
         <!-- To generate fact model jar without dependencies
          mvn clean install -Pfactmodel-->
         <profile>
@@ -306,4 +136,184 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
+        <!-- C2S Common Libraries -->
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>logger-wrapper</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>marshaller</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>common-unit</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>file-reader</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>xml-validation</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>param</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>common-util</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>document-transformer</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>document-accessor</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>document-converter</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>xdm</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>namespace</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>audit-service</artifactId>
+            <version>${c2s.common-libraries.version}</version>
+        </dependency>
+        <!-- BRMS dependencies -->
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>knowledge-api</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <!-- Third-party dependencies -->
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>${saxon-HE.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-api</artifactId>
+            <version>${axiom-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xml-security</groupId>
+            <artifactId>xmlsec</artifactId>
+            <version>${xmlsec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <!-- Logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-parent</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.version}</version>
+                <configuration>
+                    <imageName>bhits/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <buildArgs>
+                        <finalName>${project.build.finalName}.jar</finalName>
+                    </buildArgs>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
