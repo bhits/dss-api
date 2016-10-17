@@ -45,6 +45,8 @@
         <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
 
+    <!-- Comment out the below distributionManagement if you couldn't connect to FEi Nexus repository manager to upload dependencies when you run 'mvn deploy' command -->
+
     <distributionManagement>
         <repository>
             <id>deployment</id>
@@ -70,7 +72,7 @@
         <java.version>1.8</java.version>
         <spring.cloud.version>Brixton.M4</spring.cloud.version>
         <!-- C2S Common Libraries' version -->
-        <c2s.common-libraries.version>1.6.0</c2s.common-libraries.version>
+        <c2s.common-libraries.version>1.7.0</c2s.common-libraries.version>
         <!-- Third-party library versions -->
         <saxon-HE.version>9.6.0-3</saxon-HE.version>
         <axiom-api.version>1.2.17</axiom-api.version>
@@ -82,6 +84,13 @@
         <docker.maven.version>0.4.3</docker.maven.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>repo.spring.io</id>
+            <name>Spring Milestone Repository</name>
+            <url>https://repo.spring.io/libs-milestone-local</url>
+        </repository>
+    </repositories>
 
     <profiles>
         <profile>
