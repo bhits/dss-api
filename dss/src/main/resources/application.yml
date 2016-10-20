@@ -118,10 +118,14 @@ eureka:
       defaultZone: ${eureka.client.protocol:http}://discovery-server.c2s.com:8761/eureka/
   instance:
     prefer-ip-address: true
-c2s.dss:
-  validator:
-  c-cda:
-    r1: http://document-validator-ccda-r1.c2s.com:8080/documentValidator/validator
-    r2: http://document-validator-ccda-r2.c2s.com:8080/documentValidator/validator
-  audit-service:
-    host: audit-service.c2s.com
+c2s:
+  dss:
+    validator:
+      c-cda:
+        r1: http://document-validator-ccda-r1.c2s.com:8080/documentValidator/validator
+        r2: http://document-validator-ccda-r2.c2s.com:8080/documentValidator/validator
+    audit-service:
+      host: audit-service.c2s.com
+  brms:
+    guvnor:
+      endpointAddress: http://guvnor.c2s.com:8080/guvnor/rest/packages/AnnotationRules/source
