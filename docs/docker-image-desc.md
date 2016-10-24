@@ -5,7 +5,7 @@ This API segments patient's sensitive health information using the patient conse
 
 # Supported Tags and Respective `Dockerfile` Links
 
-[`1.12.0`](https://github.com/bhits/dss-api/blob/master/dss/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/dss-api/blob/master/dss/src/main/docker/Dockerfile)[(1.12.0/Dockerfile)](https://github.com/bhits/dss-api/blob/master/dss/src/main/docker/Dockerfile)
+[`1.13.0`](https://github.com/bhits/dss-api/blob/master/dss/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/dss-api/blob/master/dss/src/main/docker/Dockerfile)[(1.13.0/Dockerfile)](https://github.com/bhits/dss-api/blob/master/dss/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/dss-api).
 
