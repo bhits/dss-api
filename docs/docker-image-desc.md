@@ -88,7 +88,7 @@ Please see the [Docker installation documentation](https://docs.docker.com/engin
 
 # License
 
-View [license](https://github.com/bhits/dss-api) information for the software contained in this image.
+View [license](https://github.com/bhits/dss-api/blob/master/LICENSE) information for the software contained in this image.
 
 # User Feedback
 
