@@ -125,7 +125,7 @@ c2s:
         r1: http://document-validator-ccda-r1.c2s.com:8080/documentValidator/validator
         r2: http://document-validator-ccda-r2.c2s.com:8080/documentValidator/validator
     audit-service:
-      host: audit-service.c2s.com
+      host: logback-audit-server.c2s.com
   brms:
     guvnor:
       endpointAddress: http://guvnor.c2s.com:8080/guvnor/rest/packages/AnnotationRules/source
