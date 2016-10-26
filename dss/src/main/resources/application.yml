@@ -24,7 +24,7 @@ ribbon:
 c2s:
   brms:
     guvnor:
-      endpointAddress: http://BHITSDEVHIE01/guvnor-5.5.0.Final-tomcat-6.0/rest/packages/AnnotationRules/source
+      endpointAddress: http://localhost/guvnor-5.5.0.Final-tomcat-6.0/rest/packages/AnnotationRules/source
       serviceUsername: admin
       servicePassword: admin
   dss:
@@ -86,7 +86,7 @@ c2s:
       defaultIsAudited: true
       defaultIsAuditFailureByPass: true
     audit-service:
-      host: BHITSDEVACS01
+      host: localhost
       port: 9630
 ---
 # Enables ssl in this service when activated
