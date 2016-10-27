@@ -24,7 +24,7 @@ ribbon:
 c2s:
   brms:
     guvnor:
-      endpointAddress: http://localhost/guvnor-5.5.0.Final-tomcat-6.0/rest/packages/AnnotationRules/source
+      endpointAddress: http://localhost:8080/guvnor/rest/packages/AnnotationRules/source
       serviceUsername: admin
       servicePassword: admin
   dss:
