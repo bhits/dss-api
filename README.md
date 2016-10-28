@@ -20,6 +20,7 @@ The Document Segmentation Service (DSS) API is responsible for the segmentation 
 + [Docker Engine](https://docs.docker.com/engine/installation/) (for building a Docker image from the project)
 + [Logback-Audit](http://audit.qos.ch/)
 + [JBoss Drools Guvnor](https://docs.jboss.org/drools/release/5.5.0.Final/drools-guvnor-docs/html_single/)
+
 ### Commands
 
 This is a Maven project and requires [Apache Maven](https://maven.apache.org/) 3.3.3 or greater to build it. It is recommended to use the *Maven Wrapper* scripts provided with this project. *Maven Wrapper* requires an internet connection to download Maven and project dependencies for the very first build.
