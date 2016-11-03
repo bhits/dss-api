@@ -1,0 +1,79 @@
+{
+  "properties": [
+    {
+      "name": "c2s.brms.guvnor.endpointAddress",
+      "type": "java.lang.String",
+      "description": "Specifies endpoint to use for connecting to BRMS Guvnor."
+    },
+    {
+      "name": "c2s.brms.guvnor.serviceUsername",
+      "type": "java.lang.String",
+      "description": "Specifies username to use when accessing BRMS Guvnor service."
+    },
+    {
+      "name": "c2s.brms.guvnor.servicePassword",
+      "type": "java.lang.String",
+      "description": "Specifies password to use when accessing BRMS Guvnor service."
+    },
+    {
+      "name": "c2s.dss.validator.c-cda.r1",
+      "type": "java.lang.String",
+      "description": "Specifies endpoint to use for connecting to the documentValidator service to validate CCDA-r1 documents."
+    },
+    {
+      "name": "c2s.dss.validator.c-cda.r2",
+      "type": "java.lang.String",
+      "description": "Specifies endpoint to use for connecting to the documentValidator service to validate CCDA-r2 documents."
+    },
+    {
+      "name": "c2s.dss.DocumentTaggerImpl.additionalSections.code",
+      "type": "java.lang.String",
+      "description": "Specifies value to use for 'code' attribute in additional section inserted into tagged document."
+    },
+    {
+      "name": "c2s.dss.DocumentTaggerImpl.additionalSections.codeSystem",
+      "type": "java.lang.String",
+      "description": "Specifies value to use for 'codeSystem' attribute in additional section inserted into tagged document."
+    },
+    {
+      "name": "c2s.dss.DocumentTaggerImpl.additionalSections.codeSystemName",
+      "type": "java.lang.String",
+      "description": "Specifies value to use for 'codeSystemName' attribute in additional section inserted into tagged document."
+    },
+    {
+      "name": "c2s.dss.DocumentTaggerImpl.additionalSections.displayName",
+      "type": "java.lang.String",
+      "description": "Specifies value to use for 'displayName' attribute in additional section inserted into tagged document."
+    },
+    {
+      "name": "c2s.dss.DocumentTaggerImpl.additionalSections.title",
+      "type": "java.lang.String",
+      "description": "Specifies value to use for 'title' attribute in additional section inserted into tagged document."
+    },
+    {
+      "name": "c2s.dss.DocumentTaggerImpl.additionalSections.text",
+      "type": "java.lang.String",
+      "description": "Specifies value to use for 'text' attribute in additional section inserted into tagged document."
+    },
+    {
+      "name": "c2s.dss.documentSegmentationImpl.defaultIsAudited",
+      "type": "java.lang.String",
+      "description": "Specifies if document segmentation should be audited by default."
+    },
+    {
+      "name": "c2s.dss.documentSegmentationImpl.defaultIsAuditFailureByPass",
+      "type": "java.lang.String",
+      "description": "Specifies if audit failures for document segmentation should, by default, be bypassed and allow document segmentation to continue."
+    },
+    {
+      "name": "c2s.dss.audit-service.host",
+      "type": "java.lang.String",
+      "description": "Specifies host running audit service which DSS should connect to for auditing."
+    },
+    {
+      "name": "c2s.dss.audit-service.port",
+      "type": "java.lang.String",
+      "description": "Specifies port on host running audit service which DSS should connect to for auditing."
+    }
+  ]
+}
