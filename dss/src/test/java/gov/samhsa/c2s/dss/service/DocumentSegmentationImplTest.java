@@ -4,7 +4,7 @@ import ch.qos.logback.audit.AuditException;
 import gov.samhsa.c2s.brms.domain.*;
 import gov.samhsa.c2s.brms.service.RuleExecutionService;
 import gov.samhsa.c2s.brms.service.dto.AssertAndExecuteClinicalFactsResponse;
-import gov.samhsa.c2s.common.audit.AuditServiceImpl;
+import gov.samhsa.c2s.common.audit.AuditClientImpl;
 import gov.samhsa.c2s.common.audit.AuditVerb;
 import gov.samhsa.c2s.common.audit.PredicateKey;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
@@ -74,7 +74,7 @@ public class DocumentSegmentationImplTest {
     private static DocumentXmlConverterImpl documentXmlConverter;
     private static SimpleMarshallerImpl marshaller;
     private static RuleExecutionService ruleExecutionServiceClientMock;
-    private static AuditServiceImpl auditServiceMock;
+    private static AuditClientImpl auditClientMock;
     private static DocumentEditorImpl documentEditorMock;
     private static DocumentFactModelExtractorImpl documentFactModelExtractorMock;
     private static SimpleMarshallerImpl marshallerMock;
@@ -201,8 +201,8 @@ public class DocumentSegmentationImplTest {
                 .thenReturn(testTagged_C32_xml);
 
         // Audit service mock
-        auditServiceMock = mock(AuditServiceImpl.class);
-        doNothing().when(auditServiceMock).audit(anyObject(), anyString(),
+        auditClientMock = mock(AuditClientImpl.class);
+        doNothing().when(auditClientMock).audit(anyObject(), anyString(),
                 isA(AuditVerb.class), anyString(),
                 anyMapOf(PredicateKey.class, String.class));
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.samhsa.c2s.brms.domain.FactModel;
 import gov.samhsa.c2s.brms.domain.XacmlResult;
-import gov.samhsa.c2s.common.audit.AuditService;
+import gov.samhsa.c2s.common.audit.AuditClient;
 import gov.samhsa.c2s.common.audit.PredicateKey;
 import gov.samhsa.c2s.common.log.Logger;
 import gov.samhsa.c2s.common.log.LoggerFactory;
@@ -67,7 +67,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
      * The audit service.
      */
     @Autowired
-    private AuditService auditService;
+    private AuditClient auditClient;
 
     @Value("${c2s.dss.documentSegmentationImpl.defaultIsAudited}")
     private boolean defaultIsAudited;
@@ -228,7 +228,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                                    boolean originalDocumentValid,
                                    boolean segmentedDocumentValid,
                                    boolean isAuditFailureByPass) throws AuditException {
-        final Map<PredicateKey, String> predicateMap = auditService
+        final Map<PredicateKey, String> predicateMap = auditClient
                 .createPredicateMap();
         if (redactedDocument.getRedactedSectionSet().size() > 0) {
             predicateMap.put(SECTION_OBLIGATIONS_APPLIED, redactedDocument
@@ -248,7 +248,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
         predicateMap.put(SEGMENTED_DOCUMENT_VALID, Boolean
                 .toString(segmentedDocumentValid));
         try {
-            auditService.audit(this, xacmlResult.getMessageId(),
+            auditClient.audit(this, xacmlResult.getMessageId(),
                     DssAuditVerb.SEGMENT_DOCUMENT, xacmlResult.getPatientId(), predicateMap);
         } catch (final AuditException e) {
             if (isAuditFailureByPass) {

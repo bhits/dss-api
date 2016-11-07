@@ -1,8 +1,8 @@
 package gov.samhsa.c2s.dss.config;
 
 import ch.qos.logback.audit.AuditException;
-import gov.samhsa.c2s.common.audit.AuditService;
-import gov.samhsa.c2s.common.audit.AuditServiceImpl;
+import gov.samhsa.c2s.common.audit.AuditClient;
+import gov.samhsa.c2s.common.audit.AuditClientImpl;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessor;
 import gov.samhsa.c2s.common.document.accessor.DocumentAccessorImpl;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
@@ -29,10 +29,10 @@ public class ApplicationContextConfig {
     public static final String CCDA_R2_VALIDATOR_SERVICE = "ccdaR2ValidatorService";
 
     @Bean
-    public AuditService auditService(
+    public AuditClient auditClient(
             @Value("${c2s.dss.audit-service.host}") String host,
             @Value("${c2s.dss.audit-service.port}") int port) throws AuditException {
-        return new AuditServiceImpl("DSSAuditService", host, port);
+        return new AuditClientImpl("DSSAuditClient", host, port);
     }
 
     @Bean
