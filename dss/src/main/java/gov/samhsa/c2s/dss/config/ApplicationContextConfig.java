@@ -17,6 +17,8 @@ import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorService;
 import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestOperations;
@@ -29,10 +31,9 @@ public class ApplicationContextConfig {
     public static final String CCDA_R2_VALIDATOR_SERVICE = "ccdaR2ValidatorService";
 
     @Bean
-    public AuditClient auditClient(
-            @Value("${c2s.dss.audit-service.host}") String host,
-            @Value("${c2s.dss.audit-service.port}") int port) throws AuditException {
-        return new AuditClientImpl("DSSAuditClient", host, port);
+    @ConditionalOnBean(AuditClientProperties.class)
+    public AuditClient auditClient(AuditClientProperties auditClientProperties) throws AuditException {
+        return new AuditClientImpl("DSSAuditClient", auditClientProperties.getHost(), auditClientProperties.getPort());
     }
 
     @Bean

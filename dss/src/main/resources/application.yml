@@ -85,7 +85,8 @@ c2s:
     documentSegmentationImpl:
       defaultIsAudited: true
       defaultIsAuditFailureByPass: true
-    audit-service:
+    audit-client:
+      enabled: false
       host: localhost
       port: 9630
 ---

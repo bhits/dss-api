@@ -24,6 +24,7 @@ import gov.samhsa.c2s.dss.service.document.template.DocumentTypeResolver;
 import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationRequest;
 import gov.samhsa.c2s.dss.service.dto.ClinicalDocumentValidationResult;
 import gov.samhsa.c2s.dss.service.dto.DSSRequest;
+import gov.samhsa.c2s.dss.service.exception.AuditClientException;
 import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import gov.samhsa.c2s.dss.service.exception.InvalidOriginalClinicalDocumentException;
 import gov.samhsa.c2s.dss.service.exception.InvalidSegmentedClinicalDocumentException;
@@ -67,7 +68,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
      * The audit service.
      */
     @Autowired
-    private AuditClient auditClient;
+    private Optional<AuditClient> auditClient;
 
     @Value("${c2s.dss.documentSegmentationImpl.defaultIsAudited}")
     private boolean defaultIsAudited;
@@ -228,43 +229,50 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                                    boolean originalDocumentValid,
                                    boolean segmentedDocumentValid,
                                    boolean isAuditFailureByPass) throws AuditException {
-        final Map<PredicateKey, String> predicateMap = auditClient
-                .createPredicateMap();
-        if (redactedDocument.getRedactedSectionSet().size() > 0) {
-            predicateMap.put(SECTION_OBLIGATIONS_APPLIED, redactedDocument
-                    .getRedactedSectionSet().toString());
-        }
-        if (redactedDocument.getRedactedCategorySet().size() > 0) {
-            predicateMap.put(CATEGORY_OBLIGATIONS_APPLIED, redactedDocument
-                    .getRedactedCategorySet().toString());
-        }
-        if (rulesFired != null) {
-            predicateMap.put(RULES_FIRED, rulesFired);
-        }
-        predicateMap.put(ORIGINAL_DOCUMENT, originalDocument);
-        predicateMap.put(SEGMENTED_DOCUMENT, segmentedDocument);
-        predicateMap.put(ORIGINAL_DOCUMENT_VALID, Boolean
-                .toString(originalDocumentValid));
-        predicateMap.put(SEGMENTED_DOCUMENT_VALID, Boolean
-                .toString(segmentedDocumentValid));
-        try {
-            auditClient.audit(this, xacmlResult.getMessageId(),
-                    DssAuditVerb.SEGMENT_DOCUMENT, xacmlResult.getPatientId(), predicateMap);
-        } catch (final AuditException e) {
-            if (isAuditFailureByPass) {
-                // main flow should work though the audit service has some
-                // issues
-                logger.error("Audit Service is Down");
-                logger.debug(() -> "patient id" + xacmlResult.getPatientId());
-                logger.debug(() -> "original document" + originalDocument);
-                logger.debug(() -> "segmented document" + segmentedDocument);
-                // TODO send the email notification to core team
-                // Or send a notification using rabbitmq
-            } else {
-                // main flow shouldn't work if audit service has some issues
-                throw e;
+
+        Map<PredicateKey, String> predicateMap = null;
+        if(auditClient.isPresent()){
+           predicateMap = auditClient.get().createPredicateMap();
+            if (redactedDocument.getRedactedSectionSet().size() > 0) {
+                predicateMap.put(SECTION_OBLIGATIONS_APPLIED, redactedDocument
+                        .getRedactedSectionSet().toString());
             }
+            if (redactedDocument.getRedactedCategorySet().size() > 0) {
+                predicateMap.put(CATEGORY_OBLIGATIONS_APPLIED, redactedDocument
+                        .getRedactedCategorySet().toString());
+            }
+            if (rulesFired != null) {
+                predicateMap.put(RULES_FIRED, rulesFired);
+            }
+            predicateMap.put(ORIGINAL_DOCUMENT, originalDocument);
+            predicateMap.put(SEGMENTED_DOCUMENT, segmentedDocument);
+            predicateMap.put(ORIGINAL_DOCUMENT_VALID, Boolean
+                    .toString(originalDocumentValid));
+            predicateMap.put(SEGMENTED_DOCUMENT_VALID, Boolean
+                    .toString(segmentedDocumentValid));
+            try {
+                auditClient.get().audit(this, xacmlResult.getMessageId(),
+                        DssAuditVerb.SEGMENT_DOCUMENT, xacmlResult.getPatientId(), predicateMap);
+            } catch (final AuditException e) {
+                if (isAuditFailureByPass) {
+                    // main flow should work though the audit service has some
+                    // issues
+                    logger.error("Audit Service is Down");
+                    logger.debug(() -> "patient id" + xacmlResult.getPatientId());
+                    logger.debug(() -> "original document" + originalDocument);
+                    logger.debug(() -> "segmented document" + segmentedDocument);
+                    // TODO send the email notification to core team
+                    // Or send a notification using rabbitmq
+                } else {
+                    // main flow shouldn't work if audit service has some issues
+                    throw e;
+                }
+            }
+        }else {
+            throw new AuditClientException("The email already exists.");
         }
+
+
     }
 
     @PostConstruct
