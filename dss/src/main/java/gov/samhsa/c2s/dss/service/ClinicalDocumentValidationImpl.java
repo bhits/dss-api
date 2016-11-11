@@ -269,7 +269,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                 }
             }
         }else {
-            throw new AuditClientException("The email already exists.");
+            throw new AuditClientException("Audit Client bean not create.");
         }
 
 
