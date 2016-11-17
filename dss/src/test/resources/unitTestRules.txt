@@ -20,7 +20,7 @@ global gov.samhsa.c2s.brms.domain.RuleExecutionContainer ruleExecutionContainer
 rule "Substance abuse (disorder)"
 	dialect "mvel"
 	when
-		$xacml : XacmlResult( subjectPurposeOfUse == SubjectPurposeOfUse.treatment )
+		$xacml : XacmlResult( subjectPurposeOfUse == SubjectPurposeOfUse.HEALTHCARE_TREATMENT )
 		$cd : ClinicalFact( code == "66214007" , codeSystem == "2.16.840.1.113883.6.96" , c32SectionLoincCode == "11450-4" )
 	then
 		RuleExecutionResponse $ruleExecutionResponse = new RuleExecutionResponse();
@@ -40,7 +40,7 @@ end
 rule "Drug abuse (disorder)"
 	dialect "mvel"
 	when
-		$xacml : XacmlResult( subjectPurposeOfUse == SubjectPurposeOfUse.treatment )
+		$xacml : XacmlResult( subjectPurposeOfUse == SubjectPurposeOfUse.HEALTHCARE_TREATMENT )
 		$cd : ClinicalFact( code == "26416006" , codeSystem == "2.16.840.1.113883.6.96" , c32SectionLoincCode == "11450-4" )
 	then
 		RuleExecutionResponse $ruleExecutionResponse = new RuleExecutionResponse();
@@ -74,7 +74,7 @@ end
 rule "Clinical Rule Mental health problem (finding) REDACT"
 	dialect "mvel"
 	when
-		$xacml : XacmlResult( subjectPurposeOfUse == SubjectPurposeOfUse.treatment )
+		$xacml : XacmlResult( subjectPurposeOfUse == SubjectPurposeOfUse.HEALTHCARE_TREATMENT )
 		$cd : ClinicalFact( codeSystem == "2.16.840.1.113883.6.96" , code == "413307004" , c32SectionLoincCode == "11450-4" )
 	then
 		RuleExecutionResponse $ruleExecutionResponse = new RuleExecutionResponse();
@@ -94,7 +94,7 @@ end
 rule "Acute HIV"
 	dialect "mvel"
 	when
-		$xacml : XacmlResult( subjectPurposeOfUse == SubjectPurposeOfUse.treatment )
+		$xacml : XacmlResult( subjectPurposeOfUse == SubjectPurposeOfUse.HEALTHCARE_TREATMENT )
 		$cd : ClinicalFact( code == "111880001" , codeSystem == "2.16.840.1.113883.6.96" , c32SectionLoincCode == "11450-4" )
 	then
 		RuleExecutionResponse $ruleExecutionResponse = new RuleExecutionResponse();
