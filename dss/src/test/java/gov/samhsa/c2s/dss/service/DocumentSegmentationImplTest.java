@@ -30,8 +30,6 @@ import org.apache.xml.security.encryption.XMLCipher;
 import org.apache.xml.security.utils.EncryptionConstants;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -93,8 +91,6 @@ public class DocumentSegmentationImplTest {
     private static String testEncrypted_C32_xml;
     private static String testAdditionalMetadata_xml;
     private static DocumentSegmentation documentSegmentation;
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Before
     public void setUp() throws
@@ -358,7 +354,6 @@ public class DocumentSegmentationImplTest {
                     "unitTest_DecryptedUnMasked_C32_from_zip.xml");
 
         } catch (final Exception e) {
-            logger.error(e.getMessage(), e);
         }
     }
 

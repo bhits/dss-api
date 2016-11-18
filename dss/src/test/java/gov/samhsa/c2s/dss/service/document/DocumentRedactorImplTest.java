@@ -29,8 +29,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -95,8 +93,6 @@ public class DocumentRedactorImplTest {
     private static DocumentXmlConverterImpl documentXmlConverterSpy;
     private static XacmlResult xacmlResultMock;
     private static DocumentRedactor documentRedactor;
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private XmlTransformer xmlTransformer;
     private String c32;
@@ -387,7 +383,6 @@ public class DocumentRedactorImplTest {
         factModel.setXacmlResult(xacmlResultMock);
         final String result = documentRedactor.redactDocument(c32,
                 ruleExecutionContainer, factModel).getRedactedDocument();
-        logger.debug("RESULT--> " + result);
 
         // Assert
         assertTrue(c32
@@ -980,7 +975,6 @@ public class DocumentRedactorImplTest {
         final String result = documentRedactor.redactDocument(c32,
                 setRuleExecutionContainer_WrongSensitivity(), factModel)
                 .getRedactedDocument();
-        logger.debug("RESULT--> " + result);
 
         // Assert
         assertTrue(c32
@@ -1013,7 +1007,6 @@ public class DocumentRedactorImplTest {
         // Act
         final String result = documentRedactor.redactDocument(c32,
                 ruleExecutionContainer, factModel).getRedactedDocument();
-        logger.debug("RESULT--> " + result);
 
         // Assert
         assertTrue(c32

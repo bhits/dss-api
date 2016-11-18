@@ -16,8 +16,6 @@ import gov.samhsa.c2s.dss.service.exception.DocumentSegmentationException;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -82,7 +80,6 @@ public class DocumentTaggerImplTest {
     private static String messageId;
     private static DocumentXmlConverterImpl documentXmlConverter;
     private static DocumentTaggerImpl documentTagger;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private XmlTransformer xmlTransformer;
 
@@ -143,15 +140,12 @@ public class DocumentTaggerImplTest {
     @Test
     public void testTagDocument() throws Exception {
         // Arrange
-        logger.debug(c32);
 
         // Act
         final String taggedDocument = documentTagger.tagDocument(c32,
                 executionResponseContainer);
 
         // Assert
-        logger.debug(taggedDocument);
-
         assertTrue(!taggedDocument.contains("<confidentialityCode/>"));
         assertTrue(taggedDocument
                 .contains("<confidentialityCode xmlns:ds4p=\"http://www.siframework.org/ds4p\""));
@@ -938,7 +932,6 @@ public class DocumentTaggerImplTest {
     @Test
     public void testTagDocument_Entry_Level_Tagging() throws Exception {
         // Arrange
-        logger.debug(c32);
         String factModelXml = documentFactModelExtractor.extractFactModel(c32,
                 fileReader.readFile("testXacmlResultRedactHIV.xml"));
         c32 = embeddedClinicalDocumentExtractor
@@ -955,8 +948,6 @@ public class DocumentTaggerImplTest {
                 executionResponseContainer);
 
         // Assert
-        logger.debug(taggedDocument);
-
         assertTrue(!taggedDocument.contains("<confidentialityCode/>"));
         assertTrue(taggedDocument
                 .contains("<confidentialityCode xmlns:ds4p=\"http://www.siframework.org/ds4p\""));
@@ -986,7 +977,6 @@ public class DocumentTaggerImplTest {
     public void testTagDocument_Entry_Level_Tagging_Four_Sections()
             throws Exception {
         // Arrange
-        logger.debug(c32);
         String factModelXml = documentFactModelExtractor.extractFactModel(c32,
                 fileReader.readFile("testXacmlResultRedactHIV.xml"));
         c32 = embeddedClinicalDocumentExtractor

@@ -8,8 +8,6 @@ import gov.samhsa.c2s.dss.service.exception.AdditionalMetadataGeneratorException
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +17,6 @@ import java.lang.reflect.Field;
 import java.util.UUID;
 
 public class AdditonalMetadataGeneratorForProcessedC32ImplTest {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@After
 	public void tearDown() throws SecurityException, NoSuchFieldException,
@@ -123,7 +120,6 @@ public class AdditonalMetadataGeneratorForProcessedC32ImplTest {
 			is.close();
 
 		} catch (final IOException e) {
-			logger.error(e.getMessage(), e);
 		}
 
 		final String result = resultStringBuilder.toString();

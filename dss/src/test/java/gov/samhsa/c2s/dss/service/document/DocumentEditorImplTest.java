@@ -9,8 +9,6 @@ import gov.samhsa.c2s.dss.service.metadata.MetadataGeneratorImpl;
 import org.apache.axiom.attachments.ByteArrayDataSource;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -35,7 +33,6 @@ public class DocumentEditorImplTest {
     private static String ruleExecutionResponseContainer;
     private static DocumentEditorImpl documentEditor;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -69,14 +66,12 @@ public class DocumentEditorImplTest {
             // Assert
             assertEquals(EXPECTED_DATE, dateValue);
         } catch (final Exception e) {
-            logger.error(e.getMessage(), e);
         }
     }
 
     @Test
     public void testSetDocumentCreationDate() {
         // Arrange
-        logger.debug(c32);
         Element e1 = null;
         Element e2 = null;
         try {
@@ -85,11 +80,8 @@ public class DocumentEditorImplTest {
                     .loadDocument(documentEditor.setDocumentCreationDate(c32));
             e1 = documentAccessor.getElement(c32Document, xPathDate).get();
             e2 = documentAccessor.getElement(c32DocumentTemp, xPathDate).get();
-            logger.debug(e1.getAttribute("value"));
-            logger.debug(e2.getAttribute("value"));
 
         } catch (final Exception e) {
-            logger.error(e.getMessage(), e);
         }
         // Assert
         assertNotNull(e1);
@@ -129,15 +121,10 @@ public class DocumentEditorImplTest {
                     packageAsXdm, "sender@email.com", "recepient@email.com",
                     xacmlResultMock, ruleExecutionResponseContainer,
                     maskingKeyBytes, encryptionKeyBytes);
-            logger.debug(rawData.toString());
-            logger.debug(rawData.getContentType());
-            logger.debug(rawData.getName());
-            logger.debug(rawData.getInputStream().toString());
             assertTrue(rawData.getInputStream().toString()
                     .startsWith("java.io.ByteArrayInputStream@"));
 
         } catch (final Exception e) {
-            logger.error(e.getMessage(), e);
         }
 
         // Assert

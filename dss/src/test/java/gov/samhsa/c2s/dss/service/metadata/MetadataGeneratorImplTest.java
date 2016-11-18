@@ -9,8 +9,6 @@ import gov.samhsa.c2s.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.c2s.dss.service.exception.MetadataGeneratorException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertTrue;
 
@@ -27,7 +25,6 @@ public class MetadataGeneratorImplTest {
     private static String recipientEmailAddress;
     private static MetadataGeneratorImpl metadataGenerator;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
     public void testGenerateMetadataXml() throws Exception {
@@ -35,7 +32,6 @@ public class MetadataGeneratorImplTest {
         final String metadata = metadataGenerator.generateMetadataXml(c32,
                 executionResponseContainer, homeCommunityId,
                 senderEmailAddress, recipientEmailAddress);
-        logger.debug(metadata);
 
         // Assert
         assertTrue(metadata

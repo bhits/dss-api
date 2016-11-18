@@ -11,8 +11,8 @@ import org.apache.xml.security.encryption.XMLCipher;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -25,6 +25,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DocumentEncrypterImplTest {
     private static final String ENCRYPTION_PREFIX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ClinicalDocument xmlns=\"urn:hl7-org:v3\" xmlns:sdtc=\"urn:hl7-org:sdtc\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">    <xenc:EncryptedData xmlns:xenc=\"http://www.w3.org/2001/04/xmlenc#\" Type=\"http://www.w3.org/2001/04/xmlenc#Content\">        <xenc:EncryptionMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#aes128-cbc\"/>        <ds:KeyInfo xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"><xenc:EncryptedKey xmlns:xenc=\"http://www.w3.org/2001/04/xmlenc#\">                <xenc:EncryptionMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#kw-tripledes\"/>                <xenc:CipherData>                    <xenc:CipherValue>/ykRTBcO+EGKwVAniQQd7rJIRZERuhUVEG2RSRVi5SY=</xenc:CipherValue>                </xenc:CipherData>            </xenc:EncryptedKey>        </ds:KeyInfo>        <xenc:CipherData>            <xenc:CipherValue>";
     private static FileReaderImpl fileReader;
@@ -36,7 +37,6 @@ public class DocumentEncrypterImplTest {
 
     private static RuleExecutionContainer ruleExecutionContainer;
     private static DocumentEncrypterImpl documentEncrypter;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static RuleExecutionContainer setRuleExecutionContainer() {
         RuleExecutionContainer container = new RuleExecutionContainer();
@@ -111,8 +111,6 @@ public class DocumentEncrypterImplTest {
                     encryptedKey, rootElement);
             String encrypted = documentXmlConverter
                     .convertXmlDocToString(c32Document);
-            logger.debug("NOT ENCRYPTED--> " + notEncrypted);
-            logger.debug("ENCRYPTED--> " + encrypted);
 
             // Assert
             assertNotEquals(notEncrypted, encrypted);
@@ -120,7 +118,6 @@ public class DocumentEncrypterImplTest {
                     Arrays.asList("CipherData")).similar());
 
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
             fail(e.getMessage().toString());
         }
     }
@@ -128,16 +125,13 @@ public class DocumentEncrypterImplTest {
     @Test
     public void testEncryptDocument() throws SAXException, IOException {
         // Act
-        logger.debug("NOT ENCRYPTED--> " + c32);
         String encrypted = null;
         try {
             encrypted = documentEncrypter.encryptDocument(
                     EncryptTool.generateKeyEncryptionKey(), c32,
                     ruleExecutionContainer);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
         }
-        logger.debug("ENCRYPTED--> " + encrypted);
 
         // Assert
         assertNotEquals(c32, encrypted);
@@ -148,7 +142,6 @@ public class DocumentEncrypterImplTest {
     @Test
     public void testEncryptDocument_EmptyRuleExecutionContainer() {
         // Act
-        logger.debug("NOT ENCRYPTED--> " + c32);
         String encrypted = null;
         try {
             List<RuleExecutionResponse> list = new LinkedList<>();
@@ -157,9 +150,7 @@ public class DocumentEncrypterImplTest {
             encrypted = documentEncrypter.encryptDocument(
                     EncryptTool.generateKeyEncryptionKey(), c32, container);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
         }
-        logger.debug("ENCRYPTED--> " + encrypted);
 
         // Assert
         assertNotEquals(c32, encrypted);
@@ -169,7 +160,6 @@ public class DocumentEncrypterImplTest {
     @Test
     public void testEncryptDocument_NoEncryptObligationPolicy() {
         // Act
-        logger.debug("NOT ENCRYPTED--> " + c32);
         String encrypted = null;
         try {
             List<RuleExecutionResponse> list = new LinkedList<>();
@@ -181,9 +171,7 @@ public class DocumentEncrypterImplTest {
             encrypted = documentEncrypter.encryptDocument(
                     EncryptTool.generateKeyEncryptionKey(), c32, container);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
         }
-        logger.debug("ENCRYPTED--> " + encrypted);
 
         // Assert
         assertNotEquals(c32, encrypted);
