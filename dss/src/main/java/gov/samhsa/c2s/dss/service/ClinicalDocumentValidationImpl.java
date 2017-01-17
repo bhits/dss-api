@@ -13,6 +13,7 @@ import gov.samhsa.c2s.common.validation.XmlValidation;
 import gov.samhsa.c2s.common.validation.XmlValidationResult;
 import gov.samhsa.c2s.common.validation.exception.XmlDocumentReadFailureException;
 import gov.samhsa.c2s.dss.config.ApplicationContextConfig;
+import gov.samhsa.c2s.dss.config.DssProperties;
 import gov.samhsa.c2s.dss.infrastructure.dto.DiagnosticType;
 import gov.samhsa.c2s.dss.infrastructure.dto.ValidationResponseDto;
 import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorService;
@@ -30,7 +31,6 @@ import gov.samhsa.c2s.dss.service.exception.InvalidOriginalClinicalDocumentExcep
 import gov.samhsa.c2s.dss.service.exception.InvalidSegmentedClinicalDocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.xml.sax.SAXParseException;
@@ -70,11 +70,8 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
     @Autowired
     private Optional<AuditClient> auditClient;
 
-    @Value("${c2s.dss.documentSegmentationImpl.defaultIsAudited}")
-    private boolean defaultIsAudited;
-
-    @Value("${c2s.dss.documentSegmentationImpl.defaultIsAuditFailureByPass}")
-    private boolean defaultIsAuditFailureByPass;
+    @Autowired
+    private DssProperties dssProperties;
 
     /**
      * The xml validator.
@@ -143,12 +140,12 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                 segmentedClinicalDocumentValidationResult = xmlValidator
                         .validateWithAllErrors(document);
                 Assert.notNull(segmentedClinicalDocumentValidationResult);
-                if (dssRequest.getAudited().orElse(defaultIsAudited)) {
+                if (dssRequest.getAudited().orElse(dssProperties.getDocumentSegmentationImpl().isDefaultIsAudited())) {
                     auditSegmentation(originalDocument, document,
                             factModel.getXacmlResult(), redactedDocument,
                             rulesFired, originalClinicalDocumentValidationResult.isValidDocument(),
                             segmentedClinicalDocumentValidationResult.isValid(),
-                            dssRequest.getAuditFailureByPass().orElse(defaultIsAuditFailureByPass));
+                            dssRequest.getAuditFailureByPass().orElse(dssProperties.getDocumentSegmentationImpl().isDefaultIsAuditFailureByPass()));
                 }
             } catch (final XmlDocumentReadFailureException e) {
                 logger.error(e.getMessage(), e);
@@ -167,12 +164,12 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
             }
         } else if (documentType.isCCDA(CCDAVersion.R1) || documentType.isCCDA(CCDAVersion.R2)) {
             segmentedCCDADocumentValidationResult = validate(documentType, document, charset);
-            if (dssRequest.getAudited().orElse(defaultIsAudited)) {
+            if (dssRequest.getAudited().orElse(dssProperties.getDocumentSegmentationImpl().isDefaultIsAudited())) {
                 auditSegmentation(originalDocument, document,
                         factModel.getXacmlResult(), redactedDocument,
                         rulesFired, originalClinicalDocumentValidationResult.isValidDocument(),
                         isValid(segmentedCCDADocumentValidationResult),
-                        dssRequest.getAuditFailureByPass().orElse(defaultIsAuditFailureByPass));
+                        dssRequest.getAuditFailureByPass().orElse(dssProperties.getDocumentSegmentationImpl().isDefaultIsAuditFailureByPass()));
             }
             if (isInvalid(segmentedCCDADocumentValidationResult)) {
                 segmentedCCDADocumentValidationResult.getValidationDetails()
@@ -231,8 +228,8 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                                    boolean isAuditFailureByPass) throws AuditException {
 
         Map<PredicateKey, String> predicateMap = null;
-        if(auditClient.isPresent()){
-           predicateMap = auditClient.get().createPredicateMap();
+        if (auditClient.isPresent()) {
+            predicateMap = auditClient.get().createPredicateMap();
             if (redactedDocument.getRedactedSectionSet().size() > 0) {
                 predicateMap.put(SECTION_OBLIGATIONS_APPLIED, redactedDocument
                         .getRedactedSectionSet().toString());
@@ -268,7 +265,7 @@ public class ClinicalDocumentValidationImpl implements ClinicalDocumentValidatio
                     throw e;
                 }
             }
-        }else {
+        } else {
             throw new AuditClientException("Audit Client bean not create.");
         }
 
