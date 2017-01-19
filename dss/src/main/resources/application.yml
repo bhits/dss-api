@@ -76,20 +76,11 @@ c2s:
       host: localhost
       port: 9630
 ---
-# Enables ssl in this service when activated
-spring.profiles: ssl
-server:
-  port: 8450
-  # Configure keystore and keystore password for ssl per environment
-  ssl:
-    key-store: /ssl_keystore.keystore
-    key-store-password: changeit
----
-# Enables ssl and adds /phr context path when activated
+# Enables ssl and adds /dss context path when activated
 spring.profiles: standalone-ssl
 spring:
   profiles:
-    include: ssl
+    include: ssl-default
 server:
   context-path: /dss
 ---
