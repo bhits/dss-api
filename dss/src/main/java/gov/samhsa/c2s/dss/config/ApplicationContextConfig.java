@@ -15,10 +15,9 @@ import gov.samhsa.c2s.common.marshaller.SimpleMarshaller;
 import gov.samhsa.c2s.common.marshaller.SimpleMarshallerImpl;
 import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorService;
 import gov.samhsa.c2s.dss.infrastructure.validator.CCDAValidatorServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestOperations;
@@ -63,14 +62,14 @@ public class ApplicationContextConfig {
 
     @Bean
     @Qualifier(CCDA_R1_VALIDATOR_SERVICE)
-    public CCDAValidatorService ccdaValidatorServiceR1(@Value("${c2s.dss.validator.c-cda.r1}") String endpoint) {
-        return new CCDAValidatorServiceImpl(endpoint, restTemplate());
+    public CCDAValidatorService ccdaValidatorServiceR1(@Autowired DssProperties dssProperties) {
+        return new CCDAValidatorServiceImpl(dssProperties.getValidator().getCCda().getR1(), restTemplate());
     }
 
     @Bean
     @Qualifier(CCDA_R2_VALIDATOR_SERVICE)
-    public CCDAValidatorService ccdaValidatorServiceR2(@Value("${c2s.dss.validator.c-cda.r2}") String endpoint) {
-        return new CCDAValidatorServiceImpl(endpoint, restTemplate());
+    public CCDAValidatorService ccdaValidatorServiceR2(@Autowired DssProperties dssProperties) {
+        return new CCDAValidatorServiceImpl(dssProperties.getValidator().getCCda().getR2(), restTemplate());
     }
 
     @Bean

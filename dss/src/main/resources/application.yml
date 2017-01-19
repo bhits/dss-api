@@ -2,22 +2,8 @@ server:
   port: 8450
 logging:
   file: /java/C2S_LOGS/dss/dss.log
-  level:
-    gov.samhsa.c2s.dss: warn
 info:
   component: DSS
-eureka:
-  instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
-    secure-port-enabled: false
-    non-secure-port-enabled: true
-  client:
-    healthcheck:
-      enabled: true
-    service-url:
-      # endpoint for discovery-server, pass '--eureka.client.protocol=https' if discovery-server is running on https
-      defaultZone: ${eureka.client.protocol:http}://localhost:8761/eureka/
-
 hystrix.command.default.execution.timeout.enabled: false
 ribbon:
   ReadTimeout: 50000
@@ -90,35 +76,15 @@ c2s:
       host: localhost
       port: 9630
 ---
-# Enables ssl in this service when activated
-spring.profiles: ssl
-server:
-  port: 8450
-  # Configure keystore and keystore password for ssl per environment
-  ssl:
-    key-store: /ssl_keystore.keystore
-    key-store-password: changeit
-eureka:
-  instance:
-    secure-port: ${server.port}
-    secure-port-enabled: true
-    non-secure-port-enabled: false
----
-# Enables ssl and adds /phr context path when activated
+# Enables ssl and adds /dss context path when activated
 spring.profiles: standalone-ssl
 spring:
   profiles:
-    include: ssl
+    include: ssl-default
 server:
   context-path: /dss
 ---
 spring.profiles: docker
-eureka:
-  client:
-    service-url:
-      defaultZone: ${eureka.client.protocol:http}://discovery-server.c2s.com:8761/eureka/
-  instance:
-    prefer-ip-address: true
 c2s:
   dss:
     validator:
